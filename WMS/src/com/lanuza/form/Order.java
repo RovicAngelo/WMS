@@ -19,7 +19,6 @@ public class Order extends JFrame{
 		private JFrame frame;
 		private JButton btnBack;
 		private JTable table;
-		private JTextField txtPrice;
 		private JTextField txtOrderId;
 		
 			Order() {
@@ -98,22 +97,11 @@ public class Order extends JFrame{
 			  frame.getContentPane().add(panel);
 			  panel.setLayout(null);
 			  
-			  JLabel lblPrice = new JLabel("Price");
-			  lblPrice.setForeground(Color.BLACK);
-			  lblPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblPrice.setBounds(25, 167, 51, 33);
-			  panel.add(lblPrice);
-			  
 			  JLabel lblCustomerId = new JLabel("CustomerID");
 			  lblCustomerId.setForeground(Color.BLACK);
 			  lblCustomerId.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblCustomerId.setBounds(8, 34, 91, 33);
+			  lblCustomerId.setBounds(8, 44, 91, 33);
 			  panel.add(lblCustomerId);
-			  
-			  txtPrice = new JTextField();
-			  txtPrice.setColumns(10);
-			  txtPrice.setBounds(109, 171, 182, 28);
-			  panel.add(txtPrice);
 			  
 			  JButton btnAdd = new JButton("Add");
 			  btnAdd.addActionListener(new ActionListener() {
@@ -139,31 +127,31 @@ public class Order extends JFrame{
 			  customerIDCombox.setMaximumRowCount(2);
 			  customerIDCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 			  customerIDCombox.setEditable(true);
-			  customerIDCombox.setBounds(109, 37, 180, 28);
+			  customerIDCombox.setBounds(111, 47, 180, 28);
 			  panel.add(customerIDCombox);
 			  
 			  JLabel lblProductId = new JLabel("ProductID");
 			  lblProductId.setForeground(Color.BLACK);
 			  lblProductId.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblProductId.setBounds(18, 84, 80, 33);
+			  lblProductId.setBounds(8, 99, 80, 33);
 			  panel.add(lblProductId);
 			  
 			  JComboBox ProductIDCombox_1 = new JComboBox();
 			  ProductIDCombox_1.setMaximumRowCount(2);
 			  ProductIDCombox_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 			  ProductIDCombox_1.setEditable(true);
-			  ProductIDCombox_1.setBounds(109, 87, 180, 28);
+			  ProductIDCombox_1.setBounds(109, 102, 180, 28);
 			  panel.add(ProductIDCombox_1);
 			  
 			  JLabel lblQty = new JLabel("QTY");
 			  lblQty.setForeground(Color.BLACK);
 			  lblQty.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblQty.setBounds(26, 126, 39, 33);
+			  lblQty.setBounds(18, 147, 39, 33);
 			  panel.add(lblQty);
 			  
 			  txtQTY = new JTextField();
 			  txtQTY.setColumns(10);
-			  txtQTY.setBounds(109, 130, 182, 28);
+			  txtQTY.setBounds(109, 151, 182, 28);
 			  panel.add(txtQTY);
 			  
 			  JScrollPane scrollPane = new JScrollPane();
