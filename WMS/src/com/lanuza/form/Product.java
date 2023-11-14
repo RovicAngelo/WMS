@@ -27,6 +27,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import javax.swing.JComboBox;
 
 public class Product {
 
@@ -80,36 +82,36 @@ public class Product {
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(null);
 		topPanel.setBackground(new Color(3, 65, 68));
-		topPanel.setBounds(0, 0, 984, 66);
+		topPanel.setBounds(0, 0, 1184, 66);
 		frame.getContentPane().add(topPanel);
 		
-		JLabel lblProductSection = new JLabel("Product Section");
+		JLabel lblProductSection = new JLabel("Manage Product");
 		lblProductSection.setForeground(Color.WHITE);
 		lblProductSection.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblProductSection.setBounds(399, 25, 263, 30);
+		lblProductSection.setBounds(399, 25, 148, 30);
 		topPanel.add(lblProductSection);
 		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 543, 984, 18);
+		bottomPanel.setBounds(0, 541, 984, 18);
 		frame.getContentPane().add(bottomPanel);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Product", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(20, 123, 293, 220);
+		panel.setBounds(10, 112, 303, 242);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblProduct = new JLabel("Product");
 		lblProduct.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblProduct.setBounds(10, 86, 65, 25);
+		lblProduct.setBounds(10, 73, 65, 25);
 		panel.add(lblProduct);
 		
 		txtCode = new JTextField();
 		txtCode.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtCode.setColumns(10);
-		txtCode.setBounds(85, 32, 182, 29);
+		txtCode.setBounds(99, 32, 182, 29);
 		panel.add(txtCode);
 		
 		JLabel lblCode = new JLabel("Code");
@@ -119,19 +121,19 @@ public class Product {
 		
 		JLabel lblPrice = new JLabel("Price");
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblPrice.setBounds(25, 134, 50, 25);
+		lblPrice.setBounds(20, 113, 50, 25);
 		panel.add(lblPrice);
 		
 		txtProduct = new JTextField();
 		txtProduct.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtProduct.setColumns(10);
-		txtProduct.setBounds(85, 82, 182, 29);
+		txtProduct.setBounds(99, 72, 182, 29);
 		panel.add(txtProduct);
 		
 		txtPrice = new JTextField();
 		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtPrice.setColumns(10);
-		txtPrice.setBounds(85, 130, 182, 29);
+		txtPrice.setBounds(99, 112, 182, 29);
 		panel.add(txtPrice);
 		
 		JButton btnAdd = new JButton("Add");
@@ -162,7 +164,7 @@ public class Product {
 			  	}
 			  });
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnAdd.setBounds(85, 170, 89, 29);
+		btnAdd.setBounds(85, 202, 89, 29);
 		panel.add(btnAdd);
 		
 		JButton btnClear = new JButton("Clear");
@@ -171,11 +173,24 @@ public class Product {
 			}
 		});
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnClear.setBounds(178, 170, 89, 29);
+		btnClear.setBounds(178, 202, 89, 29);
 		panel.add(btnClear);
 		
+		JLabel lblCompanyId = new JLabel("CompanyID");
+		lblCompanyId.setForeground(Color.BLACK);
+		lblCompanyId.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCompanyId.setBounds(10, 149, 95, 33);
+		panel.add(lblCompanyId);
+		
+		JComboBox CompanyIdCombox = new JComboBox();
+		CompanyIdCombox.setMaximumRowCount(2);
+		CompanyIdCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		CompanyIdCombox.setEditable(true);
+		CompanyIdCombox.setBounds(115, 152, 166, 28);
+		panel.add(CompanyIdCombox);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(331, 158, 626, 344);
+		scrollPane.setBounds(331, 158, 626, 321);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -211,18 +226,18 @@ public class Product {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search ID", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(20, 354, 293, 114);
+		panel_1.setBounds(20, 365, 293, 114);
 		frame.getContentPane().add(panel_1);
 		
-		JLabel lblId = new JLabel("ID");
+		JLabel lblId = new JLabel("ProductID");
 		lblId.setForeground(Color.BLACK);
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblId.setBounds(37, 27, 41, 33);
+		lblId.setBounds(10, 27, 76, 33);
 		panel_1.add(lblId);
 		
 		txtSearch = new JTextField();
 		txtSearch.setColumns(10);
-		txtSearch.setBounds(88, 31, 182, 29);
+		txtSearch.setBounds(102, 31, 168, 29);
 		panel_1.add(txtSearch);
 		
 		JButton btnUpdate = new JButton("Update");

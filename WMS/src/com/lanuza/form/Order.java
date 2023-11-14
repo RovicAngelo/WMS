@@ -12,14 +12,14 @@ import javax.swing.border.TitledBorder;
 import com.toedter.calendar.JDateChooser;
 
 import net.proteanit.sql.DbUtils;
+import javax.swing.border.LineBorder;
 
 public class Order extends JFrame{
 
 		private JFrame frame;
 		private JButton btnBack;
 		private JTable table;
-		private JTextField txtName;
-		private JTextField txtQty;
+		private JTextField txtPrice;
 		private JTextField txtOrderId;
 		
 			Order() {
@@ -32,6 +32,7 @@ public class Order extends JFrame{
 		PreparedStatement pst;
 		ResultSet rs;
 		Statement st;
+		private JTextField txtQTY;
 
 		public void Connect() {
 			try {
@@ -59,7 +60,7 @@ public class Order extends JFrame{
 			  frame.setTitle("PhilDrinks"); // set the title if Frame
 			  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit the application
 			  frame.setResizable(false);
-			  frame.setSize(1000, 600);
+			  frame.setSize(1200, 700);
 			  frame.getContentPane().setLayout(null);
 			  
 			  btnBack = new JButton("Back");
@@ -70,12 +71,12 @@ public class Order extends JFrame{
 			  	}
 			  });
 			  btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  btnBack.setBounds(31, 503, 89, 29);
+			  btnBack.setBounds(23, 592, 89, 29);
 			  frame.getContentPane().add(btnBack);
 			  
 			  JPanel topPanel = new JPanel();
 			  topPanel.setBackground(new Color(3, 65, 68));
-			  topPanel.setBounds(0, 0, 984, 66);
+			  topPanel.setBounds(0, 0, 1184, 66);
 			  frame.getContentPane().add(topPanel);
 			  topPanel.setLayout(null);
 			  
@@ -87,49 +88,32 @@ public class Order extends JFrame{
 			  
 			  JPanel bottomPanel = new JPanel();
 			  bottomPanel.setBackground(new Color(3, 65, 68));
-			  bottomPanel.setBounds(0, 543, 984, 18);
+			  bottomPanel.setBounds(0, 643, 1184, 18);
 			  frame.getContentPane().add(bottomPanel);
 			  bottomPanel.setLayout(null);
 			  
 			  JPanel panel = new JPanel();
 			  panel.setBorder(new TitledBorder(null, "Distribution Form", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			  panel.setBounds(10, 112, 313, 262);
+			  panel.setBounds(19, 135, 313, 266);
 			  frame.getContentPane().add(panel);
 			  panel.setLayout(null);
 			  
-			  JLabel lblName = new JLabel("Name");
-			  lblName.setForeground(Color.BLACK);
-			  lblName.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblName.setBounds(23, 33, 51, 33);
-			  panel.add(lblName);
+			  JLabel lblPrice = new JLabel("Price");
+			  lblPrice.setForeground(Color.BLACK);
+			  lblPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblPrice.setBounds(25, 167, 51, 33);
+			  panel.add(lblPrice);
 			  
-			  JLabel lblQty = new JLabel("Qty");
-			  lblQty.setForeground(Color.BLACK);
-			  lblQty.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblQty.setBounds(23, 80, 40, 33);
-			  panel.add(lblQty);
+			  JLabel lblCustomerId = new JLabel("CustomerID");
+			  lblCustomerId.setForeground(Color.BLACK);
+			  lblCustomerId.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblCustomerId.setBounds(8, 34, 91, 33);
+			  panel.add(lblCustomerId);
 			  
-			  JLabel lblCustomerid = new JLabel("CustomerID");
-			  lblCustomerid.setForeground(Color.BLACK);
-			  lblCustomerid.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblCustomerid.setBounds(10, 132, 91, 33);
-			  panel.add(lblCustomerid);
-			  
-			  JLabel lblDate = new JLabel("Date");
-			  lblDate.setForeground(Color.BLACK);
-			  lblDate.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblDate.setBounds(23, 176, 51, 33);
-			  panel.add(lblDate);
-			  
-			  txtName = new JTextField();
-			  txtName.setColumns(10);
-			  txtName.setBounds(109, 37, 182, 28);
-			  panel.add(txtName);
-			  
-			  txtQty = new JTextField();
-			  txtQty.setColumns(10);
-			  txtQty.setBounds(109, 84, 182, 28);
-			  panel.add(txtQty);
+			  txtPrice = new JTextField();
+			  txtPrice.setColumns(10);
+			  txtPrice.setBounds(109, 171, 182, 28);
+			  panel.add(txtPrice);
 			  
 			  JButton btnAdd = new JButton("Add");
 			  btnAdd.addActionListener(new ActionListener() {
@@ -151,19 +135,39 @@ public class Order extends JFrame{
 			  btnClear.setBounds(211, 220, 80, 29);
 			  panel.add(btnClear);
 			  
-			  JDateChooser dateChooser = new JDateChooser();
-			  dateChooser.setBounds(109, 176, 182, 33);
-			  panel.add(dateChooser);
-			  
 			  JComboBox customerIDCombox = new JComboBox();
 			  customerIDCombox.setMaximumRowCount(2);
 			  customerIDCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 			  customerIDCombox.setEditable(true);
-			  customerIDCombox.setBounds(111, 132, 180, 28);
+			  customerIDCombox.setBounds(109, 37, 180, 28);
 			  panel.add(customerIDCombox);
 			  
+			  JLabel lblProductId = new JLabel("ProductID");
+			  lblProductId.setForeground(Color.BLACK);
+			  lblProductId.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblProductId.setBounds(18, 84, 80, 33);
+			  panel.add(lblProductId);
+			  
+			  JComboBox ProductIDCombox_1 = new JComboBox();
+			  ProductIDCombox_1.setMaximumRowCount(2);
+			  ProductIDCombox_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+			  ProductIDCombox_1.setEditable(true);
+			  ProductIDCombox_1.setBounds(109, 87, 180, 28);
+			  panel.add(ProductIDCombox_1);
+			  
+			  JLabel lblQty = new JLabel("QTY");
+			  lblQty.setForeground(Color.BLACK);
+			  lblQty.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblQty.setBounds(26, 126, 39, 33);
+			  panel.add(lblQty);
+			  
+			  txtQTY = new JTextField();
+			  txtQTY.setColumns(10);
+			  txtQTY.setBounds(109, 130, 182, 28);
+			  panel.add(txtQTY);
+			  
 			  JScrollPane scrollPane = new JScrollPane();
-			  scrollPane.setBounds(341, 158, 622, 353);
+			  scrollPane.setBounds(342, 158, 679, 405);
 			  frame.getContentPane().add(scrollPane);
 			  
 			  table = new JTable();
@@ -171,7 +175,7 @@ public class Order extends JFrame{
 			  
 			  JPanel panel_1 = new JPanel();
 			  panel_1.setBorder(new TitledBorder(null, "Search OrderID", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			  panel_1.setBounds(10, 380, 313, 107);
+			  panel_1.setBounds(19, 435, 313, 107);
 			  frame.getContentPane().add(panel_1);
 			  panel_1.setLayout(null);
 			  
@@ -199,8 +203,48 @@ public class Order extends JFrame{
 			  JLabel lblOrderList = new JLabel("Order List");
 			  lblOrderList.setForeground(Color.BLACK);
 			  lblOrderList.setFont(new Font("Tahoma", Font.BOLD, 18));
-			  lblOrderList.setBounds(636, 117, 133, 30);
+			  lblOrderList.setBounds(617, 135, 133, 30);
 			  frame.getContentPane().add(lblOrderList);
+			  
+			  JPanel shortcutPanel = new JPanel();
+			  shortcutPanel.setLayout(null);
+			  shortcutPanel.setBackground(new Color(3, 65, 68));
+			  shortcutPanel.setBounds(1031, 66, 153, 584);
+			  frame.getContentPane().add(shortcutPanel);
+			  
+			  JPanel panel_3 = new JPanel();
+			  panel_3.setOpaque(false);
+			  panel_3.setBorder(new LineBorder(new Color(255, 255, 255)));
+			  panel_3.setBounds(10, 11, 133, 543);
+			  shortcutPanel.add(panel_3);
+			  
+			  JLabel lblNewLabel_1 = new JLabel("SHORTCUTS");
+			  lblNewLabel_1.setForeground(Color.WHITE);
+			  lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 13));
+			  panel_3.add(lblNewLabel_1);
+			  
+			  JLabel lblTotalPrice = new JLabel("Total Price:");
+			  lblTotalPrice.setFont(new Font("Arial Black", Font.BOLD, 12));
+			  lblTotalPrice.setBounds(793, 570, 82, 30);
+			  frame.getContentPane().add(lblTotalPrice);
+			  
+			  JLabel lblPriceIndicator = new JLabel("0");
+			  lblPriceIndicator.setHorizontalAlignment(SwingConstants.LEFT);
+			  lblPriceIndicator.setFont(new Font("Tahoma", Font.BOLD, 14));
+			  lblPriceIndicator.setBounds(885, 570, 136, 29);
+			  frame.getContentPane().add(lblPriceIndicator);
+			  
+			  JLabel lblDateReceived = new JLabel("Date Received:");
+			  lblDateReceived.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblDateReceived.setBounds(901, 86, 113, 25);
+			  frame.getContentPane().add(lblDateReceived);
+			  
+			  JLabel Datelbl = new JLabel("2023-11-14");
+			  Datelbl.setForeground(Color.BLACK);
+			  Datelbl.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+			  Datelbl.setBackground(Color.WHITE);
+			  Datelbl.setBounds(925, 107, 89, 25);
+			  frame.getContentPane().add(Datelbl);
 			  frame.setLocationRelativeTo(null);
 			  frame.setVisible(true); // this make Frame visible
 		}

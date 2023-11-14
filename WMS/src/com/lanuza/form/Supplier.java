@@ -25,8 +25,8 @@ import javax.swing.border.EtchedBorder;
 
 	public class Supplier extends JFrame{
 		private JFrame frame;
-		private JButton backBtn;
-		private JTextField nametxt;
+		private JButton btnBack;
+		private JTextField txtName;
 		private JTable table;
 		
 		Supplier() {
@@ -38,6 +38,11 @@ import javax.swing.border.EtchedBorder;
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
+		private JTextField txtBRGY;
+		private JTextField txtSuppierId;
+		private JTextField txtCity;
+		private JTextField txtProvince;
+		private JTextField txtPhoneNo;
 
 		public void Connect() {
 			try {
@@ -70,16 +75,16 @@ import javax.swing.border.EtchedBorder;
 			frame.setVisible(true); // this make Frame visible
 			frame.getContentPane().setLayout(null);
 			  
-			  backBtn = new JButton("Back");
-			  backBtn.addActionListener(new ActionListener() {
+			  btnBack = new JButton("Back");
+			  btnBack.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		frame.dispose();
 			  		Inventory back = new Inventory();
 			  	}
 			  });
-			  backBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  backBtn.setBounds(860, 490, 89, 29);
-			  frame.getContentPane().add(backBtn);
+			  btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  btnBack.setBounds(20, 499, 89, 29);
+			  frame.getContentPane().add(btnBack);
 			  
 			  JPanel topPanel = new JPanel();
 			  topPanel.setBackground(new Color(3, 65, 68));
@@ -102,22 +107,22 @@ import javax.swing.border.EtchedBorder;
 			  JPanel panel = new JPanel();
 			  panel.setLayout(null);
 			  panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Supplier Form", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			  panel.setBounds(38, 141, 384, 249);
+			  panel.setBounds(10, 102, 293, 261);
 			  frame.getContentPane().add(panel);
 			  
 			  JLabel lblName = new JLabel("Name");
 			  lblName.setForeground(Color.BLACK);
 			  lblName.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblName.setBounds(32, 81, 51, 33);
+			  lblName.setBounds(32, 25, 51, 33);
 			  panel.add(lblName);
 			  
-			  nametxt = new JTextField();
-			  nametxt.setColumns(10);
-			  nametxt.setBounds(93, 85, 203, 28);
-			  panel.add(nametxt);
+			  txtName = new JTextField();
+			  txtName.setColumns(10);
+			  txtName.setBounds(93, 29, 182, 28);
+			  panel.add(txtName);
 			  
 			  JScrollPane scrollPane = new JScrollPane();
-			  scrollPane.setBounds(488, 140, 461, 310);
+			  scrollPane.setBounds(324, 138, 638, 361);
 			  frame.getContentPane().add(scrollPane);
 			  
 			  table = new JTable();
@@ -125,7 +130,7 @@ import javax.swing.border.EtchedBorder;
 					public void mouseClicked(MouseEvent e) {
 						DefaultTableModel model = (DefaultTableModel)table.getModel();
 						int Myindex = table.getSelectedRow();
-						nametxt.setText(model.getValueAt(Myindex, 1).toString());							
+						txtName.setText(model.getValueAt(Myindex, 1).toString());							
 					}
 				});
 			  
@@ -136,7 +141,7 @@ import javax.swing.border.EtchedBorder;
 				  public void actionPerformed(ActionEvent e) {
 				  		
 				  		String name;
-				  		name = nametxt.getText();
+				  		name = txtName.getText();
 						
 						try {
 							pst = con.prepareStatement("insert into tblsupplier(Name)values(?)");
@@ -144,8 +149,8 @@ import javax.swing.border.EtchedBorder;
 							pst.executeUpdate();
 							JOptionPane.showMessageDialog(null, "Record added");
 							table_load();						
-							nametxt.setText("");
-							nametxt.requestFocus();
+							txtName.setText("");
+							txtName.requestFocus();
 							
 						}catch(SQLException el) {
 							el.printStackTrace();
@@ -153,28 +158,89 @@ import javax.swing.border.EtchedBorder;
 				  	}
 				  });
 			  btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  btnAdd.setBounds(32, 160, 89, 29);
+			  btnAdd.setBounds(87, 221, 89, 29);
 			  panel.add(btnAdd);
 			  
 			  JButton btnClear = new JButton("Clear");
 			  btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  btnClear.setBounds(236, 160, 89, 29);
+			  btnClear.setBounds(186, 221, 89, 29);
 			  panel.add(btnClear);
 			  
-			  JButton btnUpdate = new JButton("Update");
-			  btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  btnUpdate.setBounds(32, 209, 89, 29);
-			  panel.add(btnUpdate);
+			  txtBRGY = new JTextField();
+			  txtBRGY.setColumns(10);
+			  txtBRGY.setBounds(93, 68, 182, 28);
+			  panel.add(txtBRGY);
 			  
-			  JButton btnDelete = new JButton("Delete");
-			  btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  btnDelete.setBounds(236, 209, 89, 29);
-			  panel.add(btnDelete);
+			  txtCity = new JTextField();
+			  txtCity.setColumns(10);
+			  txtCity.setBounds(93, 107, 182, 28);
+			  panel.add(txtCity);
+			  
+			  txtProvince = new JTextField();
+			  txtProvince.setColumns(10);
+			  txtProvince.setBounds(103, 143, 172, 28);
+			  panel.add(txtProvince);
+			  
+			  txtPhoneNo = new JTextField();
+			  txtPhoneNo.setColumns(10);
+			  txtPhoneNo.setBounds(103, 182, 172, 28);
+			  panel.add(txtPhoneNo);
+			  
+			  JLabel lblBrgy = new JLabel("Brgy");
+			  lblBrgy.setForeground(Color.BLACK);
+			  lblBrgy.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblBrgy.setBounds(32, 64, 41, 33);
+			  panel.add(lblBrgy);
+			  
+			  JLabel lblCity = new JLabel("City");
+			  lblCity.setForeground(Color.BLACK);
+			  lblCity.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblCity.setBounds(32, 103, 35, 33);
+			  panel.add(lblCity);
+			  
+			  JLabel lblProvince = new JLabel("Province");
+			  lblProvince.setForeground(Color.BLACK);
+			  lblProvince.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblProvince.setBounds(12, 143, 71, 29);
+			  panel.add(lblProvince);
+			  
+			  JLabel lblPhoneNo = new JLabel("Phone No.");
+			  lblPhoneNo.setForeground(Color.BLACK);
+			  lblPhoneNo.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblPhoneNo.setBounds(12, 187, 76, 28);
+			  panel.add(lblPhoneNo);
 			  
 			  JLabel lblSupplierList = new JLabel("Supplier List");
 			  lblSupplierList.setForeground(Color.BLACK);
 			  lblSupplierList.setFont(new Font("Tahoma", Font.BOLD, 18));
-			  lblSupplierList.setBounds(649, 102, 134, 30);
+			  lblSupplierList.setBounds(592, 102, 134, 30);
 			  frame.getContentPane().add(lblSupplierList);
+			  
+			  JPanel panel_1 = new JPanel();
+			  panel_1.setLayout(null);
+			  panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search ID", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			  panel_1.setBounds(10, 374, 293, 114);
+			  frame.getContentPane().add(panel_1);
+			  
+			  JLabel lblId = new JLabel("SuppplierID");
+			  lblId.setForeground(Color.BLACK);
+			  lblId.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  lblId.setBounds(10, 27, 101, 33);
+			  panel_1.add(lblId);
+			  
+			  txtSuppierId = new JTextField();
+			  txtSuppierId.setColumns(10);
+			  txtSuppierId.setBounds(109, 31, 161, 29);
+			  panel_1.add(txtSuppierId);
+			  
+			  JButton btnUpdate = new JButton("Update");
+			  btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  btnUpdate.setBounds(88, 71, 89, 29);
+			  panel_1.add(btnUpdate);
+			  
+			  JButton btnDelete = new JButton("Delete");
+			  btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
+			  btnDelete.setBounds(181, 71, 89, 29);
+			  panel_1.add(btnDelete);
 		}
 	}

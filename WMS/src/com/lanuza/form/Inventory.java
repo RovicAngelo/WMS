@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollBar;
 import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Inventory {
 
@@ -117,6 +119,13 @@ public class Inventory {
 		frame.getContentPane().add(lblInventoryStatus);
 		
 		JButton btnCustomer_1 = new JButton("Customer");
+		btnCustomer_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				Customer openCustomer = new Customer();
+			}
+		});
 		btnCustomer_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnCustomer_1.setBounds(536, 503, 145, 29);
 		frame.getContentPane().add(btnCustomer_1);

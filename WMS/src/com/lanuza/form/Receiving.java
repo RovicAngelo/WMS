@@ -24,11 +24,9 @@ public class Receiving {
 	private JFrame frame;
 	private JTextField txtQty,txtSearch;
 	private JTable table;
-	private JComboBox codeCombox,supplierCombox;
+	private JComboBox supplierIDCombox,productIDCombox;
 	private JDateChooser expDateChooser;
 	private JLabel Datelbl,lbltotalprice;
-	private JTextField txtProduct;
-	private JTextField pricetxt;
 	
 	Receiving() {
 		initialize();
@@ -96,7 +94,7 @@ public class Receiving {
 			rs = st.executeQuery(Query);
 			while(rs.next()) {
 				String suppliers = rs.getString("Name");
-				supplierCombox.addItem(suppliers);
+				productIDCombox.addItem(suppliers);
 				
 			}
 			
@@ -115,7 +113,7 @@ public class Receiving {
 			rs = st.executeQuery(Query);
 			while(rs.next()) {
 					String codes = rs.getString("Code");
-					codeCombox.addItem(codes);	
+					supplierIDCombox.addItem(codes);	
 			}
 			
 		}catch(Exception e) {
@@ -194,7 +192,7 @@ public class Receiving {
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(null, "Receiving Form", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 143, 284, 305);
+		panel.setBounds(10, 144, 284, 263);
 		frame.getContentPane().add(panel);
 		
 		
@@ -206,18 +204,18 @@ public class Receiving {
 		  		String code,product,supplier;
 		  		int price,qty,tot;
 		  		
-		  		code = codeCombox.getSelectedItem().toString();
-		  		product = txtProduct.getText();
-		  		price = Integer.parseInt(pricetxt.getText());
+		  		code = supplierIDCombox.getSelectedItem().toString();
+		  		//MODIFIED product = txtProduct.getText();
+		  		//MODIFIEDprice = Integer.parseInt(pricetxt.getText());
 		  		qty = Integer.parseInt(txtQty.getText());	  					
-		  		supplier = supplierCombox.getSelectedItem().toString();
+		  		supplier = productIDCombox.getSelectedItem().toString();
 		  			  		
-				tot = qty * price;
+				//MODIFIED tot = qty * price;
 		  		
 		  		EDate = expDateChooser.getDate();
 		  		MyExpDate = new java.sql.Date(EDate.getTime());		  		
 		  		
-		  		temp = temp + tot;
+		  		//MODIFIED temp = temp + tot;
 
 				try {
 					//to insert the value encoded by the user into the database
@@ -238,12 +236,12 @@ public class Receiving {
 					*/
 					
 					pst.setString(1, code);
-					pst.setString(2, product);
-					pst.setInt(3, price);
+					//MODIFIED pst.setString(2, product);
+					//MODIFIED pst.setInt(3, price);
 					pst.setInt(4, qty);	
 					pst.setDate(5, MyExpDate);
 					pst.setString(6, supplier);
-					pst.setInt(7, tot);		
+					//MODIFIED pst.setInt(7, tot);		
 					pst.executeUpdate();
 					
 					String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
@@ -259,12 +257,12 @@ public class Receiving {
 					JOptionPane.showMessageDialog(null, "Record added");
 					table_load();								
 					
-					codeCombox.setSelectedItem("");
-					txtProduct.setText("");
-					pricetxt.setText("");
+					supplierIDCombox.setSelectedItem("");
+					//MODIFIED txtProduct.setText("");
+					//MODIFIED pricetxt.setText("");
 					expDateChooser.setDate(null);
 					txtQty.setText("");	
-					codeCombox.requestFocus();
+					supplierIDCombox.requestFocus();
 					
 					
 				}catch(SQLException el) {
@@ -273,22 +271,22 @@ public class Receiving {
 		  	}
 		  });
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnAdd.setBounds(7, 262, 76, 29);
+		btnAdd.setBounds(12, 217, 76, 29);
 		panel.add(btnAdd);
 		
 		txtQty = new JTextField();
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
-		txtQty.setBounds(96, 147, 165, 29);
+		txtQty.setBounds(96, 114, 165, 29);
 		panel.add(txtQty);
 		
-		codeCombox = new JComboBox();
-		codeCombox.addActionListener(new ActionListener() {
+		supplierIDCombox = new JComboBox();
+		supplierIDCombox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					try {
 						//String receiveId = txtSearch.getText();
-						String code = codeCombox.getSelectedItem().toString();				
+						String code = supplierIDCombox.getSelectedItem().toString();				
 						
 						//pst = con.prepareStatement("Select Product,Qty,Price,Supplier from tblreceive where receivingID = ?");
 						pst = con.prepareStatement("Select Product,Price from tblproduct where Code = ?");
@@ -312,9 +310,10 @@ public class Receiving {
 							//productCombox.setSelectedItem(product);
 							//qtytxt.setText(qty);
 							//pricetxt.setText(price);
-							//customerCombox.setSelectedItem(customer);																	
-							txtProduct.setText((product));
-							pricetxt.setText(price);
+							//customerCombox.setSelectedItem(customer);	
+							
+							//MODIFIED txtProduct.setText((product));
+							//MODIFIED pricetxt.setText(price);
 							
 						}else {
 							/*
@@ -323,8 +322,9 @@ public class Receiving {
 							pricetxt.setText("");
 							customerCombox.setSelectedItem("");
 							*/
-							txtProduct.setText("");
-							pricetxt.setText("");
+							
+							//MODIFIED txtProduct.setText("");
+							//MODIFIED pricetxt.setText("");
 							
 							
 						}
@@ -334,59 +334,37 @@ public class Receiving {
 					}
 				}
 			});
-		codeCombox.setMaximumRowCount(2);
-		codeCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
-		codeCombox.setEditable(true);
-		codeCombox.setBounds(96, 26, 165, 25);
-		panel.add(codeCombox);
+		supplierIDCombox.setMaximumRowCount(2);
+		supplierIDCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		supplierIDCombox.setEditable(true);
+		supplierIDCombox.setBounds(96, 26, 165, 25);
+		panel.add(supplierIDCombox);
 		
 		JLabel lblQty = new JLabel("QTY");
 		lblQty.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblQty.setBounds(21, 149, 46, 25);
+		lblQty.setBounds(17, 115, 46, 25);
 		panel.add(lblQty);
 		
-		JLabel lblUsername = new JLabel("Code");
-		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblUsername.setBounds(28, 25, 46, 25);
-		panel.add(lblUsername);
+		JLabel lblSupplierID = new JLabel("SupplierID");
+		lblSupplierID.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblSupplierID.setBounds(7, 25, 81, 25);
+		panel.add(lblSupplierID);
 		
 		JLabel lblExpDate = new JLabel("Exp Date");
 		lblExpDate.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblExpDate.setBounds(12, 191, 76, 25);
+		lblExpDate.setBounds(7, 165, 76, 25);
 		panel.add(lblExpDate);
 		 
 		expDateChooser = new JDateChooser();	
-		expDateChooser.setBounds(96, 189, 165, 29);
+		expDateChooser.setBounds(96, 165, 165, 29);
 		panel.add(expDateChooser);
 		
-		JLabel lblProduct = new JLabel("Product");
-		lblProduct.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblProduct.setBounds(14, 64, 68, 25);
-		panel.add(lblProduct);
-		
-		txtProduct = new JTextField();
-		txtProduct.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtProduct.setColumns(10);
-		txtProduct.setBounds(97, 63, 165, 29);
-		panel.add(txtProduct);
-		
-		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblPrice.setBounds(21, 107, 46, 25);
-		panel.add(lblPrice);
-		
-		pricetxt = new JTextField();
-		pricetxt.setFont(new Font("Tahoma", Font.BOLD, 13));
-		pricetxt.setColumns(10);
-		pricetxt.setBounds(98, 105, 165, 29);
-		panel.add(pricetxt);
-		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(185, 262, 89, 29);
+		btnUpdate.setBounds(185, 217, 89, 29);
 		panel.add(btnUpdate);
 		btnUpdate.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
-		  		if(codeCombox.getSelectedItem().toString().isEmpty()) {
+		  		if(supplierIDCombox.getSelectedItem().toString().isEmpty()) {
 		  			JOptionPane.showMessageDialog(null,"Missing information!");
 		  		}else {
 		  			try {
@@ -398,16 +376,16 @@ public class Receiving {
 		  				//to update the total in the tblreceiving based on the selected row
 		  				int newtotal,oldqty,oldprice;
 		  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield
-		  				oldprice = Integer.parseInt(pricetxt.getText());//to get the current price in the textfield
-		  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
+		  				//MODIFIED oldprice = Integer.parseInt(pricetxt.getText());//to get the current price in the textfield
+		  				//MODIFIED newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
 		  				
 				  		EDate = expDateChooser.getDate();
 				  		MyExpDate = new java.sql.Date(EDate.getTime());			  		
 				  		
 		  				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
-		  				String UpdateQuery = "Update  phildrinksdb.tblreceiving set Code= '" + codeCombox.getSelectedItem().toString()+ "',Product = '" + txtProduct.getText()+"',Price = '" + pricetxt.getText()+"',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Supplier='"+supplierCombox.getSelectedItem().toString()+"',Total = '"+newtotal+ "' where receivingID ='"+txtSearch.getText()+"'";
+		  				//MODIFIED String UpdateQuery = "Update  phildrinksdb.tblreceiving set Code= '" + supplierIDCombox.getSelectedItem().toString()+ "',Product = '" + txtProduct.getText()+"',Price = '" + pricetxt.getText()+"',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Supplier='"+productIDCombox.getSelectedItem().toString()+"',Total = '"+newtotal+ "' where receivingID ='"+txtSearch.getText()+"'";
 		  				Statement add = con.createStatement();
-		  				add.executeUpdate(UpdateQuery);
+		  				//MODIFIED add.executeUpdate(UpdateQuery);
 		  				JOptionPane.showMessageDialog(null,"Record Updated");
 		  				String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
 						pst=con.prepareStatement(sumOfTotal);
@@ -425,7 +403,7 @@ public class Receiving {
 						int getnewtotal = Integer.parseInt(table.getModel().getValueAt(index,7).toString());//to get the total of selected row
 						
 						txtSearch.setText("");
-						codeCombox.setSelectedItem("");
+						supplierIDCombox.setSelectedItem("");
 						txtQty.setText("");
 						expDateChooser.setDate(null);
 						txtSearch.requestFocus();
@@ -509,7 +487,7 @@ public class Receiving {
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(93, 262, 84, 29);
+		btnDelete.setBounds(96, 217, 84, 29);
 		panel.add(btnDelete);
 		btnDelete.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
@@ -552,12 +530,12 @@ public class Receiving {
 					table_load();
 					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
 					
-					codeCombox.setSelectedItem("");
-					txtProduct.setText("");
-					pricetxt.setText("");
+					supplierIDCombox.setSelectedItem("");
+					//MODIFIED txtProduct.setText("");
+					//MODIFIED pricetxt.setText("");
 					expDateChooser.setDate(null);
 					txtQty.setText("");	
-					codeCombox.requestFocus();
+					supplierIDCombox.requestFocus();
 
 					
 				}catch(SQLException ec) {
@@ -568,23 +546,23 @@ public class Receiving {
 		  });
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		JLabel lblSupplier = new JLabel("Supplier");
-		lblSupplier.setBounds(12, 223, 66, 25);
-		panel.add(lblSupplier);
-		lblSupplier.setFont(new Font("Tahoma", Font.BOLD, 15));
+		JLabel lblProductID = new JLabel("ProductID");
+		lblProductID.setBounds(7, 71, 81, 25);
+		panel.add(lblProductID);
+		lblProductID.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
-		supplierCombox = new JComboBox();
-		supplierCombox.setBounds(96, 227, 165, 25);
-		panel.add(supplierCombox);
-		supplierCombox.setMaximumRowCount(2);
-		supplierCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
-		supplierCombox.setEditable(true);
+		productIDCombox = new JComboBox();
+		productIDCombox.setBounds(96, 72, 165, 25);
+		panel.add(productIDCombox);
+		productIDCombox.setMaximumRowCount(2);
+		productIDCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		productIDCombox.setEditable(true);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(255, 255, 255));
 		panel_1.setLayout(null);
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "ID", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel_1.setBounds(10, 459, 284, 110);
+		panel_1.setBounds(10, 434, 284, 110);
 		frame.getContentPane().add(panel_1);
 		
 		
@@ -605,13 +583,13 @@ public class Receiving {
 		btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		
-			  		codeCombox.setSelectedItem("");
-			  		txtProduct.setText("");
-			  		pricetxt.setText("");
+			  		supplierIDCombox.setSelectedItem("");
+			  		//MODIFIED txtProduct.setText("");
+			  		//MODIFIED pricetxt.setText("");
 					txtQty.setText("");
 					expDateChooser.setDateFormatString("");
-					supplierCombox.setSelectedItem("");
-					codeCombox.requestFocus();
+					productIDCombox.setSelectedItem("");
+					supplierIDCombox.requestFocus();
 			  	}
 			  });
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -640,14 +618,18 @@ public class Receiving {
 		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnSave.setBounds(21, 592, 89, 29);
+		btnSave.setBounds(24, 574, 89, 29);
 		frame.getContentPane().add(btnSave);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(304, 166, 717, 403);
+		scrollPane.setBounds(304, 186, 717, 358);
 		frame.getContentPane().add(scrollPane);
 		
 		
@@ -662,13 +644,13 @@ public class Receiving {
 				
 				//IDtxt.setText(model.getValueAt(Myindex, 0).toString());
 				txtSearch.setText(id);
-				codeCombox.setSelectedItem(model.getValueAt(Myindex, 1).toString());
-				txtProduct.setText(model.getValueAt(Myindex, 2).toString());
-				pricetxt.setText(model.getValueAt(Myindex, 3).toString());
+				supplierIDCombox.setSelectedItem(model.getValueAt(Myindex, 1).toString());
+				//MODIFIED txtProduct.setText(model.getValueAt(Myindex, 2).toString());
+				//MODIFIED pricetxt.setText(model.getValueAt(Myindex, 3).toString());
 				txtQty.setText(model.getValueAt(Myindex, 4).toString());	
 				
 				//expDateChooser.setDateFormatString(model.getValueAt(Myindex, 5).toString());
-				supplierCombox.setSelectedItem(model.getValueAt(Myindex, 6).toString());
+				productIDCombox.setSelectedItem(model.getValueAt(Myindex, 6).toString());
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -676,7 +658,7 @@ public class Receiving {
 		JLabel lblProductReceived = new JLabel("Received Products");
 		lblProductReceived.setForeground(Color.BLACK);
 		lblProductReceived.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblProductReceived.setBounds(592, 133, 178, 29);
+		lblProductReceived.setBounds(599, 160, 178, 29);
 		frame.getContentPane().add(lblProductReceived);
 		
 		JPanel topPanel = new JPanel();
@@ -694,7 +676,7 @@ public class Receiving {
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 632, 1184, 18);
+		bottomPanel.setBounds(0, 643, 1184, 18);
 		frame.getContentPane().add(bottomPanel);
 		
 		JLabel lblDateReceived = new JLabel("Date Received:");
@@ -712,17 +694,17 @@ public class Receiving {
 		lbltotalprice = new JLabel("0");
 		lbltotalprice.setHorizontalAlignment(SwingConstants.LEFT);
 		lbltotalprice.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbltotalprice.setBounds(868, 580, 136, 38);
+		lbltotalprice.setBounds(885, 544, 136, 38);
 		frame.getContentPane().add(lbltotalprice);
 		
 		JLabel lblNewLabel = new JLabel("Total Price:");
 		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 12));
-		lblNewLabel.setBounds(776, 580, 82, 38);
+		lblNewLabel.setBounds(793, 544, 82, 38);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(3, 65, 68));
-		panel_2.setBounds(1031, 65, 153, 567);
+		panel_2.setBounds(1031, 65, 153, 585);
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -736,6 +718,12 @@ public class Receiving {
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		panel_3.add(lblNewLabel_1);
+		
+		JPanel bottomPanel_1 = new JPanel();
+		bottomPanel_1.setLayout(null);
+		bottomPanel_1.setBackground(new Color(3, 65, 68));
+		bottomPanel_1.setBounds(0, 65, 7, 585);
+		frame.getContentPane().add(bottomPanel_1);
 		
 	}
 }
