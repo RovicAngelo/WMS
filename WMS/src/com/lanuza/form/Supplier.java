@@ -28,6 +28,12 @@ import javax.swing.border.EtchedBorder;
 		private JButton btnBack;
 		private JTextField txtName;
 		private JTable table;
+		private JTextField txtBrgy;
+		private JTextField txtSupplierId;
+		private JTextField txtMunicipality;
+		private JTextField txtProvince;
+		private JTextField txtPhoneNo;
+
 		
 		Supplier() {
 			initialize();
@@ -38,12 +44,7 @@ import javax.swing.border.EtchedBorder;
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
-		private JTextField txtBRGY;
-		private JTextField txtSuppierId;
-		private JTextField txtCity;
-		private JTextField txtProvince;
-		private JTextField txtPhoneNo;
-
+		
 		public void Connect() {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -117,6 +118,7 @@ import javax.swing.border.EtchedBorder;
 			  panel.add(lblName);
 			  
 			  txtName = new JTextField();
+			  txtName.setToolTipText("Juan Dela Cruz");
 			  txtName.setColumns(10);
 			  txtName.setBounds(93, 29, 182, 28);
 			  panel.add(txtName);
@@ -130,7 +132,14 @@ import javax.swing.border.EtchedBorder;
 					public void mouseClicked(MouseEvent e) {
 						DefaultTableModel model = (DefaultTableModel)table.getModel();
 						int Myindex = table.getSelectedRow();
-						txtName.setText(model.getValueAt(Myindex, 1).toString());							
+						String id = table.getModel().getValueAt(Myindex,0).toString();
+						
+						txtSupplierId.setText(id);	
+						txtName.setText(model.getValueAt(Myindex, 1).toString());	
+						txtBrgy.setText(model.getValueAt(Myindex, 2).toString());
+						txtMunicipality.setText(model.getValueAt(Myindex, 3).toString());
+						txtProvince.setText(model.getValueAt(Myindex, 4).toString());
+						txtPhoneNo.setText(model.getValueAt(Myindex, 5).toString());					
 					}
 				});
 			  
@@ -138,23 +147,39 @@ import javax.swing.border.EtchedBorder;
 			  
 			  JButton btnAdd = new JButton("Add");
 			  btnAdd.addActionListener(new ActionListener() {
-				  public void actionPerformed(ActionEvent e) {
-				  		
-				  		String name;
-				  		name = txtName.getText();
-						
-						try {
-							pst = con.prepareStatement("insert into tblsupplier(Name)values(?)");
-							pst.setString(1, name); 
-							pst.executeUpdate();
-							JOptionPane.showMessageDialog(null, "Record added");
-							table_load();						
-							txtName.setText("");
-							txtName.requestFocus();
+				  	public void actionPerformed(ActionEvent e) {
+				  		if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+				  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
+				  		}else {
+				  			String name,brgy,municipality,province,phoneNumber;
+					  		name = txtName.getText();
+					  		brgy = txtBrgy.getText();
+					  		municipality = txtMunicipality.getText();
+							province = txtProvince.getText();
+							phoneNumber = txtPhoneNo.getText();
 							
-						}catch(SQLException el) {
-							el.printStackTrace();
-						}
+							try {
+								pst = con.prepareStatement("insert into tblsupplier(Name,Brgy,City/Municipality,Province,PhoneNo)values(?,?,?,?,?)");
+								pst.setString(1, name);
+								pst.setString(2, brgy);
+								pst.setString(3, municipality);
+								pst.setString(4, province);
+								pst.setString(5, phoneNumber);
+								pst.executeUpdate();
+								JOptionPane.showMessageDialog(null, "Record added");
+								table_load();
+								txtName.setText("");
+								txtBrgy.setText("");
+								txtMunicipality.setText("");	
+								txtProvince.setText("");
+								txtPhoneNo.setText("");
+								txtName.requestFocus();
+								
+							}catch(SQLException el) {
+								el.printStackTrace();
+							}
+				  		}
+				  		
 				  	}
 				  });
 			  btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -162,19 +187,31 @@ import javax.swing.border.EtchedBorder;
 			  panel.add(btnAdd);
 			  
 			  JButton btnClear = new JButton("Clear");
+			  btnClear.addActionListener(new ActionListener() {
+				  	public void actionPerformed(ActionEvent e) {
+				  		
+				  		txtName.setText("");
+				  		txtBrgy.setText("");
+				  		txtMunicipality.setText("");
+				  		txtProvince.setText("");
+				  		txtPhoneNo.setText("");
+				  		txtName.requestFocus();
+				  	}
+				  });
 			  btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
 			  btnClear.setBounds(186, 221, 89, 29);
 			  panel.add(btnClear);
 			  
-			  txtBRGY = new JTextField();
-			  txtBRGY.setColumns(10);
-			  txtBRGY.setBounds(93, 68, 182, 28);
-			  panel.add(txtBRGY);
+			  txtBrgy = new JTextField();
+			  txtBrgy.setColumns(10);
+			  txtBrgy.setBounds(93, 68, 182, 28);
+			  panel.add(txtBrgy);
 			  
-			  txtCity = new JTextField();
-			  txtCity.setColumns(10);
-			  txtCity.setBounds(93, 107, 182, 28);
-			  panel.add(txtCity);
+			  txtMunicipality = new JTextField();
+			  txtMunicipality.setToolTipText("City/Municipality");
+			  txtMunicipality.setColumns(10);
+			  txtMunicipality.setBounds(103, 107, 172, 28);
+			  panel.add(txtMunicipality);
 			  
 			  txtProvince = new JTextField();
 			  txtProvince.setColumns(10);
@@ -192,10 +229,10 @@ import javax.swing.border.EtchedBorder;
 			  lblBrgy.setBounds(32, 64, 41, 33);
 			  panel.add(lblBrgy);
 			  
-			  JLabel lblCity = new JLabel("City");
+			  JLabel lblCity = new JLabel("Municipality");
 			  lblCity.setForeground(Color.BLACK);
 			  lblCity.setFont(new Font("Tahoma", Font.BOLD, 15));
-			  lblCity.setBounds(32, 103, 35, 33);
+			  lblCity.setBounds(10, 103, 92, 33);
 			  panel.add(lblCity);
 			  
 			  JLabel lblProvince = new JLabel("Province");
@@ -228,17 +265,163 @@ import javax.swing.border.EtchedBorder;
 			  lblId.setBounds(10, 27, 101, 33);
 			  panel_1.add(lblId);
 			  
-			  txtSuppierId = new JTextField();
-			  txtSuppierId.setColumns(10);
-			  txtSuppierId.setBounds(109, 31, 161, 29);
-			  panel_1.add(txtSuppierId);
+			  txtSupplierId = new JTextField();
+			  
+			  
+			  txtSupplierId.setColumns(10);
+			  txtSupplierId.setBounds(109, 31, 161, 29);
+			  panel_1.add(txtSupplierId);
 			  
 			  JButton btnUpdate = new JButton("Update");
+			  btnUpdate.addActionListener(new ActionListener() {
+				  	public void actionPerformed(ActionEvent e) {
+				  		if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+				  			JOptionPane.showMessageDialog(null,"Missing information!");
+				  		}else {
+				  			try {
+				  				
+				  				DefaultTableModel model = (DefaultTableModel)table.getModel();
+								int index = table.getSelectedRow();
+				  				
+				  				String name, brgy, municipality, province, phoneNo,id; 
+				  				name = txtName.getText();
+				  				brgy = txtBrgy.getText();
+				  				municipality = txtMunicipality.getText();
+				  				province = txtProvince.getText();
+				  				phoneNo = txtPhoneNo.getText();
+				  				id = txtSupplierId.getText();
+								
+								pst = con.prepareStatement("update tblsupplier set Name=?,Brgy=?,City/Municipality=?,Province=?,PhoneNo=? where SupplierID = ?");
+								pst.setString(1, name);
+								pst.setString(2, brgy);
+								pst.setString(3, municipality);
+								pst.setString(4, province);
+								pst.setString(5, phoneNo);
+								pst.setString(6,id);
+								pst.executeUpdate();
+								
+								JOptionPane.showMessageDialog(null,"Record Updated");
+								table_load();	
+								txtName.setText("");
+								txtBrgy.setText("");
+								txtMunicipality.setText("");
+								txtProvince.setText("");
+								txtPhoneNo.setText("");
+								txtName.requestFocus();
+				  				
+				  				/*
+				  				//to update the total in the tblreceiving based on the selected row				  				
+				  				String name, brgy, city, province, phoneNo; 
+				  				name = txtName.getText();
+				  				brgy = txtBrgy.getText();
+				  				city = txtCity.getText();
+				  				province = txtProvince.getText();
+				  				phoneNo = txtPhoneNo.getText();
+				  				
+				  				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+				  				String UpdateQuery = "Update  phildrinksdb.tblSupplier set Name = '" + txtName.getText()+ "',Brgy = '" + txtBrgy.getText()+"',City = '" + txtCity.getText()+"',Province = '"+txtProvince.getText()+"',PhoneNo ='"+txtPhoneNo.getText()+"' where receivingID ='"+txtSupplierId.getText()+"'";
+				  				Statement add = con.createStatement();
+				  				add.executeUpdate(UpdateQuery);
+				  				JOptionPane.showMessageDialog(null,"Record Updated");
+				  				String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
+								pst=con.prepareStatement(sumOfTotal);
+								rs = pst.executeQuery();
+				  								  								  				
+				  				int newtotal,oldqty,oldprice;				  							  								  				
+				  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield
+				  				oldprice = Integer.parseInt(pricetxt.getText());//to get the current price in the textfield
+				  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
+				  				
+						  		EDate = expDateChooser.getDate();
+						  		MyExpDate = new java.sql.Date(EDate.getTime());			  		
+						  		
+				  				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+				  				String UpdateQuery = "Update  phildrinksdb.tblreceiving set Code= '" + supplierIDCombox.getSelectedItem().toString()+ "',Product = '" + txtProduct.getText()+"',Price = '" + pricetxt.getText()+"',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Supplier='"+productIDCombox.getSelectedItem().toString()+"',Total = '"+newtotal+ "' where receivingID ='"+txtSearch.getText()+"'";
+				  				Statement add = con.createStatement();
+				  				add.executeUpdate(UpdateQuery);
+				  				JOptionPane.showMessageDialog(null,"Record Updated");
+				  				String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
+								pst=con.prepareStatement(sumOfTotal);
+								rs = pst.executeQuery();
+								
+								if(rs.next()) {
+									String sum = rs.getString("sum(Total)");
+									lbltotalprice.setText(sum);					
+								}	
+								table_load();	
+								
+								
+								int getnewtotal = Integer.parseInt(table.getModel().getValueAt(index,7).toString());//to get the total of selected row
+								
+								txtSearch.setText("");
+								supplierIDCombox.setSelectedItem("");
+								txtQty.setText("");
+								expDateChooser.setDate(null);
+								txtSearch.requestFocus();
+								*/
+				  							  				
+				  				
+				  			}catch(SQLException ex) {
+				  				ex.printStackTrace();
+				  			}
+				  		}				  		
+				  	}
+				  });
 			  btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
 			  btnUpdate.setBounds(88, 71, 89, 29);
 			  panel_1.add(btnUpdate);
 			  
 			  JButton btnDelete = new JButton("Delete");
+			  
+			  btnDelete.addActionListener(new ActionListener() {
+				  	public void actionPerformed(ActionEvent e) {
+				  		if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+				  			JOptionPane.showMessageDialog(null,"Select a supplier to be deleted");
+				  		}else {
+
+			
+						try {
+							
+							String id = txtSupplierId.getText();
+							pst = con.prepareStatement("delete from tblsupplier where SupplierID=?");
+							pst.setString(1, id);
+							pst.executeUpdate();
+							
+							table_load();
+							JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
+														
+							txtName.setText("");
+							txtBrgy.setText("");
+							txtMunicipality.setText("");
+							txtProvince.setText("");
+							txtPhoneNo.setText("");
+							txtName.requestFocus();
+							
+							/* this method is working 
+							con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+							int Myindex = table.getSelectedRow();
+							String id = txtSupplierId.getText();
+							String Query = "delete from phildrinksdb.tblsupplier where SupplierID="+ id;
+							Statement add = con.createStatement();
+							add.executeUpdate(Query);						
+							
+							table_load();
+							JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
+														
+							txtName.setText("");
+							txtBrgy.setText("");
+							txtCity.setText("");
+							txtProvince.setText("");
+							txtPhoneNo.setText("");
+							txtName.requestFocus();
+							*/
+							
+						}catch(SQLException ec) {
+							ec.printStackTrace();
+						}
+				  	  }
+				  	}
+				  });
 			  btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 			  btnDelete.setBounds(181, 71, 89, 29);
 			  panel_1.add(btnDelete);
