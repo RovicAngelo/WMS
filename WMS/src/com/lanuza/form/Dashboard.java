@@ -59,7 +59,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	        btnReceiving = new JButton();
 	        btnReceiving.setFocusPainted(false);
 	        btnReceiving.setFont(mainFont);
-	        btnReceiving.setText("Receiving Section");
+	        btnReceiving.setText("Receiving");
 	        btnReceiving.setBounds(10, 288, 230, 54);
 	        // receivingButton.setBackground(new Color(29, 77, 122)); blue
 	        btnReceiving.setBackground(new Color(3, 65, 68)); // dark cyan

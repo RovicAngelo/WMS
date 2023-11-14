@@ -176,7 +176,7 @@ public class Product {
 		btnClear.setBounds(178, 202, 89, 29);
 		panel.add(btnClear);
 		
-		JLabel lblCompanyId = new JLabel("CompanyID");
+		JLabel lblCompanyId = new JLabel("SupplierID");
 		lblCompanyId.setForeground(Color.BLACK);
 		lblCompanyId.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCompanyId.setBounds(10, 149, 95, 33);
