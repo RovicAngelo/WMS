@@ -10,6 +10,8 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.IDateEditor;
+
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
@@ -26,6 +28,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
@@ -33,21 +36,22 @@ import javax.swing.JComboBox;
 public class Product {
 
 	private JFrame frame;
-	private JTextField txtCode;
-	private JTextField txtProduct;
-	private JTextField txtPrice;
+	private JTextField txtCode,txtProduct,txtPrice;
+	private JComboBox supplierCombox;
 	private JTable table;
 
 	Product() {
 		initialize();
 		Connect();
 		table_load();
+		getSupplier();
 	}
 	
 	Connection con;
 	PreparedStatement pst;
-	ResultSet rs;
-	private JTextField txtSearch;
+	ResultSet rs = null;
+	Statement st= null;
+	private JTextField txtProductId;
 	
 	public void Connect() {
 		try {
@@ -68,6 +72,24 @@ public class Product {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void getSupplier() {
+		try {
+			
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+			st = con.createStatement();
+			String Query = "select * from phildrinksdb.tblsupplier";
+			rs = st.executeQuery(Query);
+			while(rs.next()) {
+					String supplierId = rs.getString("Name");
+					supplierCombox.addItem(supplierId);	
+			}
+			
+		}catch(Exception e) {
+
+		}
+				
 	}
 
 	private void initialize() {
@@ -140,22 +162,24 @@ public class Product {
 		 btnAdd.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		
-			  		String code,product,price;
+			  		String code,product,price,supplier;
 			  		code = txtCode.getText();
 			  		product = txtProduct.getText();
 			  		price = txtPrice.getText();;
+			  		supplier = supplierCombox.getSelectedItem().toString();
 					
 					try {
-						pst = con.prepareStatement("insert into tblproduct(Code,Product,Price)values(?,?,?)");
+						pst = con.prepareStatement("insert into tblproduct(Code,Product,Price,Supplier)values(?,?,?,?)");
 						pst.setString(1, code);
 						pst.setString(2, product);
 						pst.setString(3, price);
+						pst.setString(4, supplier);
 						pst.executeUpdate();
 						JOptionPane.showMessageDialog(null, "Record added");
 						table_load();
 						txtCode.setText("");
 						txtProduct.setText("");
-						txtPrice.setText("");						
+						txtPrice.setText("");			
 						txtCode.requestFocus();
 						
 					}catch(SQLException el) {
@@ -169,25 +193,30 @@ public class Product {
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		  	public void actionPerformed(ActionEvent e) {
+		  		
+		  		txtCode.setText("");
+		  		txtProduct.setText("");
+		  		txtPrice.setText("");
+		  		txtCode.requestFocus();
+		  	}
+		  });
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnClear.setBounds(178, 202, 89, 29);
 		panel.add(btnClear);
 		
-		JLabel lblCompanyId = new JLabel("SupplierID");
+		JLabel lblCompanyId = new JLabel("Supplier");
 		lblCompanyId.setForeground(Color.BLACK);
 		lblCompanyId.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCompanyId.setBounds(10, 149, 95, 33);
 		panel.add(lblCompanyId);
 		
-		JComboBox CompanyIdCombox = new JComboBox();
-		CompanyIdCombox.setMaximumRowCount(2);
-		CompanyIdCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
-		CompanyIdCombox.setEditable(true);
-		CompanyIdCombox.setBounds(115, 152, 166, 28);
-		panel.add(CompanyIdCombox);
+		supplierCombox = new JComboBox();
+		supplierCombox.setMaximumRowCount(2);
+		supplierCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		supplierCombox.setEditable(true);
+		supplierCombox.setBounds(115, 152, 166, 28);
+		panel.add(supplierCombox);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(331, 158, 626, 321);
@@ -198,9 +227,13 @@ public class Product {
 			public void mouseClicked(MouseEvent e) {
 				DefaultTableModel model = (DefaultTableModel)table.getModel();
 				int Myindex = table.getSelectedRow();
+				String id = table.getModel().getValueAt(Myindex,0).toString();	
+				
+				txtProductId.setText(id);					
 				txtCode.setText(model.getValueAt(Myindex, 1).toString());
 				txtProduct.setText(model.getValueAt(Myindex, 2).toString());
-				txtPrice.setText(model.getValueAt(Myindex, 3).toString());			
+				txtPrice.setText(model.getValueAt(Myindex, 3).toString());	
+				supplierCombox.setSelectedItem(model.getValueAt(Myindex, 4).toString());
 				
 			}
 		});
@@ -235,17 +268,85 @@ public class Product {
 		lblId.setBounds(10, 27, 76, 33);
 		panel_1.add(lblId);
 		
-		txtSearch = new JTextField();
-		txtSearch.setColumns(10);
-		txtSearch.setBounds(102, 31, 168, 29);
-		panel_1.add(txtSearch);
+		txtProductId = new JTextField();
+		txtProductId.setColumns(10);
+		txtProductId.setBounds(102, 31, 168, 29);
+		panel_1.add(txtProductId);
 		
 		JButton btnUpdate = new JButton("Update");
+		 btnUpdate.addActionListener(new ActionListener() {
+			  	public void actionPerformed(ActionEvent e) {
+			  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			  			JOptionPane.showMessageDialog(null,"Missing information!");
+			  		}else {
+			  			try {
+			  				
+			  				DefaultTableModel model = (DefaultTableModel)table.getModel();
+			  				
+			  				String code, product, price, supplier,id; 
+			  				code = txtCode.getText();
+			  				product = txtProduct.getText();
+			  				price = txtPrice.getText();
+			  				supplier = supplierCombox.getSelectedItem().toString();
+			  				id = txtProductId.getText();
+							
+							pst = con.prepareStatement("update tblproduct set Code=?,Product=?,Price=?,Supplier=? where ProductID = ?");
+							pst.setString(1, code);
+							pst.setString(2, product);
+							pst.setString(3, price);
+							pst.setString(4, supplier);
+							pst.setString(5, id);
+							pst.executeUpdate();
+							
+							JOptionPane.showMessageDialog(null,"Record Updated");
+							table_load();	
+							txtCode.setText("");
+							txtProduct.setText("");
+							txtPrice.setText("");
+							txtProductId.setText("");
+							txtCode.requestFocus();			  							  						  							  				
+			  				
+			  			}catch(SQLException ex) {
+			  				ex.printStackTrace();
+			  			}
+			  		}				  		
+			  	}
+			  });
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnUpdate.setBounds(88, 71, 89, 29);
 		panel_1.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+		  	public void actionPerformed(ActionEvent e) {
+		  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+		  			JOptionPane.showMessageDialog(null,"Select a product to be deleted");
+		  		}else {
+
+	
+				try {
+					
+					String id = txtProductId.getText();
+					pst = con.prepareStatement("delete from tblproduct where ProductID=?");
+					pst.setString(1, id);
+					pst.executeUpdate();
+					
+					table_load();
+					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
+												
+					txtCode.setText("");
+					txtProduct.setText("");
+					txtPrice.setText("");
+					txtProductId.setText("");
+					txtCode.requestFocus();
+									
+					
+				}catch(SQLException ec) {
+					ec.printStackTrace();
+				}
+		  	  }
+		  	}
+		  });
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDelete.setBounds(181, 71, 89, 29);
 		panel_1.add(btnDelete);
