@@ -118,7 +118,6 @@ import javax.swing.border.EtchedBorder;
 			  panel.add(lblName);
 			  
 			  txtName = new JTextField();
-			  txtName.setToolTipText("Juan Dela Cruz");
 			  txtName.setColumns(10);
 			  txtName.setBounds(93, 29, 182, 28);
 			  panel.add(txtName);
@@ -276,11 +275,9 @@ import javax.swing.border.EtchedBorder;
 			  btnUpdate.addActionListener(new ActionListener() {
 				  	public void actionPerformed(ActionEvent e) {
 				  		if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
-				  			JOptionPane.showMessageDialog(null,"Missing information!");
+				  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 				  		}else {
-				  			try {
-				  				
-				  				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				  			try {			  				
 				  				
 				  				String name, brgy, municipality, province, phoneNo,id; 
 				  				name = txtName.getText();
@@ -299,7 +296,7 @@ import javax.swing.border.EtchedBorder;
 								pst.setString(6,id);
 								pst.executeUpdate();
 								
-								JOptionPane.showMessageDialog(null,"Record Updated");
+								JOptionPane.showMessageDialog(null,"Record Successfully Updated");
 								table_load();	
 								txtName.setText("");
 								txtBrgy.setText("");
@@ -387,7 +384,7 @@ import javax.swing.border.EtchedBorder;
 							pst.executeUpdate();
 							
 							table_load();
-							JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
+							JOptionPane.showMessageDialog(null,"Record Successfully Deleted");			
 														
 							txtName.setText("");
 							txtBrgy.setText("");
