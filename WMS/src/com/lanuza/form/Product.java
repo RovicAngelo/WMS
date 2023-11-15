@@ -161,7 +161,9 @@ public class Product {
 		JButton btnAdd = new JButton("Add");
 		 btnAdd.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
-			  		
+			  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
+			  		}else {
 			  		String code,product,price,supplier;
 			  		code = txtCode.getText();
 			  		product = txtProduct.getText();
@@ -185,6 +187,7 @@ public class Product {
 					}catch(SQLException el) {
 						el.printStackTrace();
 					}
+			  	  }
 			  	}
 			  });
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -277,7 +280,7 @@ public class Product {
 		 btnUpdate.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
-			  			JOptionPane.showMessageDialog(null,"Missing information!");
+			  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 			  		}else {
 			  			try {
 			  				
@@ -332,7 +335,7 @@ public class Product {
 					pst.executeUpdate();
 					
 					table_load();
-					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
+					JOptionPane.showMessageDialog(null,"Record Successfully Deleted ");			
 												
 					txtCode.setText("");
 					txtProduct.setText("");
