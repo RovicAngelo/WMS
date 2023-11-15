@@ -159,7 +159,7 @@ import javax.swing.border.EtchedBorder;
 							phoneNumber = txtPhoneNo.getText();
 							
 							try {
-								pst = con.prepareStatement("insert into tblsupplier(Name,Brgy,City/Municipality,Province,PhoneNo)values(?,?,?,?,?)");
+								pst = con.prepareStatement("insert into tblsupplier(Name,Brgy,Municipality,Province,PhoneNo)values(?,?,?,?,?)");
 								pst.setString(1, name);
 								pst.setString(2, brgy);
 								pst.setString(3, municipality);
@@ -281,7 +281,6 @@ import javax.swing.border.EtchedBorder;
 				  			try {
 				  				
 				  				DefaultTableModel model = (DefaultTableModel)table.getModel();
-								int index = table.getSelectedRow();
 				  				
 				  				String name, brgy, municipality, province, phoneNo,id; 
 				  				name = txtName.getText();
@@ -291,7 +290,7 @@ import javax.swing.border.EtchedBorder;
 				  				phoneNo = txtPhoneNo.getText();
 				  				id = txtSupplierId.getText();
 								
-								pst = con.prepareStatement("update tblsupplier set Name=?,Brgy=?,City/Municipality=?,Province=?,PhoneNo=? where SupplierID = ?");
+								pst = con.prepareStatement("update tblsupplier set Name=?,Brgy=?,Municipality=?,Province=?,PhoneNo=? where SupplierID = ?");
 								pst.setString(1, name);
 								pst.setString(2, brgy);
 								pst.setString(3, municipality);
@@ -307,6 +306,7 @@ import javax.swing.border.EtchedBorder;
 								txtMunicipality.setText("");
 								txtProvince.setText("");
 								txtPhoneNo.setText("");
+								txtSupplierId.setText("");
 								txtName.requestFocus();
 				  				
 				  				/*
@@ -371,8 +371,7 @@ import javax.swing.border.EtchedBorder;
 			  btnUpdate.setBounds(88, 71, 89, 29);
 			  panel_1.add(btnUpdate);
 			  
-			  JButton btnDelete = new JButton("Delete");
-			  
+			  JButton btnDelete = new JButton("Delete");		  
 			  btnDelete.addActionListener(new ActionListener() {
 				  	public void actionPerformed(ActionEvent e) {
 				  		if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
@@ -395,6 +394,7 @@ import javax.swing.border.EtchedBorder;
 							txtMunicipality.setText("");
 							txtProvince.setText("");
 							txtPhoneNo.setText("");
+							txtSupplierId.setText("");
 							txtName.requestFocus();
 							
 							/* this method is working 
