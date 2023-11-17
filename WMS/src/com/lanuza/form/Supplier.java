@@ -2,20 +2,11 @@ package com.lanuza.form;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+import java.awt.event.*;
+import java.sql.*;
 import javax.swing.*;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
