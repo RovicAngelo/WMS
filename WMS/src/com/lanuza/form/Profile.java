@@ -1,41 +1,48 @@
 package com.lanuza.form;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-public class Profile extends JFrame {
+import java.awt.Color;
+import javax.swing.JLabel;
 
-	private JPanel contentPane;
+import java.awt.Font;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Profile frame = new Profile();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+public class Profile  {
 
-	/**
-	 * Create the frame.
-	 */
+	private JFrame frame;
+
+
 	public Profile() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
+		initialize();
 	}
-
+	
+	
+	private void initialize() {
+		frame = new JFrame();
+		frame.setSize(1000,600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(null);
+		topPanel.setBackground(new Color(3, 65, 68));
+		topPanel.setBounds(0, 0, 984, 66);
+		frame.getContentPane().add(topPanel);
+		
+		JLabel lblNewAccount = new JLabel("Profile");
+		lblNewAccount.setForeground(Color.WHITE);
+		lblNewAccount.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewAccount.setBounds(416, 25, 138, 30);
+		topPanel.add(lblNewAccount);
+		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(null);
+		bottomPanel.setBackground(new Color(3, 65, 68));
+		bottomPanel.setBounds(0, 543, 984, 18);
+		frame.getContentPane().add(bottomPanel);
+		
+	}
 }
