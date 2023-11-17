@@ -1,42 +1,19 @@
 package com.lanuza.form;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.border.TitledBorder;
+import java.awt.*;
+import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
-import com.toedter.calendar.IDateEditor;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.*;
 
 import net.proteanit.sql.DbUtils;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import javax.swing.border.EtchedBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
-import javax.swing.JComboBox;
 
 public class Product {
 
 	private JFrame frame;
-	private JTextField txtCode,txtProduct,txtPrice;
+	private JTextField txtCode,txtDescription,txtPrice;
 	private JComboBox supplierCombox;
 	private JTable table;
 
@@ -51,7 +28,7 @@ public class Product {
 	PreparedStatement pst;
 	ResultSet rs = null;
 	Statement st= null;
-	private JTextField txtProductId;
+	private JTextField txtId;
 	
 	public void Connect() {
 		try {
@@ -75,15 +52,14 @@ public class Product {
 	}
 	
 	private void getSupplier() {
-		try {
-			
+		try {		
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
 			String Query = "select * from phildrinksdb.tblsupplier";
 			rs = st.executeQuery(Query);
 			while(rs.next()) {
-					String supplierId = rs.getString("Name");
-					supplierCombox.addItem(supplierId);	
+					String supplierName = rs.getString("Name");
+					supplierCombox.addItem(supplierName);	
 			}
 			
 		}catch(Exception e) {
@@ -125,9 +101,9 @@ public class Product {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblProduct = new JLabel("Product");
+		JLabel lblProduct = new JLabel("Description");
 		lblProduct.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblProduct.setBounds(10, 73, 65, 25);
+		lblProduct.setBounds(8, 73, 88, 25);
 		panel.add(lblProduct);
 		
 		txtCode = new JTextField();
@@ -146,11 +122,11 @@ public class Product {
 		lblPrice.setBounds(20, 113, 50, 25);
 		panel.add(lblPrice);
 		
-		txtProduct = new JTextField();
-		txtProduct.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtProduct.setColumns(10);
-		txtProduct.setBounds(99, 72, 182, 29);
-		panel.add(txtProduct);
+		txtDescription = new JTextField();
+		txtDescription.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtDescription.setColumns(10);
+		txtDescription.setBounds(99, 72, 182, 29);
+		panel.add(txtDescription);
 		
 		txtPrice = new JTextField();
 		txtPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -161,26 +137,27 @@ public class Product {
 		JButton btnAdd = new JButton("Add");
 		 btnAdd.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
-			  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			  		if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
 			  		}else {
-			  		String code,product,price,supplier;
-			  		code = txtCode.getText();
-			  		product = txtProduct.getText();
-			  		price = txtPrice.getText();;
+			  		String description,supplier;
+			  		int code,price;
+			  		code = Integer.parseInt(txtCode.getText());
+			  		description = txtDescription.getText();
+			  		price =  Integer.parseInt(txtPrice.getText());
 			  		supplier = supplierCombox.getSelectedItem().toString();
 					
 					try {
-						pst = con.prepareStatement("insert into tblproduct(Code,Product,Price,Supplier)values(?,?,?,?)");
-						pst.setString(1, code);
-						pst.setString(2, product);
-						pst.setString(3, price);
+						pst = con.prepareStatement("insert into tblproduct(Code,Description,Price,Supplier)values(?,?,?,?)");
+						pst.setInt(1,code);
+						pst.setString(2, description);
+						pst.setInt(3, price);
 						pst.setString(4, supplier);
 						pst.executeUpdate();
 						JOptionPane.showMessageDialog(null, "Record added");
 						table_load();
 						txtCode.setText("");
-						txtProduct.setText("");
+						txtDescription.setText("");
 						txtPrice.setText("");			
 						txtCode.requestFocus();
 						
@@ -199,7 +176,7 @@ public class Product {
 		  	public void actionPerformed(ActionEvent e) {
 		  		
 		  		txtCode.setText("");
-		  		txtProduct.setText("");
+		  		txtDescription.setText("");
 		  		txtPrice.setText("");
 		  		txtCode.requestFocus();
 		  	}
@@ -208,11 +185,11 @@ public class Product {
 		btnClear.setBounds(178, 202, 89, 29);
 		panel.add(btnClear);
 		
-		JLabel lblCompanyId = new JLabel("Supplier");
-		lblCompanyId.setForeground(Color.BLACK);
-		lblCompanyId.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCompanyId.setBounds(10, 149, 95, 33);
-		panel.add(lblCompanyId);
+		JLabel lblSupplierId = new JLabel("Supplier");
+		lblSupplierId.setForeground(Color.BLACK);
+		lblSupplierId.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblSupplierId.setBounds(10, 149, 95, 33);
+		panel.add(lblSupplierId);
 		
 		supplierCombox = new JComboBox();
 		supplierCombox.setMaximumRowCount(2);
@@ -232,9 +209,9 @@ public class Product {
 				int Myindex = table.getSelectedRow();
 				String id = table.getModel().getValueAt(Myindex,0).toString();	
 				
-				txtProductId.setText(id);					
+				txtId.setText(id);					
 				txtCode.setText(model.getValueAt(Myindex, 1).toString());
-				txtProduct.setText(model.getValueAt(Myindex, 2).toString());
+				txtDescription.setText(model.getValueAt(Myindex, 2).toString());
 				txtPrice.setText(model.getValueAt(Myindex, 3).toString());	
 				supplierCombox.setSelectedItem(model.getValueAt(Myindex, 4).toString());
 				
@@ -265,48 +242,43 @@ public class Product {
 		panel_1.setBounds(20, 365, 293, 114);
 		frame.getContentPane().add(panel_1);
 		
-		JLabel lblId = new JLabel("ProductID");
-		lblId.setForeground(Color.BLACK);
-		lblId.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblId.setBounds(10, 27, 76, 33);
-		panel_1.add(lblId);
-		
-		txtProductId = new JTextField();
-		txtProductId.setColumns(10);
-		txtProductId.setBounds(102, 31, 168, 29);
-		panel_1.add(txtProductId);
+		txtId = new JTextField();
+		txtId.setColumns(10);
+		txtId.setBounds(102, 31, 168, 29);
+		panel_1.add(txtId);
 		
 		JButton btnUpdate = new JButton("Update");
 		 btnUpdate.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
-			  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			  		if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 			  		}else {
 			  			try {
 			  				
 			  				DefaultTableModel model = (DefaultTableModel)table.getModel();
 			  				
-			  				String code, product, price, supplier,id; 
-			  				code = txtCode.getText();
-			  				product = txtProduct.getText();
-			  				price = txtPrice.getText();
+			  				String  description, supplier; 
+			  				int code, price, id;
+			  				code = Integer.parseInt(txtCode.getText());
+			  				description = txtDescription.getText();
+			  				price = Integer.parseInt(txtPrice.getText());
 			  				supplier = supplierCombox.getSelectedItem().toString();
-			  				id = txtProductId.getText();
+			  				id = Integer.parseInt(txtId.getText());
 							
-							pst = con.prepareStatement("update tblproduct set Code=?,Product=?,Price=?,Supplier=? where ProductID = ?");
-							pst.setString(1, code);
-							pst.setString(2, product);
-							pst.setString(3, price);
+							pst = con.prepareStatement("update tblproduct set Code=?,Description=?,Price=?,Supplier=? where ProductID = ?");
+							pst.setInt(1, code);
+							pst.setString(2, description);
+							pst.setInt(3, price);
 							pst.setString(4, supplier);
-							pst.setString(5, id);
+							pst.setInt(5, id);
 							pst.executeUpdate();
 							
 							JOptionPane.showMessageDialog(null,"Record Updated");
 							table_load();	
 							txtCode.setText("");
-							txtProduct.setText("");
+							txtDescription.setText("");
 							txtPrice.setText("");
-							txtProductId.setText("");
+							txtId.setText("");
 							txtCode.requestFocus();			  							  						  							  				
 			  				
 			  			}catch(SQLException ex) {
@@ -322,14 +294,14 @@ public class Product {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
-		  		if(txtCode.getText().isEmpty() || txtProduct.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+		  		if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 		  			JOptionPane.showMessageDialog(null,"Select a product to be deleted");
 		  		}else {
 
 	
 				try {
 					
-					String id = txtProductId.getText();
+					String id = txtId.getText();
 					pst = con.prepareStatement("delete from tblproduct where ProductID=?");
 					pst.setString(1, id);
 					pst.executeUpdate();
@@ -338,9 +310,9 @@ public class Product {
 					JOptionPane.showMessageDialog(null,"Record Successfully Deleted ");			
 												
 					txtCode.setText("");
-					txtProduct.setText("");
+					txtDescription.setText("");
 					txtPrice.setText("");
-					txtProductId.setText("");
+					txtId.setText("");
 					txtCode.requestFocus();
 									
 					
@@ -352,9 +324,7 @@ public class Product {
 		  });
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDelete.setBounds(181, 71, 89, 29);
-		panel_1.add(btnDelete);
-		frame.setVisible(true);
-		
+		panel_1.add(btnDelete);			
 		
 		int[] code = {};
 	}
