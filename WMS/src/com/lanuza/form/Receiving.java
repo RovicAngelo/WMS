@@ -1,23 +1,20 @@
 package com.lanuza.form;
 
-
-import javax.swing.*;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 
-import java.awt.Font;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import javax.swing.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.toedter.calendar.JDateChooser;
 import net.proteanit.sql.DbUtils;
-import javax.swing.border.LineBorder;
 
 public class Receiving {
 

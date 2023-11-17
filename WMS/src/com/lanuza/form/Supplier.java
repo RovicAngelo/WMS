@@ -1,18 +1,15 @@
 package com.lanuza.form;
 
-import java.awt.Color;
-import java.awt.Font;
-
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.border.EtchedBorder;
 
 import net.proteanit.sql.DbUtils;
-
-import javax.swing.border.EtchedBorder;
 
 	public class Supplier extends JFrame{
 		private JFrame frame;

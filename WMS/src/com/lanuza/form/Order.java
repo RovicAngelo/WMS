@@ -9,7 +9,6 @@ import java.sql.*;
 import javax.swing.*;
 
 import javax.swing.border.TitledBorder;
-import com.toedter.calendar.JDateChooser;
 
 import net.proteanit.sql.DbUtils;
 import javax.swing.border.LineBorder;

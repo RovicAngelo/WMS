@@ -1,20 +1,15 @@
 package com.lanuza.form;
 
-import javax.swing.*;
-import java.sql.*;
-
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.border.EtchedBorder;
 
 import net.proteanit.sql.DbUtils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.sql.*;
 
 public class Customer {
 
