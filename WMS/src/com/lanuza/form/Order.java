@@ -1,17 +1,12 @@
 package com.lanuza.form;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.event.*;
 import java.sql.*;
 import javax.swing.*;
-
-import javax.swing.border.TitledBorder;
+import java.awt.*;
+import javax.swing.border.*;
 
 import net.proteanit.sql.DbUtils;
-import javax.swing.border.LineBorder;
 
 public class Order extends JFrame{
 

@@ -1,16 +1,14 @@
 package com.lanuza.form;
 
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
 import java.awt.Color;
 import java.awt.Font;
 
 import java.awt.event.*;
 import java.sql.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 public class Account {
