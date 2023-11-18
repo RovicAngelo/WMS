@@ -1,8 +1,6 @@
 package com.lanuza.form;
 
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
@@ -15,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 
 import com.toedter.calendar.JDateChooser;
 import net.proteanit.sql.DbUtils;
-import javax.swing.border.MatteBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -26,7 +23,7 @@ public class ReceivingModern {
 	private JTable table;
 	private JComboBox productCodeCombox;
 	private JDateChooser expDateChooser;
-	private JLabel Datelbl,lbltotalprice;
+	private JLabel lblCurrentDate,txtGrossTotal;
 	String nameQuery, supplierQuery;
 	int priceQuery;
 	
@@ -48,7 +45,7 @@ public class ReceivingModern {
 	private void getDateToday() { //method to get the date today
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime now = LocalDateTime.now();		
-		Datelbl.setText(dtf.format(now));
+		lblCurrentDate.setText(dtf.format(now));
 	}
 	
 	public void Connect() {
@@ -94,7 +91,7 @@ public class ReceivingModern {
 	int temp = 0;
 	private JTextField txtReceivingId;
 	private JTextField txtReceiver;
-	private JTextField textField;
+	private JTextField txtSearchBy;
 	
 	private void initialize() {
 		frame = new JFrame();
@@ -105,16 +102,16 @@ public class ReceivingModern {
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(226, 226, 226));
-		panel.setLayout(null);
-		panel.setBounds(76, 553, 1046, 77);
-		frame.getContentPane().add(panel);
+		JPanel panelTable3 = new JPanel();
+		panelTable3.setBackground(new Color(226, 226, 226));
+		panelTable3.setLayout(null);
+		panelTable3.setBounds(76, 553, 1046, 77);
+		frame.getContentPane().add(panelTable3);
 		
 		txtQty = new JTextField();
 		txtQty.setToolTipText("Qty");
 		txtQty.setBounds(475, 3, 248, 38);
-		panel.add(txtQty);
+		panelTable3.add(txtQty);
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
 		
@@ -122,7 +119,7 @@ public class ReceivingModern {
 		productCodeCombox.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		productCodeCombox.setToolTipText("Code");
 		productCodeCombox.setBounds(113, 3, 360, 38);
-		panel.add(productCodeCombox);
+		panelTable3.add(productCodeCombox);
 		productCodeCombox.setMaximumRowCount(2);
 		productCodeCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 		productCodeCombox.setEditable(true);
@@ -130,7 +127,7 @@ public class ReceivingModern {
 		txtSearchId = new JTextField();
 		txtSearchId.setToolTipText("Id");
 		txtSearchId.setBounds(0, 3, 53, 38);
-		panel.add(txtSearchId);
+		panelTable3.add(txtSearchId);
 		txtSearchId.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtSearchId.setColumns(10);
 		
@@ -138,7 +135,7 @@ public class ReceivingModern {
 		expDateChooser.setDateFormatString("d MM yyyy");
 		expDateChooser.setToolTipText("Date");
 		expDateChooser.setBounds(725, 3, 120, 38);
-		panel.add(expDateChooser);
+		panelTable3.add(expDateChooser);
 		
 		JButton btnAdd = new JButton("");
 		btnAdd.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/2.png")));
@@ -189,7 +186,7 @@ public class ReceivingModern {
 							
 							if(rs.next()) {
 								String sum = rs.getString("sum(Total)");
-								lbltotalprice.setText(sum);					
+								txtGrossTotal.setText(sum);					
 							}	
 							pst.close();
 							
@@ -214,10 +211,10 @@ public class ReceivingModern {
 		btnAdd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnAdd.setBackground(new Color(243, 243, 243));
 		btnAdd.setBounds(847, 3, 63, 38);
-		panel.add(btnAdd);
+		panelTable3.add(btnAdd);
 		
-		JButton btnAdd_1 = new JButton("");
-		btnAdd_1.addMouseListener(new MouseAdapter() {
+		JButton btnDelete = new JButton("");
+		btnDelete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
@@ -238,7 +235,7 @@ public class ReceivingModern {
 					
 					if(rs.next()) {
 						String sum = rs.getString("sum(Total)");
-						lbltotalprice.setText(sum);		
+						txtGrossTotal.setText(sum);		
 					}	
 					
 					table_load();
@@ -255,18 +252,18 @@ public class ReceivingModern {
 		  	  }	
 			}
 		});
-		btnAdd_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/6.png")));
-		btnAdd_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnAdd_1.setToolTipText("Add");
-		btnAdd_1.setFocusPainted(false);
-		btnAdd_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnAdd_1.setBackground(new Color(243, 243, 243));
-		btnAdd_1.setBounds(910, 3, 63, 38);
-		panel.add(btnAdd_1);
+		btnDelete.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/6.png")));
+		btnDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnDelete.setToolTipText("Add");
+		btnDelete.setFocusPainted(false);
+		btnDelete.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnDelete.setBackground(new Color(243, 243, 243));
+		btnDelete.setBounds(910, 3, 63, 38);
+		panelTable3.add(btnDelete);
 		
-		JButton btnAdd_1_1 = new JButton("");
-		btnAdd_1_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/5.png")));
-		btnAdd_1_1.addMouseListener(new MouseAdapter() {
+		JButton btnUpdate = new JButton("");
+		btnUpdate.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/5.png")));
+		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(productCodeCombox.getSelectedItem().toString().isEmpty() && txtSearchId.getText().isEmpty() && txtQty.getText().isEmpty()) {
@@ -318,7 +315,7 @@ public class ReceivingModern {
 						
 						if(rs.next()) {
 							String sum = rs.getString("sum(Total)");
-							lbltotalprice.setText(sum);					
+							txtGrossTotal.setText(sum);					
 						}	
 						pst.close();
 						table_load();	
@@ -334,12 +331,12 @@ public class ReceivingModern {
 		  		}
 			}
 		});
-		btnAdd_1_1.setToolTipText("Add");
-		btnAdd_1_1.setFocusPainted(false);
-		btnAdd_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnAdd_1_1.setBackground(new Color(243, 243, 243));
-		btnAdd_1_1.setBounds(973, 3, 63, 38);
-		panel.add(btnAdd_1_1);
+		btnUpdate.setToolTipText("Add");
+		btnUpdate.setFocusPainted(false);
+		btnUpdate.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnUpdate.setBackground(new Color(243, 243, 243));
+		btnUpdate.setBounds(973, 3, 63, 38);
+		panelTable3.add(btnUpdate);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
@@ -361,163 +358,178 @@ public class ReceivingModern {
 		bottomPanel.setBounds(0, 641, 1370, 20);
 		frame.getContentPane().add(bottomPanel);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(3, 65, 68));
-		panel_2.setBounds(1164, 54, 170, 607);
-		frame.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		JPanel sidePanel2 = new JPanel();
+		sidePanel2.setBackground(new Color(3, 65, 68));
+		sidePanel2.setBounds(1164, 54, 170, 607);
+		frame.getContentPane().add(sidePanel2);
+		sidePanel2.setLayout(null);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(new Color(255, 255, 255)));
-		panel_3.setOpaque(false);
-		panel_3.setBounds(10, 39, 150, 531);
-		panel_2.add(panel_3);
-		panel_3.setLayout(null);
+		JPanel panelShortcut1 = new JPanel();
+		panelShortcut1.setBorder(new LineBorder(new Color(255, 255, 255)));
+		panelShortcut1.setOpaque(false);
+		panelShortcut1.setBounds(10, 39, 137, 491);
+		sidePanel2.add(panelShortcut1);
+		panelShortcut1.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("SHORTCUTS");
 		lblNewLabel_1.setBounds(36, 6, 78, 16);
 		lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 13));
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		panel_3.add(lblNewLabel_1);
+		panelShortcut1.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel = new JLabel("Ctrl+S");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 39, 58, 28);
-		panel_3.add(lblNewLabel);
+		JLabel lblCtrlS = new JLabel("Ctrl+S");
+		lblCtrlS.setForeground(new Color(255, 255, 255));
+		lblCtrlS.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCtrlS.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCtrlS.setBounds(0, 39, 58, 28);
+		panelShortcut1.add(lblCtrlS);
 		
-		JLabel lblCtrlp = new JLabel("Ctrl+P");
-		lblCtrlp.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCtrlp.setForeground(Color.WHITE);
-		lblCtrlp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCtrlp.setBounds(0, 78, 58, 28);
-		panel_3.add(lblCtrlp);
+		JLabel lblCtrlP = new JLabel("Ctrl+P");
+		lblCtrlP.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCtrlP.setForeground(Color.WHITE);
+		lblCtrlP.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCtrlP.setBounds(0, 78, 58, 28);
+		panelShortcut1.add(lblCtrlP);
 		
-		JLabel lblCtrld = new JLabel("Ctrl+D");
-		lblCtrld.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCtrld.setForeground(Color.WHITE);
-		lblCtrld.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblCtrld.setBounds(0, 117, 58, 28);
-		panel_3.add(lblCtrld);
+		JLabel lblCtrlD = new JLabel("Ctrl+D");
+		lblCtrlD.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCtrlD.setForeground(Color.WHITE);
+		lblCtrlD.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCtrlD.setBounds(0, 117, 58, 28);
+		panelShortcut1.add(lblCtrlD);
 		
 		JLabel lblS = new JLabel("S");
 		lblS.setHorizontalAlignment(SwingConstants.CENTER);
 		lblS.setForeground(Color.WHITE);
 		lblS.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblS.setBounds(0, 168, 58, 28);
-		panel_3.add(lblS);
+		panelShortcut1.add(lblS);
 		
 		JLabel lblM = new JLabel("P");
 		lblM.setHorizontalAlignment(SwingConstants.CENTER);
 		lblM.setForeground(Color.WHITE);
 		lblM.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblM.setBounds(0, 213, 58, 28);
-		panel_3.add(lblM);
+		panelShortcut1.add(lblM);
 		
 		JLabel lblM_1 = new JLabel("M");
 		lblM_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblM_1.setForeground(Color.WHITE);
 		lblM_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblM_1.setBounds(0, 259, 58, 28);
-		panel_3.add(lblM_1);
+		panelShortcut1.add(lblM_1);
 		
-		JTextArea txtrSaveToDatabase = new JTextArea();
-		txtrSaveToDatabase.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrSaveToDatabase.setForeground(new Color(255, 255, 255));
-		txtrSaveToDatabase.setOpaque(false);
-		txtrSaveToDatabase.setText("Save as\r\n File");
-		txtrSaveToDatabase.setBounds(68, 33, 82, 38);
-		panel_3.add(txtrSaveToDatabase);
+		JTextArea txtrCtrlS = new JTextArea();
+		txtrCtrlS.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrCtrlS.setForeground(new Color(255, 255, 255));
+		txtrCtrlS.setOpaque(false);
+		txtrCtrlS.setText("Save as\r\n File");
+		txtrCtrlS.setBounds(65, 33, 82, 38);
+		panelShortcut1.add(txtrCtrlS);
 		
-		JTextArea txtrPrint = new JTextArea();
-		txtrPrint.setText("Print");
-		txtrPrint.setOpaque(false);
-		txtrPrint.setForeground(Color.WHITE);
-		txtrPrint.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrPrint.setBounds(68, 82, 82, 28);
-		panel_3.add(txtrPrint);
+		JTextArea txtrCtrlP = new JTextArea();
+		txtrCtrlP.setText("Print");
+		txtrCtrlP.setOpaque(false);
+		txtrCtrlP.setForeground(Color.WHITE);
+		txtrCtrlP.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrCtrlP.setBounds(65, 82, 82, 28);
+		panelShortcut1.add(txtrCtrlP);
 		
-		JTextArea txtrSaveToDatabase_1_1 = new JTextArea();
-		txtrSaveToDatabase_1_1.setText("Save to \r\nDatabase");
-		txtrSaveToDatabase_1_1.setOpaque(false);
-		txtrSaveToDatabase_1_1.setForeground(Color.WHITE);
-		txtrSaveToDatabase_1_1.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrSaveToDatabase_1_1.setBounds(68, 116, 82, 38);
-		panel_3.add(txtrSaveToDatabase_1_1);
+		JTextArea txtrCtrlD = new JTextArea();
+		txtrCtrlD.setText("Save to \r\nDatabase");
+		txtrCtrlD.setOpaque(false);
+		txtrCtrlD.setForeground(Color.WHITE);
+		txtrCtrlD.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrCtrlD.setBounds(65, 116, 82, 38);
+		panelShortcut1.add(txtrCtrlD);
 		
-		JTextArea txtrSaveToDatabase_1_1_1 = new JTextArea();
-		txtrSaveToDatabase_1_1_1.setText("Go to \r\nSuppliers");
-		txtrSaveToDatabase_1_1_1.setOpaque(false);
-		txtrSaveToDatabase_1_1_1.setForeground(Color.WHITE);
-		txtrSaveToDatabase_1_1_1.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrSaveToDatabase_1_1_1.setBounds(68, 161, 82, 38);
-		panel_3.add(txtrSaveToDatabase_1_1_1);
+		JTextArea txtrS = new JTextArea();
+		txtrS.setText("Go to \r\nSuppliers");
+		txtrS.setOpaque(false);
+		txtrS.setForeground(Color.WHITE);
+		txtrS.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrS.setBounds(65, 161, 82, 38);
+		panelShortcut1.add(txtrS);
 		
-		JTextArea txtrSaveToDatabase_1_1_2 = new JTextArea();
-		txtrSaveToDatabase_1_1_2.setText("Go to \r\nProducts");
-		txtrSaveToDatabase_1_1_2.setOpaque(false);
-		txtrSaveToDatabase_1_1_2.setForeground(Color.WHITE);
-		txtrSaveToDatabase_1_1_2.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrSaveToDatabase_1_1_2.setBounds(68, 206, 82, 38);
-		panel_3.add(txtrSaveToDatabase_1_1_2);
+		JTextArea txtrP = new JTextArea();
+		txtrP.setText("Go to \r\nProducts");
+		txtrP.setOpaque(false);
+		txtrP.setForeground(Color.WHITE);
+		txtrP.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrP.setBounds(65, 206, 82, 38);
+		panelShortcut1.add(txtrP);
 		
-		JTextArea txtrSaveToDatabase_1_1_2_1 = new JTextArea();
-		txtrSaveToDatabase_1_1_2_1.setText("Change Mode\r\n(Light/Dark)");
-		txtrSaveToDatabase_1_1_2_1.setOpaque(false);
-		txtrSaveToDatabase_1_1_2_1.setForeground(Color.WHITE);
-		txtrSaveToDatabase_1_1_2_1.setFont(new Font("Monospaced", Font.PLAIN, 12));
-		txtrSaveToDatabase_1_1_2_1.setBounds(58, 252, 82, 38);
-		panel_3.add(txtrSaveToDatabase_1_1_2_1);
+		JTextArea txtrM = new JTextArea();
+		txtrM.setText("Change Mode\r\n(Light/Dark)");
+		txtrM.setOpaque(false);
+		txtrM.setForeground(Color.WHITE);
+		txtrM.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrM.setBounds(53, 252, 82, 38);
+		panelShortcut1.add(txtrM);
 		
-		JPanel bottomPanel_1 = new JPanel();
-		bottomPanel_1.setLayout(null);
-		bottomPanel_1.setBackground(new Color(3, 65, 68));
-		bottomPanel_1.setBounds(0, 54, 35, 684);
-		frame.getContentPane().add(bottomPanel_1);
+		JLabel lblM_1_1 = new JLabel("I");
+		lblM_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblM_1_1.setForeground(Color.WHITE);
+		lblM_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblM_1_1.setBounds(0, 301, 58, 28);
+		panelShortcut1.add(lblM_1_1);
 		
-		JPanel bottomPanel_2 = new JPanel();
-		bottomPanel_2.setLayout(null);
-		bottomPanel_2.setBackground(new Color(64, 128, 128));
-		bottomPanel_2.setBounds(34, 54, 1129, 38);
-		frame.getContentPane().add(bottomPanel_2);
+		JTextArea txtrGoToInventory = new JTextArea();
+		txtrGoToInventory.setText("Go to\r\nInventory");
+		txtrGoToInventory.setOpaque(false);
+		txtrGoToInventory.setForeground(Color.WHITE);
+		txtrGoToInventory.setFont(new Font("Monospaced", Font.PLAIN, 12));
+		txtrGoToInventory.setBounds(63, 298, 72, 38);
+		panelShortcut1.add(txtrGoToInventory);
 		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1.setToolTipText("Mode");
-		btnNewButton_1.setFocusPainted(false);
-		btnNewButton_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1.setBackground(new Color(64, 128, 128));
-		btnNewButton_1.setBounds(315, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1);
+		JPanel sidePanel1 = new JPanel();
+		sidePanel1.setLayout(null);
+		sidePanel1.setBackground(new Color(3, 65, 68));
+		sidePanel1.setBounds(0, 54, 35, 684);
+		frame.getContentPane().add(sidePanel1);
 		
-		JButton btnNewButton_1_1 = new JButton("");
-		btnNewButton_1_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1_1.setToolTipText("Product");
-		btnNewButton_1_1.addMouseListener(new MouseAdapter() {
+		JPanel panelButtons = new JPanel();
+		panelButtons.setLayout(null);
+		panelButtons.setBackground(new Color(64, 128, 128));
+		panelButtons.setBounds(34, 54, 1129, 38);
+		frame.getContentPane().add(panelButtons);
+		
+		JButton btnInventory = new JButton("");
+		btnInventory.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnInventory.setToolTipText("Go to Inventory");
+		btnInventory.setFocusPainted(false);
+		btnInventory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnInventory.setBackground(new Color(64, 128, 128));
+		btnInventory.setBounds(315, 0, 63, 38);
+		panelButtons.add(btnInventory);
+		
+		JButton btnProducts = new JButton("");
+		btnProducts.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnProducts.setToolTipText("Product");
+		btnProducts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
 			}
 		});
-		btnNewButton_1_1.setFocusPainted(false);
-		btnNewButton_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1_1.setBackground(new Color(64, 128, 128));
-		btnNewButton_1_1.setBounds(252, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1_1);
+		btnProducts.setFocusPainted(false);
+		btnProducts.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnProducts.setBackground(new Color(64, 128, 128));
+		btnProducts.setBounds(252, 0, 63, 38);
+		panelButtons.add(btnProducts);
 		
-		JButton btnNewButton_1_1_1 = new JButton("");
-		btnNewButton_1_1_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1_1_1.setToolTipText("Supplier");
-		btnNewButton_1_1_1.setFocusPainted(false);
-		btnNewButton_1_1_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1_1_1.setBackground(new Color(64, 128, 128));
-		btnNewButton_1_1_1.setBounds(189, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1_1_1);
+		JButton btnSupplier = new JButton("");
+		btnSupplier.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnSupplier.setToolTipText("Supplier");
+		btnSupplier.setFocusPainted(false);
+		btnSupplier.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSupplier.setBackground(new Color(64, 128, 128));
+		btnSupplier.setBounds(189, 0, 63, 38);
+		panelButtons.add(btnSupplier);
 		
-		JButton btnNewButton_1_1_2 = new JButton("");
-		btnNewButton_1_1_2.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1_1_2.addMouseListener(new MouseAdapter() {
+		JButton btnPrint = new JButton("");
+		btnPrint.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnPrint.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
@@ -528,36 +540,45 @@ public class ReceivingModern {
 					temp = 0;
 					//lbltotalprice.setText(temp);
 					String change  =String.valueOf(temp);
-			  		lbltotalprice.setText(change);
+			  		txtGrossTotal.setText(change);
 				}catch(Exception exc) {
 					exc.printStackTrace();
 				}
 			}
 		});
-		btnNewButton_1_1_2.setToolTipText("Print");
-		btnNewButton_1_1_2.setFocusPainted(false);
-		btnNewButton_1_1_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1_1_2.setBackground(new Color(64, 128, 128));
-		btnNewButton_1_1_2.setBounds(63, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1_1_2);
+		btnPrint.setToolTipText("Print");
+		btnPrint.setFocusPainted(false);
+		btnPrint.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnPrint.setBackground(new Color(64, 128, 128));
+		btnPrint.setBounds(63, 0, 63, 38);
+		panelButtons.add(btnPrint);
 		
-		JButton btnNewButton_1_1_3 = new JButton("");
-		btnNewButton_1_1_3.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1_1_3.setToolTipText("Send to Database");
-		btnNewButton_1_1_3.setFocusPainted(false);
-		btnNewButton_1_1_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1_1_3.setBackground(new Color(64, 128, 128));
-		btnNewButton_1_1_3.setBounds(0, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1_1_3);
+		JButton btnSendDb = new JButton("");
+		btnSendDb.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnSendDb.setToolTipText("Send to Database");
+		btnSendDb.setFocusPainted(false);
+		btnSendDb.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSendDb.setBackground(new Color(64, 128, 128));
+		btnSendDb.setBounds(0, 0, 63, 38);
+		panelButtons.add(btnSendDb);
 		
-		JButton btnNewButton_1_1_2_1 = new JButton("");
-		btnNewButton_1_1_2_1.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnNewButton_1_1_2_1.setToolTipText("Save as file");
-		btnNewButton_1_1_2_1.setFocusPainted(false);
-		btnNewButton_1_1_2_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnNewButton_1_1_2_1.setBackground(new Color(64, 128, 128));
-		btnNewButton_1_1_2_1.setBounds(126, 0, 63, 38);
-		bottomPanel_2.add(btnNewButton_1_1_2_1);
+		JButton btnSaveFile = new JButton("");
+		btnSaveFile.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnSaveFile.setToolTipText("Save as file");
+		btnSaveFile.setFocusPainted(false);
+		btnSaveFile.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSaveFile.setBackground(new Color(64, 128, 128));
+		btnSaveFile.setBounds(126, 0, 63, 38);
+		panelButtons.add(btnSaveFile);
+		
+		JButton btnMode = new JButton("");
+		btnMode.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnMode.setToolTipText("Mode(Light/Dark)");
+		btnMode.setFocusPainted(false);
+		btnMode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnMode.setBackground(new Color(64, 128, 128));
+		btnMode.setBounds(378, 0, 63, 38);
+		panelButtons.add(btnMode);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(76, 222, 1046, 331);
@@ -581,58 +602,58 @@ public class ReceivingModern {
 		});
 		scrollPane.setViewportView(table);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(226, 226, 226));
-		panel_1.setBounds(34, 218, 42, 412);
-		frame.getContentPane().add(panel_1);
+		JPanel panelTable4 = new JPanel();
+		panelTable4.setBackground(new Color(226, 226, 226));
+		panelTable4.setBounds(34, 218, 42, 412);
+		frame.getContentPane().add(panelTable4);
 		
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBackground(new Color(226, 226, 226));
-		panel_1_1.setBounds(1121, 218, 42, 416);
-		frame.getContentPane().add(panel_1_1);
+		JPanel panelTable2 = new JPanel();
+		panelTable2.setBackground(new Color(226, 226, 226));
+		panelTable2.setBounds(1121, 218, 42, 412);
+		frame.getContentPane().add(panelTable2);
 		
-		JPanel panel_1_1_1 = new JPanel();
-		panel_1_1_1.setBackground(new Color(226, 226, 226));
-		panel_1_1_1.setBounds(34, 93, 1129, 131);
-		frame.getContentPane().add(panel_1_1_1);
-		panel_1_1_1.setLayout(null);
+		JPanel panelTable1 = new JPanel();
+		panelTable1.setBackground(new Color(226, 226, 226));
+		panelTable1.setBounds(34, 93, 1129, 131);
+		frame.getContentPane().add(panelTable1);
+		panelTable1.setLayout(null);
 		
-		Datelbl = new JLabel("");
-		Datelbl.setBounds(1026, 0, 93, 40);
-		panel_1_1_1.add(Datelbl);
-		Datelbl.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		Datelbl.setForeground(new Color(0, 0, 0));
-		Datelbl.setBackground(new Color(255, 255, 255));
+		lblCurrentDate = new JLabel("");
+		lblCurrentDate.setBounds(1026, 0, 93, 40);
+		panelTable1.add(lblCurrentDate);
+		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblCurrentDate.setForeground(new Color(0, 0, 0));
+		lblCurrentDate.setBackground(new Color(255, 255, 255));
 		
 		JLabel lblGrossTotal = new JLabel("Gross Total");
 		lblGrossTotal.setForeground(Color.BLACK);
 		lblGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblGrossTotal.setBounds(810, 87, 116, 33);
-		panel_1_1_1.add(lblGrossTotal);
+		panelTable1.add(lblGrossTotal);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblDate.setBounds(976, 4, 40, 33);
-		panel_1_1_1.add(lblDate);
+		panelTable1.add(lblDate);
 		
 		JLabel lblReceivingId = new JLabel("Receiving ID");
 		lblReceivingId.setForeground(Color.BLACK);
 		lblReceivingId.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblReceivingId.setBounds(41, 6, 85, 29);
-		panel_1_1_1.add(lblReceivingId);
+		panelTable1.add(lblReceivingId);
 		
 		JLabel lblReceiver = new JLabel("Receive by: ");
 		lblReceiver.setForeground(Color.BLACK);
 		lblReceiver.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblReceiver.setBounds(41, 37, 80, 33);
-		panel_1_1_1.add(lblReceiver);
+		panelTable1.add(lblReceiver);
 		
 		txtReceivingId = new JTextField();
 		txtReceivingId.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		txtReceivingId.setColumns(10);
 		txtReceivingId.setBounds(123, 7, 152, 28);
-		panel_1_1_1.add(txtReceivingId);
+		panelTable1.add(txtReceivingId);
 		
 		txtReceiver = new JTextField();
 		txtReceiver.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -640,32 +661,45 @@ public class ReceivingModern {
 		txtReceiver.setBackground(new Color(226, 226, 226));
 		txtReceiver.setColumns(10);
 		txtReceiver.setBounds(123, 37, 187, 28);
-		panel_1_1_1.add(txtReceiver);
+		panelTable1.add(txtReceiver);
 		
-		lbltotalprice = new JLabel("0");
-		lbltotalprice.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lbltotalprice.setOpaque(true);
-		lbltotalprice.setBackground(new Color(255, 255, 255));
-		lbltotalprice.setBounds(924, 86, 159, 38);
-		panel_1_1_1.add(lbltotalprice);
-		lbltotalprice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbltotalprice.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtGrossTotal = new JLabel("0");
+		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtGrossTotal.setOpaque(true);
+		txtGrossTotal.setBackground(new Color(255, 255, 255));
+		txtGrossTotal.setBounds(924, 86, 159, 38);
+		panelTable1.add(txtGrossTotal);
+		txtGrossTotal.setHorizontalAlignment(SwingConstants.LEFT);
+		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		textField = new JTextField();
-		textField.setToolTipText("Search by...");
-		textField.setColumns(10);
-		textField.setBounds(41, 92, 287, 33);
-		panel_1_1_1.add(textField);
+		txtSearchBy = new JTextField();
+		txtSearchBy.setToolTipText("Search by...");
+		txtSearchBy.setColumns(10);
+		txtSearchBy.setBounds(41, 92, 287, 33);
+		panelTable1.add(txtSearchBy);
 		
-		JLabel lblSearchBy = new JLabel("");
-		lblSearchBy.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/search.png")));
-		lblSearchBy.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		lblSearchBy.setToolTipText("Delete");
-		lblSearchBy.setOpaque(true);
-		lblSearchBy.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSearchBy.setBackground(Color.WHITE);
-		lblSearchBy.setBounds(329, 93, 60, 32);
-		panel_1_1_1.add(lblSearchBy);
+		JLabel lblSupplier = new JLabel("Supplier");
+		lblSupplier.setForeground(Color.BLACK);
+		lblSupplier.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblSupplier.setBounds(297, 6, 60, 29);
+		panelTable1.add(lblSupplier);
+		
+		JComboBox SupplierNameCombox = new JComboBox();
+		SupplierNameCombox.setToolTipText("Code");
+		SupplierNameCombox.setMaximumRowCount(2);
+		SupplierNameCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
+		SupplierNameCombox.setEditable(true);
+		SupplierNameCombox.setBounds(358, 6, 168, 30);
+		panelTable1.add(SupplierNameCombox);
+		
+		JButton btnSearchBy = new JButton("");
+		btnSearchBy.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/search.png")));
+		btnSearchBy.setToolTipText("Add");
+		btnSearchBy.setFocusPainted(false);
+		btnSearchBy.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSearchBy.setBackground(new Color(243, 243, 243));
+		btnSearchBy.setBounds(328, 91, 63, 33);
+		panelTable1.add(btnSearchBy);
 		
 	}
 }

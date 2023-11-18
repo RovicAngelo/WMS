@@ -112,12 +112,6 @@ public class Inventory {
 		btnSupplier.setBounds(691, 503, 145, 29);
 		frame.getContentPane().add(btnSupplier);
 		
-		JLabel lblInventoryStatus = new JLabel("Inventory");
-		lblInventoryStatus.setForeground(Color.BLACK);
-		lblInventoryStatus.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblInventoryStatus.setBounds(10, 77, 105, 30);
-		frame.getContentPane().add(lblInventoryStatus);
-		
 		JButton btnCustomer_1 = new JButton("Customer");
 		btnCustomer_1.addMouseListener(new MouseAdapter() {
 			@Override

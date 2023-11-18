@@ -196,7 +196,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	    		ReceivingModern execReceiving = new ReceivingModern();
 	    		
 	    	}else if(e.getSource() == btnOrder) {
-	    		this.dispose();
+	    		//this.dispose(); disabled the dispose method to allow multi instantiation of the frame
 	    		Order execOrder = new Order();
 	    	
 	    	}else if(e.getSource() == btnInventory) {
