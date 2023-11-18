@@ -55,7 +55,7 @@ public class Product {
 		try {		
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			String Query = "select * from phildrinksdb.tblsupplier";
+			String Query = "select Name from phildrinksdb.tblsupplier";
 			rs = st.executeQuery(Query);
 			while(rs.next()) {
 					String supplierName = rs.getString("Name");
@@ -75,6 +75,7 @@ public class Product {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel topPanel = new JPanel();
@@ -168,7 +169,7 @@ public class Product {
 			  	}
 			  });
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnAdd.setBounds(85, 202, 89, 29);
+		btnAdd.setBounds(99, 202, 89, 29);
 		panel.add(btnAdd);
 		
 		JButton btnClear = new JButton("Clear");
@@ -182,7 +183,7 @@ public class Product {
 		  	}
 		  });
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnClear.setBounds(178, 202, 89, 29);
+		btnClear.setBounds(192, 202, 89, 29);
 		panel.add(btnClear);
 		
 		JLabel lblSupplierId = new JLabel("Supplier");
@@ -195,7 +196,7 @@ public class Product {
 		supplierCombox.setMaximumRowCount(2);
 		supplierCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 		supplierCombox.setEditable(true);
-		supplierCombox.setBounds(115, 152, 166, 28);
+		supplierCombox.setBounds(99, 152, 182, 28);
 		panel.add(supplierCombox);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -325,6 +326,12 @@ public class Product {
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDelete.setBounds(181, 71, 89, 29);
 		panel_1.add(btnDelete);			
+		
+		JLabel lblProductId = new JLabel("ProductID");
+		lblProductId.setForeground(Color.BLACK);
+		lblProductId.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblProductId.setBounds(10, 27, 82, 33);
+		panel_1.add(lblProductId);
 		
 		int[] code = {};
 	}

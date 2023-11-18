@@ -1,4 +1,7 @@
-package com.lanuza.form;
+
+   // old receiving  frame codes
+	
+	 package com.lanuza.form;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -16,23 +19,22 @@ import java.time.format.DateTimeFormatter;
 import com.toedter.calendar.JDateChooser;
 import net.proteanit.sql.DbUtils;
 
-public class Receiving {
+public class ReceivingOld {
 
 	private JFrame frame;
 	private JTextField txtQty,txtSearch;
 	private JTable table;
-	private JComboBox supplierNameCombox,productCodeCombox;
+	private JComboBox productCodeCombox;
 	private JDateChooser expDateChooser;
 	private JLabel Datelbl,lbltotalprice;
-	String nameQuery;
+	String nameQuery, supplierQuery;
 	int priceQuery;
 	
-	Receiving() {
+	ReceivingOld() {
 		initialize();
 		Connect();
 		table_load();
 		getDateToday();
-		getSupplier();
 		getProductCode();
 	}
 	
@@ -83,26 +85,7 @@ public class Receiving {
 			e.printStackTrace();
 		}
 	}
-			
-	private void getSupplier() {
-		try {
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
-			st = con.createStatement();
-			String Query = "select * from phildrinksdb.tblsupplier";
-			rs = st.executeQuery(Query);
-			while(rs.next()) {
-				String suppliers = rs.getString("Name");
-				supplierNameCombox.addItem(suppliers);
 				
-			}
-			
-		}catch(Exception e) {
-
-		}
-				
-	}
-	
 	private void getProductCode() {
 		try {			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
@@ -199,10 +182,9 @@ public class Receiving {
 		btnAdd.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
 		  					
-		  		String supplierName,productCode,productName;
+		  		String productCode,productName;
 		  		int qty,tot;		
 		  			  		
-		  		supplierName = supplierNameCombox.getSelectedItem().toString();
 		  		productCode = productCodeCombox.getSelectedItem().toString();
 		  		//we need to get the price and name of product based on productidcombox selection
 		  			  												
@@ -213,11 +195,13 @@ public class Receiving {
 		  		  																	  			  						 		  		
 				try {		
 						String code = productCodeCombox.getSelectedItem().toString();				
-						pst = con.prepareStatement("Select Description,Price from tblproduct where Code =" + code);
+						pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code);
 						rs = pst.executeQuery();					
 						if(rs.next()) {
 							nameQuery = rs.getString("Description");
-							priceQuery = rs.getInt("Price");											
+							priceQuery = rs.getInt("Price");	
+							supplierQuery = rs.getString("Supplier");	
+							
 						}
 						pst.close();
 						
@@ -241,13 +225,13 @@ public class Receiving {
 					*/
 					
 					//to insert the value encoded by the user into the database
-					pst = con.prepareStatement("insert into tblreceiving(SupplierName,ProductCode,ProductDescription,ProductPrice,Qty,ExpDate,Total)values(?,?,?,?,?,?,?)");
-					pst.setString(1, supplierName);
-					pst.setString(2, productCode);
-					pst.setString(3, nameQuery); //this code sets the productname base on the code selected
-					pst.setInt(4, priceQuery); //this code sets the productprice base on the code selected
-					pst.setInt(5, qty);	
-					pst.setDate(6, MyExpDate);
+					pst = con.prepareStatement("insert into tblreceiving(PCode,PDescription,PPrice,Qty,ExpDate,PSupplier,Total)values(?,?,?,?,?,?,?)");
+					pst.setString(1, productCode);
+					pst.setString(2, nameQuery); //this code sets the productname base on the code selected
+					pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
+					pst.setInt(4, qty);	
+					pst.setDate(5, MyExpDate);
+					pst.setString(6, supplierQuery); //this code sets the productsupplier base on the code selected
 					pst.setInt(7, tot);		
 					pst.executeUpdate();
 					
@@ -264,11 +248,11 @@ public class Receiving {
 					JOptionPane.showMessageDialog(null, "Record added");
 					table_load();								
 					
-					supplierNameCombox.setSelectedItem("");
 					productCodeCombox.setSelectedItem("");
 					expDateChooser.setDate(null);
 					txtQty.setText("");	
-					supplierNameCombox.requestFocus();
+					txtSearch.setText("");
+					productCodeCombox.requestFocus();
 					
 					
 				}catch(SQLException el) {
@@ -283,33 +267,21 @@ public class Receiving {
 		txtQty = new JTextField();
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
-		txtQty.setBounds(96, 114, 165, 29);
+		txtQty.setBounds(96, 87, 165, 29);
 		panel.add(txtQty);
-		
-		supplierNameCombox = new JComboBox();
-		supplierNameCombox.setMaximumRowCount(2);
-		supplierNameCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
-		supplierNameCombox.setEditable(true);
-		supplierNameCombox.setBounds(96, 26, 165, 25);
-		panel.add(supplierNameCombox);
 		
 		JLabel lblQty = new JLabel("QTY");
 		lblQty.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblQty.setBounds(17, 115, 46, 25);
+		lblQty.setBounds(25, 88, 46, 25);
 		panel.add(lblQty);
-		
-		JLabel lblSupplierID = new JLabel("Supplier");
-		lblSupplierID.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSupplierID.setBounds(12, 25, 63, 25);
-		panel.add(lblSupplierID);
 		
 		JLabel lblExpDate = new JLabel("Exp Date");
 		lblExpDate.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblExpDate.setBounds(7, 165, 76, 25);
+		lblExpDate.setBounds(12, 147, 76, 25);
 		panel.add(lblExpDate);
 		 
 		expDateChooser = new JDateChooser();	
-		expDateChooser.setBounds(96, 165, 165, 29);
+		expDateChooser.setBounds(96, 143, 165, 29);
 		panel.add(expDateChooser);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -317,17 +289,18 @@ public class Receiving {
 		panel.add(btnUpdate);
 		btnUpdate.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
-		  		if(supplierNameCombox.getSelectedItem().toString().isEmpty()) {
+		  		if(productCodeCombox.getSelectedItem().toString().isEmpty()) {
 		  			JOptionPane.showMessageDialog(null,"Missing information!");
 		  		}else {
 		  			try {
 		  				
 		  				String code = productCodeCombox.getSelectedItem().toString();				
-						pst = con.prepareStatement("Select Description,Price from tblproduct where Code =" + code); //query for product
+						pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code); //query for product
 						rs = pst.executeQuery();					
 						if(rs.next()) {
 							nameQuery = rs.getString("Description");
-							priceQuery = rs.getInt("Price");											
+							priceQuery = rs.getInt("Price");	
+							supplierQuery = rs.getString("Supplier");
 						}
 						pst.close();
 						
@@ -347,13 +320,13 @@ public class Receiving {
 				  		
 				  		
 				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
-				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set SupplierName= ?, ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ? where ReceivingID =" + id);
-						pst.setString(1, supplierNameCombox.getSelectedItem().toString());
-						pst.setString(2, productCodeCombox.getSelectedItem().toString());
-						pst.setString(3, nameQuery); //this code sets the productname base on the code selected
-						pst.setInt(4, priceQuery); //this code sets the productprice base on the code selected
-						pst.setInt(5, Integer.parseInt(txtQty.getText()));	
-						pst.setDate(6, MyExpDate);
+				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set PCode = ?, PDescription = ?, PPrice = ?, Qty = ?, ExpDate =?, PSupplier =?, Total = ? where ReceivingID =" + id);
+						pst.setString(1, productCodeCombox.getSelectedItem().toString());
+						pst.setString(2, nameQuery); //this code sets the productname base on the code selected
+						pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
+						pst.setInt(4, Integer.parseInt(txtQty.getText()));	
+						pst.setDate(5, MyExpDate);
+						pst.setString(6, supplierQuery); //this code sets the productsupplier base on the code selected
 						pst.setInt(7, newtotal);		
 						pst.executeUpdate();
 				  		
@@ -373,7 +346,6 @@ public class Receiving {
 						
 						txtSearch.setText("");
 						productCodeCombox.setSelectedItem("");
-						supplierNameCombox.setSelectedItem("");
 						txtQty.setText("");
 						expDateChooser.setDate(null);
 						txtSearch.requestFocus();
@@ -497,11 +469,11 @@ public class Receiving {
 					table_load();
 					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
 					
-					supplierNameCombox.setSelectedItem("");
 					productCodeCombox.setSelectedItem("");
 					expDateChooser.setDate(null);
 					txtQty.setText("");	
-					supplierNameCombox.requestFocus();					
+					txtSearch.setText("");
+					productCodeCombox.requestFocus();					
 				}catch(SQLException ec) {
 					ec.printStackTrace();
 				}
@@ -511,13 +483,13 @@ public class Receiving {
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		JLabel lblProductID = new JLabel("ProductID");
-		lblProductID.setBounds(7, 71, 81, 25);
+		lblProductID.setBounds(12, 36, 81, 25);
 		panel.add(lblProductID);
 		lblProductID.setFont(new Font("Tahoma", Font.BOLD, 15));
 		
 		productCodeCombox = new JComboBox();	
 		
-		productCodeCombox.setBounds(96, 72, 165, 25);
+		productCodeCombox.setBounds(96, 37, 165, 25);
 		panel.add(productCodeCombox);
 		productCodeCombox.setMaximumRowCount(2);
 		productCodeCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -548,11 +520,11 @@ public class Receiving {
 		btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		
-			  		supplierNameCombox.setSelectedItem("");
 			  		productCodeCombox.setSelectedItem("");
 					txtQty.setText("");
-					expDateChooser.setDateFormatString(null);				
-					supplierNameCombox.requestFocus();
+					expDateChooser.setDateFormatString(null);	
+					txtSearch.setText("");
+					productCodeCombox.requestFocus();
 			  	}
 			  });
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -606,9 +578,8 @@ public class Receiving {
 				
 				String id = table.getModel().getValueAt(Myindex,0).toString();
 				txtSearch.setText(id);
-				supplierNameCombox.setSelectedItem(model.getValueAt(Myindex, 1).toString());
-				productCodeCombox.setSelectedItem(model.getValueAt(Myindex, 2).toString());
-				txtQty.setText(model.getValueAt(Myindex, 5).toString());	
+				productCodeCombox.setSelectedItem(model.getValueAt(Myindex, 1).toString());
+				txtQty.setText(model.getValueAt(Myindex, 4).toString());	
 				//expDateChooser.setDateFormatString(model.getValueAt(Myindex, 6).toString()); // this code is not functioning
 			}
 		});
@@ -685,4 +656,4 @@ public class Receiving {
 		frame.getContentPane().add(bottomPanel_1);
 		
 	}
-}
+}	 
