@@ -21,7 +21,7 @@ public class Order {
 	private JComboBox productCodeCombox, CustomerNameCombox;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private JButton btnAdd, btnUpdate, btnDelete, btnSearchBy,btnPrint,
-	btnProducts, btnSaveFile, btnSendDb,btnInventory, btnSupplier,btnMode;
+	btnProducts, btnSaveFile, btnSendDb,btnStock, btnSupplier,btnMode;
 	String nameQuery, supplierQuery;
 	int priceQuery;
 	
@@ -86,6 +86,24 @@ public class Order {
 		}
 	}
 	
+	void getGrossTotal() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+			st = con.createStatement();
+			String sumOfTotal = "select SUM(Total) FROM tblorder";
+			pst=con.prepareStatement(sumOfTotal);
+			rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				String sum = rs.getString("sum(Total)");
+				txtGrossTotal.setText(sum);					
+			}	
+			pst.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
 	int temp = 0;
 	private JTextField txtOrderId;
 	private JTextField txtSearchBy;
@@ -129,6 +147,10 @@ public class Order {
 		txtSearchId.setColumns(10);
 		
 		btnAdd = new JButton("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAdd.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/2.png")));
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -139,9 +161,10 @@ public class Order {
 				  		String productCode;
 				  		int qty,tot;		
 				  			  		
-				  		productCode = productCodeCombox.getSelectedItem().toString();				  			  												
-				  		qty = Integer.parseInt(txtQty.getText());	
-				  		  																	  			  						 		  		
+				  		productCode = productCodeCombox.getSelectedItem().toString();
+				  		//we need to get the price and name of product based on productidcombox selection
+				  			  												
+				  		qty = Integer.parseInt(txtQty.getText());	  		  																	  			  						 		  		
 						try {		
 								String code = productCodeCombox.getSelectedItem().toString();				
 								pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code);
@@ -157,27 +180,17 @@ public class Order {
 						  		temp = temp + tot;							  		
 						  									
 							//to insert the value encoded by the user into the database
-							pst = con.prepareStatement("insert into tbloder(ProductCode,ProductDescription,ProductPrice,Qty,Total)values(?,?,?,?,?)");
+							pst = con.prepareStatement("insert into tblorder(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier)values(?,?,?,?,?,?)");
 							pst.setString(1, productCode);
 							pst.setString(2, nameQuery); //this code sets the productname base on the code selected
 							pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
 							pst.setInt(4, qty);	
 							pst.setInt(5, tot);		
+							pst.setString(6,supplierQuery);
 							pst.executeUpdate();
-							
-							String sumOfTotal = "select SUM(Total) from tblorder ";
-							pst=con.prepareStatement(sumOfTotal);
-							rs = pst.executeQuery();
-							
-							if(rs.next()) {
-								String sum = rs.getString("sum(Total)");
-								txtGrossTotal.setText(sum);					
-							}	
 							pst.close();
-							
-							JOptionPane.showMessageDialog(null, "Record added");
-							table_load();								
-							
+							getGrossTotal();
+							table_load();	
 							productCodeCombox.setSelectedItem("");
 							txtQty.setText("");	
 							txtSearchId.setText("");
@@ -211,17 +224,10 @@ public class Order {
 					String id = txtSearchId.getText();
 					String Query = "delete from phildrinksdb.tblorder where ID ="+ id;
 					Statement add = con.createStatement();
-					add.executeUpdate(Query);
+					add.executeUpdate(Query);			
+					pst.close();
 					
-					String sumOfTotal = "select SUM(Total) FROM tblorder ";
-					pst=con.prepareStatement(sumOfTotal);
-					rs = pst.executeQuery();
-					
-					if(rs.next()) {
-						String sum = rs.getString("sum(Total)");
-						txtGrossTotal.setText(sum);		
-					}	
-					
+					getGrossTotal();
 					table_load();
 					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
 					
@@ -471,22 +477,28 @@ public class Order {
 		panelButtons.setBounds(34, 54, 1129, 38);
 		frame.getContentPane().add(panelButtons);
 		
-		btnInventory = new JButton("");
-		btnInventory.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnInventory.setToolTipText("Go to Inventory");
-		btnInventory.setFocusPainted(false);
-		btnInventory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnInventory.setBackground(new Color(64, 128, 128));
-		btnInventory.setBounds(315, 0, 63, 38);
-		panelButtons.add(btnInventory);
+		btnStock = new JButton("");
+		btnStock.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock goToStock = new Stock();
+			}
+		});
+		btnStock.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnStock.setToolTipText("Go to Stock");
+		btnStock.setFocusPainted(false);
+		btnStock.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnStock.setBackground(new Color(64, 128, 128));
+		btnStock.setBounds(315, 0, 63, 38);
+		panelButtons.add(btnStock);
 		
 		btnProducts = new JButton("");
 		btnProducts.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnProducts.setToolTipText("Product");
+		btnProducts.setToolTipText("Go to Product");
 		btnProducts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Product goToProduct = new Product();
 			}
 		});
 		btnProducts.setFocusPainted(false);
@@ -496,8 +508,14 @@ public class Order {
 		panelButtons.add(btnProducts);
 		
 		btnSupplier = new JButton("");
+		btnSupplier.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Supplier goToSupplier = new Supplier(); 
+			}
+		});
 		btnSupplier.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnSupplier.setToolTipText("Supplier");
+		btnSupplier.setToolTipText("Go to Supplier");
 		btnSupplier.setFocusPainted(false);
 		btnSupplier.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSupplier.setBackground(new Color(64, 128, 128));
@@ -511,12 +529,6 @@ public class Order {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					table.print();					
-					pst = con.prepareStatement("truncate table phildrinksdb.tblorder");
-					pst.executeUpdate();
-					table_load();
-					temp = 0;
-					String change  =String.valueOf(temp);
-			  		txtGrossTotal.setText(change);
 				}catch(Exception exc) {
 					exc.printStackTrace();
 				}
@@ -530,6 +542,48 @@ public class Order {
 		panelButtons.add(btnPrint);
 		
 		btnSendDb = new JButton("");
+		btnSendDb.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				String queryTrial = "INSERT INTO tblstock (ProductCode, ProductDescription, ProductPrice, Qty, Total, Supplier)"
+				+ "SELECT"
+				+ "r.ProductCode,r.ProductDescription,r.ProductPrice,(o.Qty - r.Qty) AS Qty,"
+				+ "(o.Total - r.Qty) AS Total,r.Supplier"
+				+ "FROM tblorder r"
+				+ "JOIN tblstock o ON r.ProductCode = o.ProductCode"
+				+ "GROUP BY r.ProductCode, r.ProductDescription, r.ProductPrice, r.Qty, r.Total, r.Supplier";
+				
+				String insertQuery = "insert into tblstock o(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) "
+						+ "select r.ProductCode, r.ProductDescription, r.ProductPrice,r.Qty = o.Qty - r.Qty,r.Total = o.Total - r.Qty,r.Supplier from tblreceiving r Group By ProductCode";
+				
+				String deleteQuery = "INSERT INTO tblstock(ProductCode, ProductDescription,ProductPrice,Qty, Total, Supplier)"
+						+ "SELECT o.ProductCode,o.ProductDescription, o.ProductPrice, (s.Qty - o.Qty) AS Qty, (s.Total - o.Total) AS Total, o.Supplier"
+						+ "FROM tblorder o"
+						+ "JOIN tblstock s ON o.ProductCode = s.ProductCode ON DUPLICATE KEY UPDATE"
+						+ "tblstock.Qty = tblstock.Qty-o.Qty, tblstock.Total = tblstock.Total - o.Total";
+				//String deleteQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total),MAX(Supplier) from tblreceiving Group By ProductCode";
+				
+				//String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving Group By ProductCode";
+				//Sql query to select selected data from source table(tblreceiving)
+				//String selectQuery = " select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier) from tblreceiving";
+				try {			
+					
+					st = con.createStatement();
+					st.executeUpdate(deleteQuery);
+					st.close();
+					JOptionPane.showMessageDialog(null, "Table data successfully modified stock");
+					
+					pst = con.prepareStatement("truncate table phildrinksdb.tblorder");
+					pst.executeUpdate();
+					pst.close();			
+					
+					table_load();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		btnSendDb.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
 		btnSendDb.setToolTipText("Send to Database");
 		btnSendDb.setFocusPainted(false);
