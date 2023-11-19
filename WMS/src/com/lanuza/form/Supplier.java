@@ -68,7 +68,7 @@ import net.proteanit.sql.DbUtils;
 			  btnBack.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		frame.dispose();
-			  		Inventory back = new Inventory();
+			  		Stock back = new Stock();
 			  	}
 			  });
 			  btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
