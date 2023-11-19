@@ -525,22 +525,28 @@ public class ReceivingModern {
 		panelButtons.setBounds(34, 54, 1129, 38);
 		frame.getContentPane().add(panelButtons);
 		
-		JButton btnInventory = new JButton("");
-		btnInventory.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnInventory.setToolTipText("Go to Inventory");
-		btnInventory.setFocusPainted(false);
-		btnInventory.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnInventory.setBackground(new Color(64, 128, 128));
-		btnInventory.setBounds(315, 0, 63, 38);
-		panelButtons.add(btnInventory);
+		JButton btnStock = new JButton("");
+		btnStock.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock goTostock = new Stock();
+			}
+		});
+		btnStock.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnStock.setToolTipText("Go to Stock");
+		btnStock.setFocusPainted(false);
+		btnStock.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnStock.setBackground(new Color(64, 128, 128));
+		btnStock.setBounds(315, 0, 63, 38);
+		panelButtons.add(btnStock);
 		
 		JButton btnProducts = new JButton("");
 		btnProducts.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnProducts.setToolTipText("Product");
+		btnProducts.setToolTipText("Go to Product");
 		btnProducts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				Product goToProduct = new Product();
 			}
 		});
 		btnProducts.setFocusPainted(false);
@@ -550,8 +556,14 @@ public class ReceivingModern {
 		panelButtons.add(btnProducts);
 		
 		JButton btnSupplier = new JButton("");
+		btnSupplier.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Supplier goToSupplier = new Supplier();
+			}
+		});
 		btnSupplier.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnSupplier.setToolTipText("Supplier");
+		btnSupplier.setToolTipText("Go to Supplier");
 		btnSupplier.setFocusPainted(false);
 		btnSupplier.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSupplier.setBackground(new Color(64, 128, 128));
@@ -565,13 +577,6 @@ public class ReceivingModern {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					table.print();					
-					pst = con.prepareStatement("truncate table phildrinksdb.tblreceiving");
-					pst.executeUpdate();
-					table_load();
-					temp = 0;
-					//lbltotalprice.setText(temp);
-					String change  =String.valueOf(temp);
-			  		txtGrossTotal.setText(change);
 				}catch(Exception exc) {
 					exc.printStackTrace();
 				}
