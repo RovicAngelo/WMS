@@ -33,6 +33,7 @@ public class ReceivingModern {
 		table_load();
 		getDateToday();
 		getProductCode();
+		getGrossTotal();
 	}
 	
 	Connection con = null;
@@ -85,6 +86,24 @@ public class ReceivingModern {
 			}
 		}catch(Exception e) {
 
+		}
+	}
+	
+	void getGrossTotal() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+			st = con.createStatement();
+			String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
+			pst=con.prepareStatement(sumOfTotal);
+			rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				String sum = rs.getString("sum(Total)");
+				txtGrossTotal.setText(sum);					
+			}	
+			pst.close();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 	
@@ -179,7 +198,7 @@ public class ReceivingModern {
 							pst.setDate(5, MyExpDate);
 							pst.setInt(6, tot);		
 							pst.executeUpdate();
-							
+							/*
 							String sumOfTotal = "select SUM(Total) from tblreceiving ";
 							pst=con.prepareStatement(sumOfTotal);
 							rs = pst.executeQuery();
@@ -191,7 +210,8 @@ public class ReceivingModern {
 							pst.close();
 							
 							JOptionPane.showMessageDialog(null, "Record added");
-							table_load();								
+							table_load();	
+							*/
 							
 							productCodeCombox.setSelectedItem("");
 							expDateChooser.setDate(null);
@@ -229,6 +249,7 @@ public class ReceivingModern {
 					Statement add = con.createStatement();
 					add.executeUpdate(Query);
 					
+					/*
 					String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
 					pst=con.prepareStatement(sumOfTotal);
 					rs = pst.executeQuery();
@@ -237,7 +258,7 @@ public class ReceivingModern {
 						String sum = rs.getString("sum(Total)");
 						txtGrossTotal.setText(sum);		
 					}	
-					
+					*/
 					table_load();
 					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
 					
@@ -309,15 +330,7 @@ public class ReceivingModern {
 				  		//Statement add = con.createStatement();
 		  				//add.executeUpdate(UpdateQuery);
 		  				JOptionPane.showMessageDialog(null,"Record Updated");
-		  				String sumOfTotal = "select SUM(Total) FROM tblreceiving ";
-						pst=con.prepareStatement(sumOfTotal);
-						rs = pst.executeQuery();
-						
-						if(rs.next()) {
-							String sum = rs.getString("sum(Total)");
-							txtGrossTotal.setText(sum);					
-						}	
-						pst.close();
+		  				
 						table_load();	
 						
 						txtSearchId.setText("");
@@ -554,6 +567,13 @@ public class ReceivingModern {
 		panelButtons.add(btnPrint);
 		
 		JButton btnSendDb = new JButton("");
+		btnSendDb.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+			}
+		});
 		btnSendDb.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
 		btnSendDb.setToolTipText("Send to Database");
 		btnSendDb.setFocusPainted(false);
