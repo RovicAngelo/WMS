@@ -76,7 +76,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	        btnInventory = new JButton();
 	        btnInventory.setFocusPainted(false);
 	        btnInventory.setFont(mainFont);
-	        btnInventory.setText("Inventory");
+	        btnInventory.setText("Stock");
 	        btnInventory.setBounds(10, 396, 230, 54);
 	        // inquiryButton.setBackground(new Color(29, 77, 122)); blue
 	        btnInventory.setBackground(new Color(3, 65, 68)); // dark cyan
@@ -201,7 +201,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	    	
 	    	}else if(e.getSource() == btnInventory) {
 		    		this.dispose();
-		    		Inventory execInventory = new Inventory();
+		    		Stock execInventory = new Stock();
 		    		   			   		
 	    	}else if (e.getSource() == btnLogout) {        	
 	        	this.dispose();
