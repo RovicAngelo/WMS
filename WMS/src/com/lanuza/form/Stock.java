@@ -215,35 +215,20 @@ public class Stock {
 		panelButtons.setBounds(34, 54, 1129, 38);
 		frame.getContentPane().add(panelButtons);
 		
-		JButton btnProducts = new JButton("");
-		btnProducts.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnProducts.setToolTipText("Product");
-		btnProducts.addMouseListener(new MouseAdapter() {
+		JButton btnBack = new JButton("");
+		btnBack.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnBack.setToolTipText("Back");
+		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Product goToProduct = new Product(); 
 			}
 		});
-		btnProducts.setFocusPainted(false);
-		btnProducts.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnProducts.setBackground(new Color(64, 128, 128));
-		btnProducts.setBounds(189, 0, 63, 38);
-		panelButtons.add(btnProducts);
-		
-		JButton btnSupplier = new JButton("");
-		btnSupplier.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Supplier goToSupplier = new Supplier();
-			}
-		});
-		btnSupplier.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
-		btnSupplier.setToolTipText("Supplier");
-		btnSupplier.setFocusPainted(false);
-		btnSupplier.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSupplier.setBackground(new Color(64, 128, 128));
-		btnSupplier.setBounds(126, 0, 63, 38);
-		panelButtons.add(btnSupplier);
+		btnBack.setFocusPainted(false);
+		btnBack.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnBack.setBackground(new Color(64, 128, 128));
+		btnBack.setBounds(0, 0, 63, 38);
+		panelButtons.add(btnBack);
 		
 		JButton btnPrint = new JButton("");
 		btnPrint.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
@@ -261,7 +246,7 @@ public class Stock {
 		btnPrint.setFocusPainted(false);
 		btnPrint.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnPrint.setBackground(new Color(64, 128, 128));
-		btnPrint.setBounds(63, 0, 63, 38);
+		btnPrint.setBounds(126, 0, 63, 38);
 		panelButtons.add(btnPrint);
 		
 		JButton btnSaveFile = new JButton("");
@@ -270,7 +255,7 @@ public class Stock {
 		btnSaveFile.setFocusPainted(false);
 		btnSaveFile.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSaveFile.setBackground(new Color(64, 128, 128));
-		btnSaveFile.setBounds(0, 0, 63, 38);
+		btnSaveFile.setBounds(63, 0, 63, 38);
 		panelButtons.add(btnSaveFile);
 		
 		JButton btnMode = new JButton("");
@@ -279,7 +264,7 @@ public class Stock {
 		btnMode.setFocusPainted(false);
 		btnMode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnMode.setBackground(new Color(64, 128, 128));
-		btnMode.setBounds(252, 0, 63, 38);
+		btnMode.setBounds(189, 0, 63, 38);
 		panelButtons.add(btnMode);
 		
 		JScrollPane scrollPane = new JScrollPane();

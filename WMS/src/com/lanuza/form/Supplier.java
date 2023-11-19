@@ -57,7 +57,7 @@ import net.proteanit.sql.DbUtils;
 		public void initialize() {	
 			frame = new JFrame();
 			frame.setTitle("PhilDrinks"); // set the title if Frame
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit the application
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // exit the application
 			frame.setResizable(false);
 			frame.setSize(1000, 600);
 			frame.setLocationRelativeTo(null);
