@@ -21,7 +21,7 @@ public class ReceivingModern {
 	private JFrame frame;
 	private JTextField txtQty,txtSearchId;
 	private JTable table;
-	private JComboBox productCodeCombox;
+	private JComboBox productCodeCombox,SupplierNameCombox;
 	private JDateChooser expDateChooser;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	String nameQuery, supplierQuery;
@@ -32,12 +32,13 @@ public class ReceivingModern {
 		Connect();
 		table_load();
 		getDateToday();
+		getSupplierName();
 		getProductCode();
 		getGrossTotal();
 	}
 	
 	Connection con = null;
-	PreparedStatement pst;
+	PreparedStatement pst,pst1;
 	ResultSet rs= null;
 	Statement st= null;
 	java.util.Date EDate;
@@ -72,21 +73,35 @@ public class ReceivingModern {
 			e.printStackTrace();
 		}
 	}
-				
-	private void getProductCode() {
+	
+	void getSupplierName() {
 		try {			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			String Query = "select * from phildrinksdb.tblproduct";
+			String Query = "select Supplier from phildrinksdb.tblproduct";
 			rs = st.executeQuery(Query);
 			
 			while(rs.next()) {
-				String productCodes = rs.getString("Code");		
-				productCodeCombox.addItem(productCodes);
+				String supplierName = rs.getString("Supplier");		
+				SupplierNameCombox.addItem(supplierName);
 			}
 		}catch(Exception e) {
-
-		}
+	  }
+	}
+	
+	void getProductCode() {
+		try {			
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+			st = con.createStatement();
+			String Query = "select Code from phildrinksdb.tblproduct";
+			rs = st.executeQuery(Query);
+			
+			while(rs.next()) {
+				String code = rs.getString("Code");		
+				productCodeCombox.addItem(code);
+			}
+		}catch(Exception e) {
+	  }
 	}
 	
 	void getGrossTotal() {
@@ -190,13 +205,14 @@ public class ReceivingModern {
 						  		temp = temp + tot;							  		
 						  									
 							//to insert the value encoded by the user into the database
-							pst = con.prepareStatement("insert into tblreceiving(ProductCode,ProductDescription,ProductPrice,Qty,ExpDate,Total)values(?,?,?,?,?,?)");
+							pst = con.prepareStatement("insert into tblreceiving(ProductCode,ProductDescription,ProductPrice,Qty,ExpDate,Total,Supplier)values(?,?,?,?,?,?,?)");
 							pst.setString(1, productCode);
 							pst.setString(2, nameQuery); //this code sets the productname base on the code selected
 							pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
 							pst.setInt(4, qty);	
 							pst.setDate(5, MyExpDate);
 							pst.setInt(6, tot);		
+							pst.setString(7,supplierQuery);
 							pst.executeUpdate();
 							/*
 							String sumOfTotal = "select SUM(Total) from tblreceiving ";
@@ -209,10 +225,10 @@ public class ReceivingModern {
 							}	
 							pst.close();
 							
-							JOptionPane.showMessageDialog(null, "Record added");
-							table_load();	
+							JOptionPane.showMessageDialog(null, "Record added");					
 							*/
-							
+							getGrossTotal();
+							table_load();	
 							productCodeCombox.setSelectedItem("");
 							expDateChooser.setDate(null);
 							txtQty.setText("");	
@@ -259,6 +275,7 @@ public class ReceivingModern {
 						txtGrossTotal.setText(sum);		
 					}	
 					*/
+					getGrossTotal();
 					table_load();
 					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
 					
@@ -318,19 +335,20 @@ public class ReceivingModern {
 				  		
 				  		
 				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
-				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ? where ID =" + id);
+				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ?, Supplier = ? where ID =" + id);
 						pst.setString(1, productCodeCombox.getSelectedItem().toString());
 						pst.setString(2, nameQuery); //this code sets the productname base on the code selected
 						pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
 						pst.setInt(4, Integer.parseInt(txtQty.getText()));	
 						pst.setDate(5, MyExpDate);
-						pst.setInt(6, newtotal);		
+						pst.setInt(6, newtotal);	
+						pst.setString(7, supplierQuery);
 						pst.executeUpdate();
 				  		
 				  		//Statement add = con.createStatement();
 		  				//add.executeUpdate(UpdateQuery);
 		  				JOptionPane.showMessageDialog(null,"Record Updated");
-		  				
+		  				getGrossTotal();
 						table_load();	
 						
 						txtSearchId.setText("");
@@ -570,7 +588,24 @@ public class ReceivingModern {
 		btnSendDb.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				String supplier =  SupplierNameCombox.getSelectedItem().toString();
+				//sql query to insert selected data into destination table(tblstock)
+				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving";
+				//Sql query to select selected data from source table(tblreceiving)
+				//String selectQuery = " select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier) from tblreceiving";
+				try {			
+					
+					st = con.createStatement();
+					st.executeUpdate(insertQuery);
+					st.close();
+					JOptionPane.showMessageDialog(null, "Table data successfully transferred to stock");
+					pst = con.prepareStatement("truncate table phildrinksdb.tblreceiving");
+					pst.executeUpdate();
+					pst.close();				
+					table_load();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
 				
 			}
 		});
@@ -704,7 +739,7 @@ public class ReceivingModern {
 		lblSupplier.setBounds(297, 6, 60, 29);
 		panelTable1.add(lblSupplier);
 		
-		JComboBox SupplierNameCombox = new JComboBox();
+		SupplierNameCombox = new JComboBox();
 		SupplierNameCombox.setToolTipText("Code");
 		SupplierNameCombox.setMaximumRowCount(2);
 		SupplierNameCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
