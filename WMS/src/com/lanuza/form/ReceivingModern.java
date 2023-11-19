@@ -335,7 +335,7 @@ public class ReceivingModern {
 				  		
 				  		
 				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
-				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ?, Supplier = ? where ID =" + id);
+				  		pst = con.prepareStatement("Update phildrinksdb.tblorder set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ?, Supplier = ? where ID =" + id);
 						pst.setString(1, productCodeCombox.getSelectedItem().toString());
 						pst.setString(2, nameQuery); //this code sets the productname base on the code selected
 						pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
@@ -590,12 +590,17 @@ public class ReceivingModern {
 		panelButtons.add(btnPrint);
 		
 		JButton btnSendDb = new JButton("");
+		btnSendDb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSendDb.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String supplier =  SupplierNameCombox.getSelectedItem().toString();
 				//sql query to insert selected data into destination table(tblstock)
-				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving";
+				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total),MAX(Supplier) from tblreceiving Group By ProductCode";
+				//String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving Group By ProductCode";
 				//Sql query to select selected data from source table(tblreceiving)
 				//String selectQuery = " select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier) from tblreceiving";
 				try {			
@@ -604,9 +609,11 @@ public class ReceivingModern {
 					st.executeUpdate(insertQuery);
 					st.close();
 					JOptionPane.showMessageDialog(null, "Table data successfully transferred to stock");
+					
 					pst = con.prepareStatement("truncate table phildrinksdb.tblreceiving");
 					pst.executeUpdate();
-					pst.close();				
+					pst.close();			
+					
 					table_load();
 				} catch (Exception e2) {
 					// TODO: handle exception

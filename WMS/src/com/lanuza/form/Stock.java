@@ -20,6 +20,7 @@ public class Stock {
 		initialize();
 		Connect();
 		table_load();
+		getGrossTotal();
 	}
 	
 	Connection con = null;
@@ -39,22 +40,34 @@ public class Stock {
 	}
 	
 	void table_load() {
-		try {
-			
+		try {		
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			rs = st.executeQuery("Select * from phildrinksdb.tblstock");
-			while(rs.next()) {
-				String grossTotal = rs.getString("sum(Total)");		
-				txtGrossTotal.setText(grossTotal);
-			}
-			
+			rs = st.executeQuery("Select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total),MAX(Supplier) from phildrinksdb.tblstock GROUP BY ProductCode");		
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-	}		
+	}	
+	
+	void getGrossTotal() {
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
+			st = con.createStatement();
+			String sumOfTotal = "select SUM(Total) FROM tblstock ";
+			pst=con.prepareStatement(sumOfTotal);
+			rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				String sum = rs.getString("SUM(Total)");
+				txtGrossTotal.setText(sum);					
+			}	
+			pst.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 		
 	int temp = 0;
 	private JTextField txtSearchBy;
@@ -221,7 +234,8 @@ public class Stock {
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Product goToProduct = new Product(); 
+				frame.dispose();
+				Dashboard goToDashboard = new Dashboard(); 
 			}
 		});
 		btnBack.setFocusPainted(false);
