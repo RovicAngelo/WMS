@@ -23,7 +23,7 @@ public class Order {
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private JButton btnAdd, btnUpdate, btnDelete, btnSearchBy,btnPrint,
 	btnProducts, btnSaveFile, btnProcess,btnStock, btnCustomer,btnMode;
-	String codeQuery;
+	int codeQuery;
 	
 	Order() {
 		initialize();
@@ -263,10 +263,10 @@ public class Order {
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					String productCode,customer;
+					String customer;
 			  		int qty,price,tot,availability;		
 			  			  		
-			  		productCode = productNameCombox.getSelectedItem().toString();
+			  		String selectedProduct = (String) productNameCombox.getSelectedItem();	
 			  		customer = CustomerNameCombox.getSelectedItem().toString();
 			  		//we need to get the price and name of product based on productidcombox selection
 			  		availability=Integer.parseInt(txtAvailability.getText());  												
@@ -280,11 +280,11 @@ public class Order {
 				}else if( qty <= availability){
 					
 					try {		
-						String selectedProduct = (String) productNameCombox.getSelectedItem();		
+							
 							pst = con.prepareStatement("Select ProductCode from tblproduct where ProductDescription ="+ selectedProduct);	
 							rs = pst.executeQuery();					
 							if(rs.next()) {
-								codeQuery = rs.getString("ProductCode");									
+								codeQuery = rs.getInt("ProductCode");									
 							}
 							pst.close();
 							
@@ -293,7 +293,7 @@ public class Order {
 					  									
 						//to insert the value encoded by the user into the database
 						pst = con.prepareStatement("insert into tblorder(ProductCode,ProductDescription,ProductPrice,Qty,Total,Customer)values(?,?,?,?,?,?)");
-						pst.setString(1, productCode);
+						pst.setInt(1, codeQuery);
 						pst.setString(2, selectedProduct);
 						pst.setInt(3, price);
 						pst.setInt(4, qty);	
@@ -371,11 +371,9 @@ public class Order {
 		btnDelete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				if(txtProductCode.getText().isEmpty()) {
-		  			JOptionPane.showMessageDialog(null,"Select a order item to be deleted");
+		  			JOptionPane.showMessageDialog(null,"Select an item to be deleted");
 		  		}else {
-
 	
 				try {
 					String id = txtProductCode.getText();
@@ -413,39 +411,44 @@ public class Order {
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+					
+				
 				if(productNameCombox.getSelectedItem().toString().isEmpty() && txtProductCode.getText().isEmpty() && txtQty.getText().isEmpty()) {
 		  			JOptionPane.showMessageDialog(null,"Missing information!");
 		  		}else {
 		  			try {
 		  				
-		  				String code = productNameCombox.getSelectedItem().toString();				
-						pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code); //query for product
+		  				String customer, selectedProduct;
+						selectedProduct = (String) productNameCombox.getSelectedItem();				
+						pst = con.prepareStatement("Select ProductCode from tblproduct where ProductDescription =" + selectedProduct); //query for product
 						rs = pst.executeQuery();					
 						if(rs.next()) {
-							nameQuery = rs.getString("Description");
-							priceQuery = rs.getInt("Price");	
-							supplierQuery = rs.getString("Supplier");
+							codeQuery = rs.getInt("ProductCode");
 						}
 						pst.close();
 						
+						int newtotal,oldqty,oldprice, price, Myindex;
+						customer = (String) CustomerNameCombox.getSelectedItem();	
+						
 						//to get the receiving id of selected row
-						int Myindex = table.getSelectedRow();			
+						Myindex = table.getSelectedRow();			
 						String id = table.getModel().getValueAt(Myindex,0).toString();
 						
-		  				//to update the total in the tblreceiving based on the selected row
-		  				int newtotal,oldqty,oldprice;
+		  				
 		  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield
+		  				price = Integer.parseInt(txtPrice.getText());
 		  				  				
-		  				oldprice = priceQuery;//to get the current price in the textfield
-		  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 				  		
-				  		
+		  				oldprice = price;//to get the current price in the textfield
+		  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 		
+		  				
 				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
-				  		pst = con.prepareStatement("Update phildrinksdb.tblorder set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?,  Total = ? where ID =" + id);
-						pst.setString(1, productNameCombox.getSelectedItem().toString());
-						pst.setString(2, nameQuery); //this code sets the productname base on the code selected
-						pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
+				  		pst = con.prepareStatement("Update phildrinksdb.tblorder set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?,  Total = ?, Customer = ? where ID =" + id);
+						pst.setInt(1, codeQuery);
+						pst.setString(2, selectedProduct); //this code sets the productname base on the code selected
+						pst.setInt(3, price); //this code sets the productprice base on the code selected
 						pst.setInt(4, Integer.parseInt(txtQty.getText()));	
-						pst.setInt(5, newtotal);		
+						pst.setInt(5, newtotal);	
+						pst.setString(6, customer);
 						pst.executeUpdate();
 				  		
 				  		//Statement add = con.createStatement();
