@@ -23,8 +23,7 @@ public class Order {
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private JButton btnAdd, btnUpdate, btnDelete, btnSearchBy,btnPrint,
 	btnProducts, btnSaveFile, btnProcess,btnStock, btnCustomer,btnMode;
-	String nameQuery, supplierQuery;
-	int priceQuery;
+	String codeQuery;
 	
 	Order() {
 		initialize();
@@ -264,48 +263,51 @@ public class Order {
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (productNameCombox.getSelectedItem().toString().isEmpty() && txtProductCode.getText().isEmpty() && txtQty.getText().isEmpty()) {
+					String productCode,customer;
+			  		int qty,price,tot,availability;		
+			  			  		
+			  		productCode = productNameCombox.getSelectedItem().toString();
+			  		customer = CustomerNameCombox.getSelectedItem().toString();
+			  		//we need to get the price and name of product based on productidcombox selection
+			  		availability=Integer.parseInt(txtAvailability.getText());  												
+			  		qty = Integer.parseInt(txtQty.getText());	
+			  		price = Integer.parseInt(txtPrice.getText());	
+				if (productNameCombox.getSelectedItem().toString().isEmpty() && CustomerNameCombox.getSelectedItem().toString().isEmpty() && txtQty.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null,"Missing information!");
-				}else {
-				  		String productCode;
-				  		int qty,tot;		
-				  			  		
-				  		productCode = productNameCombox.getSelectedItem().toString();
-				  		//we need to get the price and name of product based on productidcombox selection
-				  			  												
-				  		qty = Integer.parseInt(txtQty.getText());	  		  																	  			  						 		  		
-						try {		
-								String code = productNameCombox.getSelectedItem().toString();				
-								pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code);
-								rs = pst.executeQuery();					
-								if(rs.next()) {
-									nameQuery = rs.getString("Description");
-									priceQuery = rs.getInt("Price");	
-									supplierQuery = rs.getString("Supplier");										
-								}
-								pst.close();
-								
-								tot = qty * priceQuery;	  		
-						  		temp = temp + tot;							  		
-						  									
-							//to insert the value encoded by the user into the database
-							pst = con.prepareStatement("insert into tblorder(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier)values(?,?,?,?,?,?)");
-							pst.setString(1, productCode);
-							pst.setString(2, nameQuery); //this code sets the productname base on the code selected
-							pst.setInt(3, priceQuery); //this code sets the productprice base on the code selected
-							pst.setInt(4, qty);	
-							pst.setInt(5, tot);		
-							pst.setString(6,supplierQuery);
-							pst.executeUpdate();
-							pst.close();
-							getGrossTotal();
-							table_load();	
-							productNameCombox.setSelectedItem("");
-							txtQty.setText("");	
-							txtProductCode.setText("");
-							productNameCombox.requestFocus();
+				}else if( qty > availability){
+					JOptionPane.showMessageDialog(null,"Please lower your selected quantity!");	
 					
-						}catch(SQLException el) {
+				}else if( qty <= availability){
+					
+					try {		
+						String selectedProduct = (String) productNameCombox.getSelectedItem();		
+							pst = con.prepareStatement("Select ProductCode from tblproduct where ProductDescription ="+ selectedProduct);	
+							rs = pst.executeQuery();					
+							if(rs.next()) {
+								codeQuery = rs.getString("ProductCode");									
+							}
+							pst.close();
+							
+							tot = qty * price;	  		
+					  		temp = temp + tot;							  		
+					  									
+						//to insert the value encoded by the user into the database
+						pst = con.prepareStatement("insert into tblorder(ProductCode,ProductDescription,ProductPrice,Qty,Total,Customer)values(?,?,?,?,?,?)");
+						pst.setString(1, productCode);
+						pst.setString(2, selectedProduct);
+						pst.setInt(3, price);
+						pst.setInt(4, qty);	
+						pst.setInt(5, tot);		
+						pst.setString(6,customer);
+						pst.executeUpdate();
+						pst.close();
+						getGrossTotal();
+						table_load();	
+						productNameCombox.setSelectedItem("");
+						txtQty.setText("");	
+						txtProductCode.setText("");
+						productNameCombox.requestFocus();
+					}catch(SQLException el) {
 							el.printStackTrace();
 						}
 					  }
