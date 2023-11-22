@@ -376,7 +376,9 @@ public class Order {
 		  		}else {
 	
 				try {
-					String id = txtProductCode.getText();
+					int Myindex = table.getSelectedRow();			
+					String id = table.getModel().getValueAt(Myindex,0).toString();
+					
 					String Query = "delete from phildrinksdb.tblorder where ID ="+ id;
 					Statement add = con.createStatement();
 					add.executeUpdate(Query);			
