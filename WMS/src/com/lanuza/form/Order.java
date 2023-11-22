@@ -1,6 +1,5 @@
 package com.lanuza.form;
 
-import javax.swing.table.DefaultTableModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
@@ -20,7 +19,7 @@ public class Order {
 	private JFrame frame;
 	private JTextField txtQty,txtProductCode;
 	private JTable table;
-	private JComboBox productNameCombox,CustomerNameCombox;
+	private JComboBox<String> productNameCombox,CustomerNameCombox;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private JButton btnAdd, btnUpdate, btnDelete, btnSearchBy,btnPrint,
 	btnProducts, btnSaveFile, btnProcess,btnStock, btnCustomer,btnMode;
@@ -68,7 +67,7 @@ public class Order {
 			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			rs = st.executeQuery("Select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total),MAX(Supplier) from phildrinksdb.tblstock GROUP BY ProductCode");
+			rs = st.executeQuery("Select OrderID, MAX(ProductCode), MAX(ProductDescription) AS ProductDescription, MAX(ProductPrice) AS ProductPrice,SUM(Qty) AS Qty,SUM(Total) AS Total,MAX(Customer) AS Customer from phildrinksdb.tblorder GROUP BY OrderID");
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			
 		}catch(SQLException e) {
@@ -318,7 +317,7 @@ public class Order {
 		btnAdd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnAdd.setBackground(new Color(243, 243, 243));
 		
-		productNameCombox = new JComboBox();
+		productNameCombox = new JComboBox<String>();
 		productNameCombox.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -355,7 +354,7 @@ public class Order {
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
 		
-		CustomerNameCombox = new JComboBox();
+		CustomerNameCombox = new JComboBox<String>();
 		CustomerNameCombox.setBounds(102, 80, 251, 31);
 		panel_1.add(CustomerNameCombox);
 		CustomerNameCombox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -673,7 +672,7 @@ public class Order {
 		btnStock.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Stock goToStock = new Stock();
+				new Stock();
 			}
 		});
 		btnStock.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
@@ -690,7 +689,7 @@ public class Order {
 		btnProducts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Product goToProduct = new Product();
+				new Product();
 			}
 		});
 		btnProducts.setFocusPainted(false);
@@ -703,7 +702,7 @@ public class Order {
 		btnCustomer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Customer goToCustomer = new Customer(); 
+				new Customer(); 
 			}
 		});
 		btnCustomer.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
@@ -822,9 +821,8 @@ public class Order {
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
-				int Myindex = table.getSelectedRow();
-				
+				table.getModel();
+				int Myindex = table.getSelectedRow();	
 				String id = table.getModel().getValueAt(Myindex,0).toString();
 				txtProductCode.setText(id);	
 			}
