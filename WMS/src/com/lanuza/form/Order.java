@@ -17,7 +17,7 @@ import javax.swing.border.EtchedBorder;
 public class Order {
 
 	private JFrame frame;
-	private JTextField txtQty,txtProductCode;
+	private JTextField txtQty,txtOrderId,txtSearchBy,txtAvailability,txtPrice;
 	private JTable table;
 	private JComboBox<String> productNameCombox,CustomerNameCombox;
 	private JLabel lblCurrentDate,txtGrossTotal;
@@ -66,7 +66,7 @@ public class Order {
 			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			rs = st.executeQuery("Select OrderID, MAX(ProductCode), MAX(ProductDescription) AS ProductDescription, MAX(ProductPrice) AS ProductPrice,SUM(Qty) AS Qty,SUM(Total) AS Total,MAX(Customer) AS Customer from phildrinksdb.tblorder GROUP BY OrderID");
+			rs = st.executeQuery("Select * from phildrinksdb.tblorder");
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			
 		}catch(SQLException e) {
@@ -182,10 +182,7 @@ public class Order {
 	}
 	
 	int temp = 0;
-	private JTextField txtOrderId;
-	private JTextField txtSearchBy;
-	private JTextField txtAvailability;
-	private JTextField txtPrice;
+
 	
 	private void initialize() {
 		frame = new JFrame();
@@ -255,64 +252,64 @@ public class Order {
 		btnAdd = new JButton("");
 		btnAdd.setBounds(296, 132, 63, 38);
 		panel_1.add(btnAdd);
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnAdd.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/2.png")));
+		
 		btnAdd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					String customer;
-			  		int qty,price,tot,availability;		
-			  			  		
-			  		String selectedProduct = (String) productNameCombox.getSelectedItem();	
-			  		customer = CustomerNameCombox.getSelectedItem().toString();
-			  		//we need to get the price and name of product based on productidcombox selection
-			  		availability=Integer.parseInt(txtAvailability.getText());  												
-			  		qty = Integer.parseInt(txtQty.getText());	
-			  		price = Integer.parseInt(txtPrice.getText());	
-				if (productNameCombox.getSelectedItem().toString().isEmpty() && CustomerNameCombox.getSelectedItem().toString().isEmpty() && txtQty.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null,"Missing information!");
-				}else if( qty > availability){
-					JOptionPane.showMessageDialog(null,"Please lower your selected quantity!");	
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        String customer;
+		        int qty, price, tot, availability;
+		        
+		        String selectedProduct = (String) productNameCombox.getSelectedItem();
+		        customer = CustomerNameCombox.getSelectedItem().toString();
+		        availability = Integer.parseInt(txtAvailability.getText());
+		        qty = Integer.parseInt(txtQty.getText());
+		        price = Integer.parseInt(txtPrice.getText());
+			  					  					
+		        if (selectedProduct.isEmpty() || customer.isEmpty() || txtQty.getText().isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Missing information!");
+		        } else if (qty > availability) {
+		            JOptionPane.showMessageDialog(null, "Please lower your selected quantity!");
 					
-				}else if( qty <= availability){
-					
-					try {		
-							
-							pst = con.prepareStatement("Select ProductCode from tblproduct where ProductDescription ="+ selectedProduct);	
-							rs = pst.executeQuery();					
-							if(rs.next()) {
-								codeQuery = rs.getInt("ProductCode");									
-							}
-							pst.close();
-							
-							tot = qty * price;	  		
-					  		temp = temp + tot;							  		
-					  									
-						//to insert the value encoded by the user into the database
-						pst = con.prepareStatement("insert into tblorder(ProductCode,ProductDescription,ProductPrice,Qty,Total,Customer)values(?,?,?,?,?,?)");
-						pst.setInt(1, codeQuery);
-						pst.setString(2, selectedProduct);
-						pst.setInt(3, price);
-						pst.setInt(4, qty);	
-						pst.setInt(5, tot);		
-						pst.setString(6,customer);
-						pst.executeUpdate();
-						pst.close();
-						getGrossTotal();
-						table_load();	
-						productNameCombox.setSelectedItem("");
-						txtQty.setText("");	
-						txtProductCode.setText("");
-						productNameCombox.requestFocus();
+		        } else {
+		            try {
+		                pst = con.prepareStatement("SELECT Code FROM tblproduct WHERE Description = ?");
+		                pst.setString(1, selectedProduct);
+		                rs = pst.executeQuery();
+		                
+		                if (rs.next()) {
+		                    codeQuery = rs.getInt("Code");
+		                }
+		                
+		                pst.close();
+		                tot = qty * price;
+		                temp = temp + tot;
+					  							  							 					  									
+		                pst = con.prepareStatement("INSERT INTO tblorder(ProductCode, ProductDescription, ProductPrice, Qty, Total, Customer) VALUES (?, ?, ?, ?, ?, ?)");
+		                pst.setInt(1, codeQuery);
+		                pst.setString(2, selectedProduct);
+		                pst.setInt(3, price);
+		                pst.setInt(4, qty);
+		                pst.setInt(5, tot);
+		                pst.setString(6, customer);
+		                pst.executeUpdate();
+		                pst.close();
+		                
+		                getGrossTotal();
+		                table_load();
+		                productNameCombox.setSelectedItem("");
+		                txtQty.setText("");
+		                txtAvailability.setText("");
+		                txtPrice.setText("");
+		                productNameCombox.requestFocus();
+																	
 					}catch(SQLException el) {
 							el.printStackTrace();
-						}
-					  }
+					}
+				}
 			}
-		});
+		});			
+
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.setToolTipText("Add");
 		btnAdd.setFocusPainted(false);
@@ -337,18 +334,7 @@ public class Order {
 		productNameCombox.setMaximumRowCount(2);
 		productNameCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 		productNameCombox.setEditable(true);
-		/*
-		// Assuming productNameCombox is a JComboBox<String>
-		productNameCombox.addActionListener(new ActionListener() {
-			
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        if (productNameCombox.getSelectedItem() != null) {
-		            getProductDetail();
-		        }
-		    }
-		});
-		*/
+		
 		txtQty = new JTextField();
 		txtQty.setBounds(453, 27, 126, 31);
 		panel_1.add(txtQty);
@@ -369,35 +355,38 @@ public class Order {
 		btnDelete.setBounds(369, 132, 63, 38);
 		panel_1.add(btnDelete);
 		btnDelete.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(txtProductCode.getText().isEmpty()) {
-		  			JOptionPane.showMessageDialog(null,"Select an item to be deleted");
-		  		}else {
-	
-				try {
-					int Myindex = table.getSelectedRow();			
-					String id = table.getModel().getValueAt(Myindex,0).toString();
-					
-					String Query = "delete from phildrinksdb.tblorder where ID ="+ id;
-					Statement add = con.createStatement();
-					add.executeUpdate(Query);			
-					pst.close();
-					
-					getGrossTotal();
-					table_load();
-					JOptionPane.showMessageDialog(null,"Record Deleted Successfully");			
-					
-					productNameCombox.setSelectedItem("");
-					txtQty.setText("");	
-					txtProductCode.setText("");
-					productNameCombox.requestFocus();					
-				}catch(SQLException ec) {
-					ec.printStackTrace();
-				}
-		  	  }	
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        if (txtOrderId.getText().isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Select an item to be deleted");
+		        } else {
+		            try {
+		                int myIndex = table.getSelectedRow();
+		                String id = table.getModel().getValueAt(myIndex, 0).toString();
+
+		                // Use PreparedStatement to prevent SQL injection
+		                String query = "DELETE FROM phildrinksdb.tblorder WHERE ID = ?";
+		                try (PreparedStatement pstDelete = con.prepareStatement(query)) {
+		                    pstDelete.setInt(1, Integer.parseInt(id));
+		                    pstDelete.executeUpdate();
+		                }
+
+		                getGrossTotal();
+		                table_load();
+		                JOptionPane.showMessageDialog(null, "Record Deleted Successfully");
+
+		                productNameCombox.setSelectedItem("");
+		                txtQty.setText("");
+		                txtAvailability.setText("");
+		                txtPrice.setText("");
+		                productNameCombox.requestFocus();
+		            } catch (SQLException ec) {
+		                ec.printStackTrace();
+		            }
+		        }
+		    }
 		});
+
 		btnDelete.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/6.png")));
 		btnDelete.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDelete.setToolTipText("Delete");
@@ -411,72 +400,84 @@ public class Order {
 		btnUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUpdate.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/5.png")));
 		btnUpdate.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					
-				
-				if(productNameCombox.getSelectedItem().toString().isEmpty() && txtProductCode.getText().isEmpty() && txtQty.getText().isEmpty()) {
-		  			JOptionPane.showMessageDialog(null,"Missing information!");
-		  		}else {
-		  			try {
-		  				
-		  				String customer, selectedProduct;
-						selectedProduct = (String) productNameCombox.getSelectedItem();				
-						pst = con.prepareStatement("Select ProductCode from tblproduct where ProductDescription =" + selectedProduct); //query for product
-						rs = pst.executeQuery();					
-						if(rs.next()) {
-							codeQuery = rs.getInt("ProductCode");
-						}
-						pst.close();
-						
-						int newtotal,oldqty,oldprice, price, Myindex;
-						customer = (String) CustomerNameCombox.getSelectedItem();	
-						
-						//to get the receiving id of selected row
-						Myindex = table.getSelectedRow();			
-						String id = table.getModel().getValueAt(Myindex,0).toString();
-						
-		  				
-		  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield
-		  				price = Integer.parseInt(txtPrice.getText());
-		  				  				
-		  				oldprice = price;//to get the current price in the textfield
-		  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 		
-		  				
-				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
-				  		pst = con.prepareStatement("Update phildrinksdb.tblorder set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?,  Total = ?, Customer = ? where ID =" + id);
-						pst.setInt(1, codeQuery);
-						pst.setString(2, selectedProduct); //this code sets the productname base on the code selected
-						pst.setInt(3, price); //this code sets the productprice base on the code selected
-						pst.setInt(4, Integer.parseInt(txtQty.getText()));	
-						pst.setInt(5, newtotal);	
-						pst.setString(6, customer);
-						pst.executeUpdate();
-				  		
-				  		//Statement add = con.createStatement();
-		  				//add.executeUpdate(UpdateQuery);
-		  				JOptionPane.showMessageDialog(null,"Record Updated");
-		  				String sumOfTotal = "select SUM(Total) FROM tblorder ";
-						pst=con.prepareStatement(sumOfTotal);
-						rs = pst.executeQuery();
-						
-						if(rs.next()) {
-							String sum = rs.getString("sum(Total)");
-							txtGrossTotal.setText(sum);					
-						}	
-						pst.close();
-						table_load();	
-						
-						txtProductCode.setText("");
-						productNameCombox.setSelectedItem("");
-						txtQty.setText("");
-						txtProductCode.requestFocus();	  				
-		  			}catch(SQLException ex) {
-		  				ex.printStackTrace();
-		  			}
-		  		}
-			}
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        String customer, selectedProduct;
+		        int newtotal, oldqty, oldprice, price, myIndex;
+
+		        customer = (String) CustomerNameCombox.getSelectedItem();
+		        selectedProduct = (String) productNameCombox.getSelectedItem();
+
+		        // Get the selected row index from the table
+		        myIndex = table.getSelectedRow();
+
+		        // Ensure a row is selected
+		        if (myIndex == -1) {
+		            JOptionPane.showMessageDialog(null, "Please select a row to update.");
+		            return;
+		        }
+
+		        // Get the ID from the selected row
+		        String id = table.getModel().getValueAt(myIndex, 0).toString();
+
+		        oldqty = Integer.parseInt(txtQty.getText());
+		        price = Integer.parseInt(txtPrice.getText());
+
+		        if (selectedProduct.isEmpty() || txtOrderId.getText().isEmpty() || txtQty.getText().isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Missing information!");
+		        } else {
+		            try {
+		                // Query to get the product code based on the product description
+		                pst = con.prepareStatement("SELECT Code FROM tblproduct WHERE Description = ?");
+		                pst.setString(1, selectedProduct);
+		                rs = pst.executeQuery();
+
+		                if (rs.next()) {
+		                    codeQuery = rs.getInt("Code");
+		                }
+
+		                pst.close();
+
+		                oldprice = price;
+		                newtotal = oldqty * oldprice;
+
+		                // Update query using a parameterized PreparedStatement
+		                pst = con.prepareStatement("UPDATE phildrinksdb.tblorder SET ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, Total = ?, Customer = ? WHERE ID = ?");
+		                pst.setInt(1, codeQuery);
+		                pst.setString(2, selectedProduct);
+		                pst.setInt(3, price);
+		                pst.setInt(4, oldqty);
+		                pst.setInt(5, newtotal);
+		                pst.setString(6, customer);
+		                pst.setInt(7, Integer.parseInt(id));
+		                pst.executeUpdate();
+
+		                JOptionPane.showMessageDialog(null, "Record Updated");
+
+		                // Update the gross total
+		                String sumOfTotal = "SELECT SUM(Total) FROM tblorder";
+		                pst = con.prepareStatement(sumOfTotal);
+		                rs = pst.executeQuery();
+
+		                if (rs.next()) {
+		                    String sum = rs.getString("sum(Total)");
+		                    txtGrossTotal.setText(sum);
+		                }
+
+		                pst.close();
+		                table_load();
+
+		                txtOrderId.setText("");
+		                productNameCombox.setSelectedItem("");
+		                txtQty.setText("");
+		                txtOrderId.requestFocus();
+		            } catch (SQLException ex) {
+		                ex.printStackTrace();
+		            }
+		        }
+		    }
 		});
+
 		btnUpdate.setToolTipText("Update");
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -503,18 +504,18 @@ public class Order {
 		btnClear.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnClear.setBackground(new Color(243, 243, 243));
 		
-		txtProductCode = new JTextField();
-		txtProductCode.setBounds(99, 11, 66, 31);
-		panelTable3.add(txtProductCode);
-		txtProductCode.setEditable(false);
-		txtProductCode.setBackground(new Color(240, 240, 240));
-		txtProductCode.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		txtProductCode.setToolTipText("Id");
-		txtProductCode.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtProductCode.setColumns(10);
+		txtOrderId = new JTextField();
+		txtOrderId.setBounds(100, 11, 66, 31);
+		panelTable3.add(txtOrderId);
+		txtOrderId.setEditable(false);
+		txtOrderId.setBackground(new Color(240, 240, 240));
+		txtOrderId.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		txtOrderId.setToolTipText("Id");
+		txtOrderId.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtOrderId.setColumns(10);
 		
 		JLabel lblSupplier_1_1 = new JLabel("Order Id");
-		lblSupplier_1_1.setBounds(38, 11, 60, 29);
+		lblSupplier_1_1.setBounds(44, 12, 54, 29);
 		panelTable3.add(lblSupplier_1_1);
 		lblSupplier_1_1.setForeground(Color.BLACK);
 		lblSupplier_1_1.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -824,14 +825,12 @@ public class Order {
 		
 		
 		table = new JTable();
-		//table.adjustColumn();
-		//table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				table.getModel();
 				int Myindex = table.getSelectedRow();	
 				String id = table.getModel().getValueAt(Myindex,0).toString();
-				txtProductCode.setText(id);	
+				txtOrderId.setText(id);	
 			}
 		});
 		scrollPane.setViewportView(table);
