@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import net.proteanit.sql.DbUtils;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.border.EtchedBorder;
 
 public class Order {
@@ -24,6 +25,7 @@ public class Order {
 	private JButton btnAdd, btnUpdate, btnDelete, btnSearchBy,btnPrint,
 	btnProducts, btnSaveFile, btnProcess,btnStock, btnCustomer,btnMode;
 	int codeQuery;
+	
 	
 	Order() {
 		initialize();
@@ -131,20 +133,44 @@ public class Order {
 	}
 	*/
 	private void getProductDetail(String selectedProduct) {
+	    int currentQty = 0; // Initialize currentQty outside try blocks
+	    int availability, price, newAvailableQty;
+	    
 	    try {
-	        pst = con.prepareStatement("SELECT Sum(Qty), Max(ProductPrice) FROM phildrinksdb.tblstock WHERE ProductDescription = ?");
+	        // Query to get the total quantity ordered for the selected product
+	        pst = con.prepareStatement("SELECT SUM(Qty) AS TotalQty FROM phildrinksdb.tblorder WHERE ProductDescription = ?");
 	        pst.setString(1, selectedProduct);
 	        rs = pst.executeQuery();
 
 	        while (rs.next()) {
-	            String availability = rs.getString("Sum(Qty)");
-	            String price = rs.getString("Max(ProductPrice)");
-	            txtAvailability.setText(availability);
-	            txtPrice.setText(price);
+	            currentQty = rs.getInt("TotalQty");
 	        }
+	        pst.close();
 	    } catch (Exception e) {
 	        e.printStackTrace(); // Handle the exception appropriately
 	    }
+
+	    try {
+	        // Query to get the total quantity and maximum price from the stock for the selected product
+	        pst = con.prepareStatement("SELECT SUM(Qty) AS TotalQty, MAX(ProductPrice) AS MaxPrice FROM phildrinksdb.tblstock WHERE ProductDescription = ?");
+	        pst.setString(1, selectedProduct);
+	        rs = pst.executeQuery();
+
+	        while (rs.next()) {
+	            availability = rs.getInt("TotalQty");
+	            price = rs.getInt("MaxPrice");
+
+	            newAvailableQty = availability - currentQty;
+
+	            txtAvailability.setText(String.valueOf(newAvailableQty));
+	            txtPrice.setText(String.valueOf(price));
+	        }
+	        pst.close();
+	       
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Handle the exception appropriately
+	    }
+	    table_load();
 	}
 
 	
@@ -361,11 +387,15 @@ public class Order {
 		            JOptionPane.showMessageDialog(null, "Select an item to be deleted");
 		        } else {
 		            try {
+		            	/*
 		                int myIndex = table.getSelectedRow();
 		                String id = table.getModel().getValueAt(myIndex, 0).toString();
-
+						*/
+		            	
+		            	String id = txtOrderId.getText();
+		            	
 		                // Use PreparedStatement to prevent SQL injection
-		                String query = "DELETE FROM phildrinksdb.tblorder WHERE ID = ?";
+		                String query = "DELETE FROM phildrinksdb.tblorder WHERE OrderID = ?";
 		                try (PreparedStatement pstDelete = con.prepareStatement(query)) {
 		                    pstDelete.setInt(1, Integer.parseInt(id));
 		                    pstDelete.executeUpdate();
@@ -496,6 +526,17 @@ public class Order {
 		panel_1.add(lblSupplier_1_6);
 		
 		JButton btnClear = new JButton("");
+		btnClear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtOrderId.setText("");
+				txtAvailability.setText("");
+				txtPrice.setText("");
+				productNameCombox.setSelectedItem("");
+				CustomerNameCombox.setSelectedItem("");
+				txtQty.setText("");
+			}
+		});
 		btnClear.setBounds(442, 132, 63, 38);
 		panel_1.add(btnClear);
 		btnClear.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -824,15 +865,54 @@ public class Order {
 		frame.getContentPane().add(scrollPane);
 		
 		
-		table = new JTable();
+		table = new JTable();		
 		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				table.getModel();
-				int Myindex = table.getSelectedRow();	
-				String id = table.getModel().getValueAt(Myindex,0).toString();
-				txtOrderId.setText(id);	
-			}
+		    public void mouseClicked(MouseEvent e) {
+		        DefaultTableModel model = (DefaultTableModel) table.getModel();
+		        int Myindex = table.getSelectedRow();
+
+		        String id = model.getValueAt(Myindex, 0).toString();
+		        String productName = model.getValueAt(Myindex, 2).toString();
+		        int qty = Integer.parseInt(model.getValueAt(Myindex, 4).toString());
+
+		        try {
+		            // Query to get the total quantity ordered for the selected product
+		            int currentQty = 0;
+		            try (PreparedStatement pst = con.prepareStatement("SELECT SUM(Qty) AS TotalQty FROM phildrinksdb.tblorder WHERE ProductDescription = ?")) {
+		                pst.setString(1, productName);
+		                try (ResultSet rs = pst.executeQuery()) {
+		                    while (rs.next()) {
+		                        currentQty = rs.getInt("TotalQty");
+		                    }
+		                }
+		            }
+
+		            // Query to get the total quantity and maximum price from the stock for the selected product
+		            try (PreparedStatement pst = con.prepareStatement("SELECT SUM(Qty) AS TotalQty, MAX(ProductPrice) AS MaxPrice FROM phildrinksdb.tblstock WHERE ProductDescription = ?")) {
+		                pst.setString(1, productName);
+		                try (ResultSet rs = pst.executeQuery()) {
+		                    while (rs.next()) {
+		                        int availability = rs.getInt("TotalQty");
+		                        int price = rs.getInt("MaxPrice");
+
+		                        int newAvailableQty = availability - currentQty;
+
+		                        txtAvailability.setText(String.valueOf(newAvailableQty));
+		                        txtPrice.setText(String.valueOf(price));
+		                    }
+		                }
+		            }
+		        } catch (SQLException ex) {
+		            ex.printStackTrace(); // Handle the exception appropriately (log or display an error message)
+		        }
+
+		        txtOrderId.setText(id);
+		        productNameCombox.setSelectedItem(productName);
+		        txtQty.setText(String.valueOf(qty));
+		        CustomerNameCombox.setSelectedItem(model.getValueAt(Myindex, 6).toString());
+		    }
 		});
+
 		scrollPane.setViewportView(table);
 		
 		JPanel panelTable4 = new JPanel();
