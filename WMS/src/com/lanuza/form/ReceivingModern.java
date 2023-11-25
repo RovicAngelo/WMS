@@ -303,25 +303,26 @@ public class ReceivingModern {
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String selectedProduct = (String) productNameCombox.getSelectedItem();	
-				//to get the receiving id of selected row
-				int Myindex = table.getSelectedRow();			
-				String id = table.getModel().getValueAt(Myindex,0).toString();
+				int newtotal,oldqty,oldprice,id;
 				
-  				//to update the total in the tblreceiving based on the selected row
-  				int newtotal,oldqty,oldprice;
-  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield				  				
-  				oldprice = priceQuery;//to get the current price in the textfield
-  				newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
+				String selectedProduct = (String) productNameCombox.getSelectedItem();	
+				//to get the receiving id of selected row			
+				id = Integer.parseInt(txtSearchId.getText());						 	  				
+  				oldqty = Integer.parseInt(txtQty.getText());//to get the current qty in the textfield				  										
   				
 		  		EDate = expDateChooser.getDate();
 		  		MyExpDate = new java.sql.Date(EDate.getTime());		
 		  		
-				if(productNameCombox.getSelectedItem().toString().isEmpty() && txtSearchId.getText().isEmpty() && txtQty.getText().isEmpty()) {
+		        if (id == -1) {
+		            JOptionPane.showMessageDialog(null, "Please select a row to update.");
+		            return;
+		        }
+		  		
+				if(selectedProduct.isEmpty() && txtSearchId.getText().isEmpty() && txtQty.getText().isEmpty()) {
 		  			JOptionPane.showMessageDialog(null,"Missing information!");
 		  		}else {
 		  			try {		  				  							
-						pst = con.prepareStatement("Select ProductCode,ProductPrice, Supplier from tblproduct where ProductDescription =?"); //query for product
+						pst = con.prepareStatement("SELECT ProductCode,ProductPrice, Supplier FROM tblproduct WHERE ProductDescription =?"); //query for product
 						pst.setString(1, selectedProduct);
 						rs = pst.executeQuery();					
 						if(rs.next()) {
@@ -330,6 +331,9 @@ public class ReceivingModern {
 							supplierQuery = rs.getString("Supplier");
 						}
 						pst.close();
+						
+						oldprice = priceQuery;//to get the current price in the textfield
+						newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
 															  		
 				  		//String UpdateQuery = "Update phildrinksdb.tblreceiving set SupplierName= '" + supplierNameCombox.getSelectedItem().toString()+ "',ProductCode = '"+productCodeCombox.getSelectedItem().toString()+"',ProductName = '"+nameQuery+"',ProductPrice = '"+priceQuery+ "',Qty = '"+txtQty.getText()+"',ExpDate ='"+MyExpDate+"',Total = '"+newtotal+ "' where ReceivingID ='"+txtSearch.getText()+"'";
 				  		pst = con.prepareStatement("Update phildrinksdb.tblreceiving set ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, ExpDate =?, Total = ?, Supplier = ? where ID =" + id);
@@ -359,7 +363,7 @@ public class ReceivingModern {
 		  		}
 			}
 		});
-		btnUpdate.setToolTipText("Update");
+		btnUpdate.setToolTipText("Add");
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnUpdate.setBackground(new Color(243, 243, 243));

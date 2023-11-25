@@ -423,10 +423,6 @@ public class Order {
 		btnDelete.setBackground(new Color(243, 243, 243));
 		
 		btnUpdate = new JButton("");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnUpdate.setBounds(515, 132, 63, 38);
 		panel_1.add(btnUpdate);
 		btnUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -451,7 +447,7 @@ public class Order {
 		            return;
 		        }
 
-		        if (selectedProduct.isEmpty() || txtOrderId.getText().isEmpty() || txtQty.getText().isEmpty()) {
+		        if (selectedProduct.isEmpty() && txtOrderId.getText().isEmpty() && txtQty.getText().isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Missing information!");
 		        } else {
 		            try {
