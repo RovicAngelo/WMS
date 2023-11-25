@@ -599,7 +599,7 @@ public class ReceivingModern {
 			public void mouseClicked(MouseEvent e) {
 				String supplier =  SupplierNameCombox.getSelectedItem().toString();
 				//sql query to insert selected data into destination table(tblstock)
-				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total),MAX(Supplier) from tblreceiving Group By ProductCode";
+				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total) from tblreceiving Group By ProductCode";
 				//String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving Group By ProductCode";
 				//Sql query to select selected data from source table(tblreceiving)
 				//String selectQuery = " select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier) from tblreceiving";

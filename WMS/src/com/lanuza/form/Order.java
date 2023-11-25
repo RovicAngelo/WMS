@@ -26,7 +26,6 @@ public class Order {
 	btnProducts, btnSaveFile, btnProcess,btnStock, btnCustomer,btnMode;
 	int codeQuery;
 	
-	
 	Order() {
 		initialize();
 		Connect();
@@ -341,8 +340,8 @@ public class Order {
 		btnAdd.setFocusPainted(false);
 		btnAdd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnAdd.setBackground(new Color(243, 243, 243));
-		
-		productNameCombox = new JComboBox<String>();
+				
+		productNameCombox = new JComboBox<String>();						
 		productNameCombox.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -351,8 +350,7 @@ public class Order {
 		            getProductDetail(selectedProduct);
 		        }
 		    }
-		});
-
+		});	
 		productNameCombox.setBounds(102, 27, 251, 31);
 		panel_1.add(productNameCombox);
 		productNameCombox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -425,6 +423,10 @@ public class Order {
 		btnDelete.setBackground(new Color(243, 243, 243));
 		
 		btnUpdate = new JButton("");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnUpdate.setBounds(515, 132, 63, 38);
 		panel_1.add(btnUpdate);
 		btnUpdate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -437,21 +439,17 @@ public class Order {
 
 		        customer = (String) CustomerNameCombox.getSelectedItem();
 		        selectedProduct = (String) productNameCombox.getSelectedItem();
-
-		        // Get the selected row index from the table
-		        myIndex = table.getSelectedRow();
-
+		        oldqty = Integer.parseInt(txtQty.getText());
+		        price = Integer.parseInt(txtPrice.getText());
+		        // Get the ID from the selected row
+		        int id = Integer.parseInt(txtOrderId.getText());			        	        
+		       
+		        
 		        // Ensure a row is selected
-		        if (myIndex == -1) {
+		        if (id == -1) {
 		            JOptionPane.showMessageDialog(null, "Please select a row to update.");
 		            return;
 		        }
-
-		        // Get the ID from the selected row
-		        String id = table.getModel().getValueAt(myIndex, 0).toString();
-
-		        oldqty = Integer.parseInt(txtQty.getText());
-		        price = Integer.parseInt(txtPrice.getText());
 
 		        if (selectedProduct.isEmpty() || txtOrderId.getText().isEmpty() || txtQty.getText().isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Missing information!");
@@ -472,14 +470,14 @@ public class Order {
 		                newtotal = oldqty * oldprice;
 
 		                // Update query using a parameterized PreparedStatement
-		                pst = con.prepareStatement("UPDATE phildrinksdb.tblorder SET ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, Total = ?, Customer = ? WHERE ID = ?");
+		                pst = con.prepareStatement("UPDATE phildrinksdb.tblorder SET ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Qty = ?, Total = ?, Customer = ? WHERE OrderID = ?");
 		                pst.setInt(1, codeQuery);
 		                pst.setString(2, selectedProduct);
 		                pst.setInt(3, price);
 		                pst.setInt(4, oldqty);
 		                pst.setInt(5, newtotal);
 		                pst.setString(6, customer);
-		                pst.setInt(7, Integer.parseInt(id));
+		                pst.setInt(7, id);
 		                pst.executeUpdate();
 
 		                JOptionPane.showMessageDialog(null, "Record Updated");
@@ -527,16 +525,17 @@ public class Order {
 		
 		JButton btnClear = new JButton("");
 		btnClear.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {			
+				// Clear other fields
 				txtOrderId.setText("");
 				txtAvailability.setText("");
 				txtPrice.setText("");
-				productNameCombox.setSelectedItem("");
 				CustomerNameCombox.setSelectedItem("");
 				txtQty.setText("");
-			}
+		    }
 		});
+
 		btnClear.setBounds(442, 132, 63, 38);
 		panel_1.add(btnClear);
 		btnClear.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -785,7 +784,7 @@ public class Order {
 		btnProcess.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				/*
 				String checkTotalString = "Select Total from tblorder where ProductCode = 114547";
 				
 				String queryMethod = "UPDATE tblstock s "
@@ -794,15 +793,18 @@ public class Order {
 						+ "s.Qty = GREATEST(s.Qty - COALESCE(o.Qty, 0), 0), "
 						+ "s.Total = GREATEST(s.Total - COALESCE(o.Total, 0), 0) "
 						+ "WHERE o.Total <= s.Total; ";
-				/*
-				String queryTrial = "INSERT INTO tblstock (ProductCode, ProductDescription, ProductPrice, Qty, Total, Supplier)"
-				+ "SELECT"
-				+ "r.ProductCode,r.ProductDescription,r.ProductPrice,(o.Qty - r.Qty) AS Qty,"
-				+ "(o.Total - r.Qty) AS Total,r.Supplier"
-				+ "FROM tblorder r"
-				+ "JOIN tblstock o ON r.ProductCode = o.ProductCode"
-				+ "GROUP BY r.ProductCode, r.ProductDescription, r.ProductPrice, r.Qty, r.Total, r.Supplier";
+				*/
+				String deleteQuery = "UPDATE tblstock s "
+						+ "JOIN tblorder o ON s.ProductDescription = o.ProductDescription "
+						+ "SET "
+						+ "    s.Qty = CASE WHEN (s.Qty - o.Qty) < 0 THEN 0 ELSE (s.Qty - o.Qty) END, "
+						+ "    s.Total = CASE WHEN (s.Total - o.Total) < 0 THEN 0 ELSE (s.Total - o.Total) END;"
+						+ "";
 				
+				
+				
+				
+				/*
 				String insertQuery = "insert into tblstock o(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) "
 						+ "select r.ProductCode, r.ProductDescription, r.ProductPrice,r.Qty = o.Qty - r.Qty,r.Total = o.Total - r.Qty,r.Supplier from tblreceiving r Group By ProductCode";
 				
@@ -820,14 +822,14 @@ public class Order {
 				try {			
 					
 					st = con.createStatement();
-					st.executeUpdate(queryMethod);
+					st.executeUpdate(deleteQuery);
 					st.close();
 					JOptionPane.showMessageDialog(null, "Table data successfully modified stock");
-					/*
+					
 					pst = con.prepareStatement("truncate table phildrinksdb.tblorder");
 					pst.executeUpdate();
 					pst.close();			
-					*/
+					
 					table_load();
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -865,13 +867,13 @@ public class Order {
 		frame.getContentPane().add(scrollPane);
 		
 		
-		table = new JTable();		
+		table = new JTable();			
 		table.addMouseListener(new MouseAdapter() {
 		    public void mouseClicked(MouseEvent e) {
 		        DefaultTableModel model = (DefaultTableModel) table.getModel();
 		        int Myindex = table.getSelectedRow();
 
-		        String id = model.getValueAt(Myindex, 0).toString();
+	            String id = model.getValueAt(Myindex, 0).toString();
 		        String productName = model.getValueAt(Myindex, 2).toString();
 		        int qty = Integer.parseInt(model.getValueAt(Myindex, 4).toString());
 
@@ -909,10 +911,9 @@ public class Order {
 		        txtOrderId.setText(id);
 		        productNameCombox.setSelectedItem(productName);
 		        txtQty.setText(String.valueOf(qty));
-		        CustomerNameCombox.setSelectedItem(model.getValueAt(Myindex, 6).toString());
+		        CustomerNameCombox.setSelectedItem(model.getValueAt(Myindex, 6).toString());	 
 		    }
 		});
-
 		scrollPane.setViewportView(table);
 		
 		JPanel panelTable4 = new JPanel();
