@@ -77,12 +77,12 @@ public class Order {
 	
 	private void populateProductComboBox() {
 	    try {
-	        pst = con.prepareStatement("select Description from phildrinksdb.tblproduct");
+	        pst = con.prepareStatement("select ProductDescription from phildrinksdb.tblproduct");
 	        rs = pst.executeQuery();
 
 	        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 	        while (rs.next()) {
-	            model.addElement(rs.getString("Description"));
+	            model.addElement(rs.getString("ProductDescription"));
 	        }
 
 	        productNameCombox.setModel(model);
@@ -298,7 +298,7 @@ public class Order {
 					
 		        } else {
 		            try {
-		                pst = con.prepareStatement("SELECT Code FROM tblproduct WHERE Description = ?");
+		                pst = con.prepareStatement("SELECT ProductCode FROM tblproduct WHERE ProductDescription = ?");
 		                pst.setString(1, selectedProduct);
 		                rs = pst.executeQuery();
 		                
@@ -456,7 +456,7 @@ public class Order {
 		        } else {
 		            try {
 		                // Query to get the product code based on the product description
-		                pst = con.prepareStatement("SELECT Code FROM tblproduct WHERE Description = ?");
+		                pst = con.prepareStatement("SELECT ProductCode FROM tblproduct WHERE ProductDescription = ?");
 		                pst.setString(1, selectedProduct);
 		                rs = pst.executeQuery();
 

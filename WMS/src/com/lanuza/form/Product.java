@@ -43,7 +43,7 @@ public class Product {
 	
 	void table_load() {
 		try {
-			pst = con.prepareStatement("Select * from tblproduct");
+			pst = con.prepareStatement("Select ProductID,ProductCode,ProductDescription,ProductPrice,Supplier from tblproduct");
 			rs = pst.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		}catch(SQLException e) {
@@ -142,19 +142,27 @@ public class Product {
 			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
 			  		}else {
 			  		String description,supplier;
-			  		int code,price;
+			  		int code,price,qty= 0,total=0;
 			  		code = Integer.parseInt(txtCode.getText());
 			  		description = txtDescription.getText();
 			  		price =  Integer.parseInt(txtPrice.getText());
-			  		supplier = supplierCombox.getSelectedItem().toString();
+			  		supplier = supplierCombox.getSelectedItem().toString();			 
 					
-					try {
-						pst = con.prepareStatement("insert into tblproduct(Code,Description,Price,Supplier)values(?,?,?,?)");
+			  		try {			  						
+				  		pst = con.prepareStatement("insert into tblproduct(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier)values(?,?,?,?,?,?)");
 						pst.setInt(1,code);
 						pst.setString(2, description);
 						pst.setInt(3, price);
-						pst.setString(4, supplier);
+						pst.setInt(4, qty);
+						pst.setInt(5, total);
+						pst.setString(6, supplier);
 						pst.executeUpdate();
+						pst.close();
+				  		//query to add the product in stock with empty qty and total
+				  		String addProductInStockQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total) select ProductCode, ProductDescription, ProductPrice,Qty,Total from tblproduct";
+				  		st = con.createStatement();
+						st.executeUpdate(addProductInStockQuery);
+						st.close();
 						JOptionPane.showMessageDialog(null, "Record added");
 						table_load();
 						txtCode.setText("");
@@ -266,7 +274,7 @@ public class Product {
 			  				supplier = supplierCombox.getSelectedItem().toString();
 			  				id = Integer.parseInt(txtId.getText());
 							
-							pst = con.prepareStatement("update tblproduct set Code=?,Description=?,Price=?,Supplier=? where ProductID = ?");
+							pst = con.prepareStatement("update tblproduct set ProductCode=?,ProductDescription=?,ProductPrice=?,Supplier=? where ProductID = ?");
 							pst.setInt(1, code);
 							pst.setString(2, description);
 							pst.setInt(3, price);

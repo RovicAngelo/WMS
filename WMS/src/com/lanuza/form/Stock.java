@@ -43,7 +43,7 @@ public class Stock {
 		try {		
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			rs = st.executeQuery("Select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total) from phildrinksdb.tblstock GROUP BY ProductCode");		
+			rs = st.executeQuery("Select ProductCode, MAX(ProductDescription) AS ProductDescription, MAX(ProductPrice) AS ProductPrice,SUM(Qty) AS Quantity,SUM(Total) AS Total from phildrinksdb.tblstock GROUP BY ProductCode");		
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			
 		}catch(SQLException e) {

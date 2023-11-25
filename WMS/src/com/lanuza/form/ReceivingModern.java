@@ -21,7 +21,7 @@ public class ReceivingModern {
 	private JFrame frame;
 	private JTextField txtQty,txtSearchId;
 	private JTable table;
-	private JComboBox productCodeCombox,SupplierNameCombox;
+	private JComboBox<String> productCodeCombox,SupplierNameCombox;
 	private JDateChooser expDateChooser;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	String nameQuery, supplierQuery;
@@ -93,11 +93,11 @@ public class ReceivingModern {
 		try {			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/phildrinksdb","root","114547");
 			st = con.createStatement();
-			String Query = "select Code from phildrinksdb.tblproduct";
+			String Query = "select ProductCode from phildrinksdb.tblproduct";
 			rs = st.executeQuery(Query);
 			
 			while(rs.next()) {
-				String code = rs.getString("Code");		
+				String code = rs.getString("ProductCode");		
 				productCodeCombox.addItem(code);
 			}
 		}catch(Exception e) {
@@ -149,7 +149,7 @@ public class ReceivingModern {
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
 		
-		productCodeCombox = new JComboBox();
+		productCodeCombox = new JComboBox<String>();
 		productCodeCombox.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		productCodeCombox.setToolTipText("Code");
 		productCodeCombox.setBounds(113, 3, 360, 38);
@@ -192,7 +192,7 @@ public class ReceivingModern {
 				  		  																	  			  						 		  		
 						try {		
 								String code = productCodeCombox.getSelectedItem().toString();				
-								pst = con.prepareStatement("Select Description,Price, Supplier from tblproduct where Code =" + code);
+								pst = con.prepareStatement("Select ProductDescription,ProductPrice, Supplier from tblproduct where ProductCode =" + code);
 								rs = pst.executeQuery();					
 								if(rs.next()) {
 									nameQuery = rs.getString("Description");
@@ -529,7 +529,7 @@ public class ReceivingModern {
 		btnStock.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Stock goTostock = new Stock();
+				new Stock();
 			}
 		});
 		btnStock.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
@@ -546,7 +546,7 @@ public class ReceivingModern {
 		btnProducts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Product goToProduct = new Product();
+				new Product();
 			}
 		});
 		btnProducts.setFocusPainted(false);
@@ -559,7 +559,7 @@ public class ReceivingModern {
 		btnSupplier.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Supplier goToSupplier = new Supplier();
+				new Supplier();
 			}
 		});
 		btnSupplier.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
@@ -597,16 +597,12 @@ public class ReceivingModern {
 		btnSendDb.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String supplier =  SupplierNameCombox.getSelectedItem().toString();
 				//sql query to insert selected data into destination table(tblstock)
-				String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total) from tblreceiving Group By ProductCode";
-				//String insertQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total,Supplier) select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier from tblreceiving Group By ProductCode";
-				//Sql query to select selected data from source table(tblreceiving)
-				//String selectQuery = " select ProductCode, ProductDescription, ProductPrice,Qty,Total,Supplier) from tblreceiving";
+				String addInStockQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total) select ProductCode, MAX(ProductDescription), MAX(ProductPrice),SUM(Qty),SUM(Total) from tblreceiving Group By ProductCode";
 				try {			
 					
 					st = con.createStatement();
-					st.executeUpdate(insertQuery);
+					st.executeUpdate(addInStockQuery);
 					st.close();
 					JOptionPane.showMessageDialog(null, "Table data successfully transferred to stock");
 					
@@ -751,7 +747,7 @@ public class ReceivingModern {
 		lblSupplier.setBounds(297, 6, 60, 29);
 		panelTable1.add(lblSupplier);
 		
-		SupplierNameCombox = new JComboBox();
+		SupplierNameCombox = new JComboBox<String>();
 		SupplierNameCombox.setToolTipText("Code");
 		SupplierNameCombox.setMaximumRowCount(2);
 		SupplierNameCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
