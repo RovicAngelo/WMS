@@ -29,8 +29,7 @@ public class ButtonManager extends JButton {
         this.border = border;
         initializeButton();
     }
-
-    // Create button with icon, tooltiptext, bounds
+    // Create button with icon, tooltiptext, bounds parameters
     public ButtonManager(String iconName,Color color, String tooltip, Rectangle bounds,Boolean focusPaint,Border border) {
         super();
         this.iconName = iconName;
@@ -42,7 +41,7 @@ public class ButtonManager extends JButton {
         initializeButton();
     }
 
-    // Create button with tooltiptext, bounds
+    // Create button with tooltiptext, bounds parameters
     public ButtonManager(Color color,String tooltip, Rectangle bounds,Boolean focusPaint,Border border) {
         super();
         this.color = color;
@@ -52,6 +51,12 @@ public class ButtonManager extends JButton {
         this.border = border;
         initializeButton();
     }
+    //Create buttons with no default parameter
+    public ButtonManager() {
+        super();
+        initializeButton();
+    }
+
 
     private void initializeButton() {
         //set properties of the button  	
