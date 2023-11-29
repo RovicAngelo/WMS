@@ -6,24 +6,29 @@ import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
-public class PanelManager extends JPanel{
+public class CustomPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Color bgColor;
 	private Rectangle bounds;
 	private LayoutManager layout;
 	private Boolean isOpaque;
+	private Boolean isVisible;
+	private Border border;
 
 	//
-	public PanelManager(Color bgColor,Rectangle bounds,LayoutManager layout,Boolean isOpaque) {
+	public CustomPanel(Color bgColor,Rectangle bounds,LayoutManager layout,Boolean isOpaque,Boolean isVisible,Border border) {
 		super();
 		this.bgColor = bgColor;
 		this.bounds = bounds;
 		this.layout = layout;
 		this.isOpaque = isOpaque;
+		this.isVisible = isVisible;
+		this.border = border;
 		initializaPanel();
 	}
-	public PanelManager() {
+	public CustomPanel() {
 		super();
 		initializaPanel();
 	}
@@ -34,6 +39,8 @@ public class PanelManager extends JPanel{
 		setBounds(bounds);
 		setLayout(layout);
 		setOpaque(isOpaque);
+		setVisible(isVisible);
 		setPreferredSize(new Dimension(bounds.width, bounds.height));
+		setBorder(border);
 	}
 }

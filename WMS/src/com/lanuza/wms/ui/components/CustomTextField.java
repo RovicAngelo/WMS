@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import javax.swing.JTextField;
 
-public class TextFieldManager extends JTextField{
+public class CustomTextField extends JTextField{
 	private static final long serialVersionUID = 1L;
 		private Font font;
 	    private Rectangle bounds;
@@ -18,7 +18,7 @@ public class TextFieldManager extends JTextField{
 	    private Boolean isEditable;
 
 	    // Create textfields with font, bounds, bgcolor, fbcolor,tooltip,column,cursor,opaque,editable parameters
-	    public TextFieldManager(Font font,Rectangle bounds, Color bgcolor,Color fgcolor, String tooltip,int column,Cursor cursor,Boolean isOpaque,Boolean isEditable) {
+	    public CustomTextField(Font font,Rectangle bounds, Color bgcolor,Color fgcolor, String tooltip,int column,Cursor cursor,Boolean isOpaque,Boolean isEditable) {
 	        super();      
 	        this.font = font;
 	        this.bounds = bounds;
@@ -33,7 +33,7 @@ public class TextFieldManager extends JTextField{
 	    }
 	    
 	    // Create textfields with font, bounds, bgcolor, fbcolor,tooltip,column,cursor parameters
-	    public TextFieldManager(Font font,Rectangle bounds, Color bgcolor,Color fgcolor, String tooltip,int column,Cursor cursor) {
+	    public CustomTextField(Font font,Rectangle bounds, Color bgcolor,Color fgcolor, String tooltip,int column,Cursor cursor) {
 	        super();      
 	        this.font = font;
 	        this.bounds = bounds;
@@ -45,7 +45,7 @@ public class TextFieldManager extends JTextField{
 	        initializeTextField();
 	    }
 	    //create textfield with no defalut parameter
-	    public TextFieldManager() {
+	    public CustomTextField() {
 	        super();      
 	        initializeTextField();
 	    }
