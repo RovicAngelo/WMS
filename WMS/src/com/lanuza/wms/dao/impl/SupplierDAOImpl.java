@@ -1,5 +1,201 @@
 package com.lanuza.wms.dao.impl;
 
-public class SupplierDAOImpl {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
+import com.lanuza.wms.dao.SupplierDAO;
+
+import com.lanuza.wms.model.Supplier;
+import com.lanuza.wms.util.DBConnection;
+
+import net.proteanit.sql.DbUtils;
+
+public class SupplierDAOImpl implements SupplierDAO {
+
+    @Override
+    public Supplier getSupplierById(int supplierId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Supplier supplier = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM tblsupplier WHERE SupplierId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, supplierId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Create a Product object from the result set
+            	supplier = new Supplier(
+                		resultSet.getInt("SupplierId"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Brgy"),
+                        resultSet.getString("Municipality"),
+                        resultSet.getString("Province"),
+                        resultSet.getString("PhoneNo")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (log or throw a custom exception)
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+
+        return supplier;
+    }
+
+    @Override
+    public void addSupplier(Supplier supplier) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "INSERT INTO tblsupplier (Name, Brgy, Municipality, Province, PhoneNo) VALUES (?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, supplier.getName());
+            preparedStatement.setString(2, supplier.getBrgy());
+            preparedStatement.setString(3, supplier.getMunicipality());
+            preparedStatement.setString(4, supplier.getProvince());
+            preparedStatement.setString(5, supplier.getPhoneNo());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+            	JOptionPane.showMessageDialog(null, "Supplier added successfully.");
+            } else {
+            	JOptionPane.showMessageDialog(null, "Failed to add supplier.");
+            }
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (log or throw a custom exception)
+        } finally {
+            DBConnection.close(connection, preparedStatement, null);
+        }
+    }
+
+    @Override
+    public void deleteSupplier(int supplierId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "DELETE FROM tblsupplier WHERE SupplierId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, supplierId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (log or throw a custom exception)
+        } finally {
+            DBConnection.close(connection, preparedStatement, null);
+        }
+    }
+
+    @Override
+    public List<Supplier> getAllSupplier() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Supplier> suppliers = new ArrayList<>();
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM tblsupplier";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                // Create Product objects from the result set and add to the list
+            	Supplier supplier = new Supplier(
+                		resultSet.getInt("SupplierId"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Brgy"),
+                        resultSet.getString("Municipality"),
+                        resultSet.getString("Province"),
+                        resultSet.getString("PhoneNo")
+                );
+            	suppliers.add(supplier);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (log or throw a custom exception)
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+
+        return suppliers;
+    }
+
+    @Override
+    public void updateSupplier(Supplier supplier) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "UPDATE tblsupplier SET Name = ?, Brgy = ?, Municipality = ?, Province = ?, PhoneNo = ? WHERE SupplierId = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, supplier.getName());
+            preparedStatement.setString(2, supplier.getBrgy());
+            preparedStatement.setString(3, supplier.getMunicipality());
+            preparedStatement.setString(4, supplier.getProvince());
+            preparedStatement.setString(5, supplier.getPhoneNo());
+            preparedStatement.setInt(6, supplier.getSupplierId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+            	JOptionPane.showMessageDialog(null, "Supplier updated successfully.");
+            } else {
+            	JOptionPane.showMessageDialog(null, "No supplier found with the given ID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception appropriately (log or throw a custom exception)
+        } finally {
+            DBConnection.close(connection, preparedStatement, null);
+        }
+    }
+    
+    @Override
+    public void tableLoad(JTable table) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM tblsupplier";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            // Set the table model using the resultSet
+            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+    }
 }
+
