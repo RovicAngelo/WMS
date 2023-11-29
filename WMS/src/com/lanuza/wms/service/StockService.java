@@ -1,5 +1,5 @@
 package com.lanuza.wms.service;
 
-public class StockService {
+public interface StockService {
 
 }

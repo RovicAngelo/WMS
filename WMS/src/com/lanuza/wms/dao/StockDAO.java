@@ -1,5 +1,5 @@
 package com.lanuza.wms.dao;
 
-public class StockDAO {
+public interface StockDAO {
 
 }

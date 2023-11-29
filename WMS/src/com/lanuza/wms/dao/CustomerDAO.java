@@ -1,5 +1,5 @@
 package com.lanuza.wms.dao;
 
-public class CustomerDAO {
+public interface CustomerDAO {
 
 }

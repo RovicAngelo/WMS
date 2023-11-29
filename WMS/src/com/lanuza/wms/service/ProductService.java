@@ -1,5 +1,5 @@
 package com.lanuza.wms.service;
 
-public class ProductService {
+public interface ProductService {
 
 }

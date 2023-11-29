@@ -1,5 +1,5 @@
 package com.lanuza.wms.dao;
 
-public class PurchasedOrderDAO {
+public interface PurchasedOrderDAO {
 
 }
