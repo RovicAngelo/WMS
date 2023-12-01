@@ -1,0 +1,203 @@
+package com.lanuza.wms.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sound.midi.Receiver;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
+import com.lanuza.wms.dao.ReceivingEntryDAO;
+import com.lanuza.wms.model.PurchasedOrder;
+import com.lanuza.wms.model.ReceivingEntry;
+import com.lanuza.wms.util.DBConnection;
+
+import net.proteanit.sql.DbUtils;
+
+public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
+	  @Override
+	    public ReceivingEntry getReceivingEntryById(int receivingId) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+	        ResultSet resultSet = null;
+	        ReceivingEntry receivingEntry = null;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "SELECT * FROM tblreceivingentry WHERE ReceivingId = ?";
+	            preparedStatement = connection.prepareStatement(sql);
+	            preparedStatement.setInt(1, receivingId);
+	            resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                // Create a receivingentry object from the result set
+	            	receivingEntry = new ReceivingEntry(
+	                		resultSet.getInt("ReceivingId"), 	                  
+	                        resultSet.getString("ProductName"),
+	                        resultSet.getDouble("ProductPrice"),
+	                        resultSet.getInt("Quantity"),
+	                        resultSet.getDouble("Total"),
+	                        resultSet.getString("SupplierName"),
+	                        resultSet.getDate("Receiving_Date")
+	                );
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle the exception appropriately (log or throw a custom exception)
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+
+	        return receivingEntry;
+	    }
+
+	    @Override
+	    public void addReceivingEntry(ReceivingEntry receivingEntry) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "INSERT INTO tblreceivingentry (ProductName,ProductPrice,Quantity,Total,SupplierName,Received_Date) VALUES (?, ?, ?, ?, ?, ?)";
+	            preparedStatement = connection.prepareStatement(sql);
+	            preparedStatement.setString(1, receivingEntry.getProductName());
+	            preparedStatement.setDouble(2, receivingEntry.getProductPrice());
+	            preparedStatement.setInt(3, receivingEntry.getQuantity());
+	            preparedStatement.setDouble(4, receivingEntry.getTotal());
+	            preparedStatement.setString(5, receivingEntry.getSupplierName());
+	            preparedStatement.setDate(6, receivingEntry.getReceived_Date());
+
+	            int rowsAffected = preparedStatement.executeUpdate();
+
+	            if (rowsAffected > 0) {
+	            	JOptionPane.showMessageDialog(null, "receivingentry added successfully.");
+	            } else {
+	            	JOptionPane.showMessageDialog(null, "Failed to add receivingentry.");
+	            }
+	            
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle the exception appropriately (log or throw a custom exception)
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, null);
+	        }
+	    }
+
+	    @Override
+	    public void deleteReceivingEntry(int receivingId) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "DELETE FROM tblreceivingentry WHERE ReceivingId = ?";
+	            preparedStatement = connection.prepareStatement(sql);
+	            preparedStatement.setInt(1, receivingId);
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle the exception appropriately (log or throw a custom exception)
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, null);
+	        }
+	    }
+
+	    @Override
+	    public List<ReceivingEntry> getAllReceivingEntries() {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+	        ResultSet resultSet = null;
+	        List<ReceivingEntry> receivingentries = new ArrayList<>();
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "SELECT * FROM tblreceivingentry";
+	            preparedStatement = connection.prepareStatement(sql);
+	            resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	                // Create receivingentry objects from the result set and add to the list
+	            	ReceivingEntry receivingentry = new ReceivingEntry(
+	                  		resultSet.getInt("receivingId"), 	                  
+	                        resultSet.getString("ProductName"),
+	                        resultSet.getDouble("ProductPrice"),
+	                        resultSet.getInt("Quantity"),
+	                        resultSet.getDouble("Total"),
+	                        resultSet.getString("SupplierName"),
+	                        resultSet.getDate("Received_Date")
+	                );
+	            	receivingentries.add(receivingentry);
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle the exception appropriately (log or throw a custom exception)
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+
+	        return receivingentries;
+	    }
+
+	    @Override
+	    public void updateReceivingEntry(ReceivingEntry receivingentry) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "UPDATE tblreceivingentry SET ProductName = ?, ProductPrice = ?,Quantity = ?,Total = ?,"
+	            		+ " SupplierName = ?, Received_Date = ? WHERE ReceivingId = ?";
+	            preparedStatement = connection.prepareStatement(sql);	         
+	            preparedStatement.setString(1, receivingentry.getProductName());
+	            preparedStatement.setDouble(2, receivingentry.getProductPrice());
+	            preparedStatement.setInt(3, receivingentry.getQuantity());
+	            preparedStatement.setDouble(4, receivingentry.getTotal());
+	            preparedStatement.setString(5, receivingentry.getSupplierName());
+	            preparedStatement.setDate(6, receivingentry.getReceived_Date());
+	            preparedStatement.setInt(7, receivingentry.getReceivingId());
+
+	            int rowsAffected = preparedStatement.executeUpdate();
+
+	            if (rowsAffected > 0) {
+	            	JOptionPane.showMessageDialog(null, "receivingentry updated successfully.");
+	            } else {
+	            	JOptionPane.showMessageDialog(null, "No receivingentry found with the given ID.");
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle the exception appropriately (log or throw a custom exception)
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, null);
+	        }
+	    }
+	    
+	    @Override
+	    public void tableLoad(JTable table) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+	        ResultSet resultSet = null;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            String sql = "SELECT * FROM tblpurchasedorder";
+	            preparedStatement = connection.prepareStatement(sql);
+	            resultSet = preparedStatement.executeQuery();
+
+	            // Set the table model using the resultSet
+	            table.setModel(DbUtils.resultSetToTableModel(resultSet));
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+	    }
+}
