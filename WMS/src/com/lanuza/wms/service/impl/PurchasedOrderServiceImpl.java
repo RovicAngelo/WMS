@@ -1,6 +1,7 @@
 package com.lanuza.wms.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JTable;
 
@@ -43,6 +44,22 @@ public class PurchasedOrderServiceImpl implements PurchasedOrderService{
 		@Override
 		public void tableLoad(JTable table) {
 			purchaseOrderDAO.tableLoad(table);
+		}
+		
+		public double getSumOfTotal() {
+	        return purchaseOrderDAO.getSumOfTotal();
+	    }
+
+		@Override
+		public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
+			// TODO Auto-generated method stub
+			return purchaseOrderDAO.getAvailabilityAndPriceByProductDescription(selectedProduct);
+		}
+
+		@Override
+		public void reflectPurchaseOrderToStock() {
+			purchaseOrderDAO.reflectPurchaseOrderToStock();
 			
 		}
+
 }

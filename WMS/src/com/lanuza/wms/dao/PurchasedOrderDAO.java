@@ -1,6 +1,7 @@
 package com.lanuza.wms.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JTable;
 
@@ -57,5 +58,11 @@ public interface PurchasedOrderDAO {
     void deletePurchasedOrder(int orderId);
     
 	void tableLoad(JTable table);
+	
+	double getSumOfTotal();
+	
+	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
+	
+	void reflectPurchaseOrderToStock();
 }
 

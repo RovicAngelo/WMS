@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -22,6 +25,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	    public PurchasedOrder getPurchasedOrderById(int orderId) {
 	        Connection connection = null;
 	        PreparedStatement preparedStatement = null;
+	        Statement statement = null;
 	        ResultSet resultSet = null;
 	        PurchasedOrder purchasedOrder = null;
 
@@ -199,4 +203,150 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            DBConnection.close(connection, preparedStatement, resultSet);
 	        }
 	    }
+
+	    @Override
+	    public double getSumOfTotal() {
+	    	Connection connection = null;
+		    PreparedStatement preparedStatement = null;
+		    ResultSet resultSet = null;
+	        double sum = 0.0;
+
+	        try {
+	        	 connection = DBConnection.getConnection();
+	             preparedStatement = connection.prepareStatement("SELECT SUM(Total) FROM tblpurchasedorder");
+	             resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	            	sum = resultSet.getDouble(1);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+	        return sum;
+	    }
+	    
+	    	   	 
+		@SuppressWarnings("resource")
+		public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+	        ResultSet resultSet = null;
+
+	        double currentQty = 0;
+	        int availability = 0;
+	        int price = 0;
+	        double newAvailableQty = 0;
+
+	        try {
+	            connection = DBConnection.getConnection();
+	            
+	            // Query to get current quantity from tblpurchaseorder
+	            String sqlPurchaseOrder = "SELECT SUM(quantity) AS TotalQty FROM phildrinksdb.tblpurchaseorder WHERE ProductDescription = ?";
+	            preparedStatement = connection.prepareStatement(sqlPurchaseOrder);
+	            preparedStatement.setString(1, selectedProduct);
+	            resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	                currentQty = resultSet.getDouble("TotalQty");
+	            }
+	            
+	            // Query to get availability and max price from tblstock
+	            String sqlStock = "SELECT SUM(Qty) AS TotalQty, MAX(ProductPrice) AS MaxPrice FROM phildrinksdb.tblstock WHERE ProductDescription = ?";
+	            preparedStatement = connection.prepareStatement(sqlStock);
+	            preparedStatement.setString(1, selectedProduct);
+	            resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	                availability = resultSet.getInt("TotalQty");
+	                price = resultSet.getInt("MaxPrice");
+
+	                newAvailableQty = availability - currentQty;
+	            }
+
+	        } catch (SQLException e) {
+	            e.printStackTrace(); // Handle the exception according to your needs
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+
+	        // Create a Map to hold the results
+	        Map<String, Object> result = new HashMap<>();
+	        result.put("newAvailableQty", newAvailableQty);
+	        result.put("productPrice", price);
+
+	        return result;
+	    }
+
+		@Override
+		public void reflectPurchaseOrderToStock() {
+			 Connection connection = null;
+		     PreparedStatement preparedStatement = null;
+		     Statement statement = null;
+		     ResultSet resultSet = null;
+		
+		  try {				 			  
+			 connection = DBConnection.getConnection();          
+	         String sqlJoins = "UPDATE tblstock s "
+						+ "JOIN tblpurchaseorder o ON s.ProductDescription = o.ProductDescription "
+						+ "SET "
+						+ "s.Qty = CASE WHEN (s.Qty - o.Qty) < 0 THEN 0 ELSE (s.Qty - o.Qty) END, "
+						+ "s.Total = CASE WHEN (s.Total - o.Total) < 0 THEN 0 ELSE (s.Total - o.Total) END;";
+	         statement = connection.createStatement();
+			 statement.executeUpdate(sqlJoins);
+
+	         JOptionPane.showMessageDialog(null, "Table data successfully modified stock");
+	         preparedStatement = connection.prepareStatement("truncate table phildrinksdb.tblpurchaseorder");
+	         preparedStatement.executeUpdate(); 
+	         
+		  } catch (Exception e) {
+				// TODO: handle exception
+		  } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+
+		}
+
+		/*
+		public void addPurchasedOrder(PurchasedOrder purchasedOrder) throws SQLException {
+	        Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+
+	        try {
+	            connection = // obtain your database connection here
+
+	            // Query to insert into the main purchased_orders table
+	            String insertPurchasedOrderQuery = "INSERT INTO purchased_orders (product_name, price, quantity, total, customer, order_date) " +
+	                    "VALUES (?, ?, ?, ?, ?, ?)";
+
+	            preparedStatement = connection.prepareStatement(insertPurchasedOrderQuery);
+	            preparedStatement.setString(1, purchasedOrder.getProductName());
+	            preparedStatement.setDouble(2, purchasedOrder.getPrice());
+	            preparedStatement.setInt(3, purchasedOrder.getQuantity());
+	            preparedStatement.setDouble(4, purchasedOrder.getTotal());
+	            preparedStatement.setString(5, purchasedOrder.getCustomer());
+	            preparedStatement.setDate(6, purchasedOrder.getOrderDate());
+
+	            preparedStatement.executeUpdate();
+
+	            // Query to update the availability in the products table
+	            String updateProductAvailabilityQuery = "UPDATE products SET availability = availability - ? WHERE product_name = ?";
+	            preparedStatement = connection.prepareStatement(updateProductAvailabilityQuery);
+	            preparedStatement.setInt(1, purchasedOrder.getQuantity());
+	            preparedStatement.setString(2, purchasedOrder.getProductName());
+
+	            preparedStatement.executeUpdate();
+
+	        } finally {
+	            // Close resources in a finally block
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }    
+	  */
 }

@@ -6,7 +6,7 @@ public class PurchasedOrder {
 	private int OrderId,quantity;
 	private String productName,customerName;
 	private double total,productPrice;
-	private Date order_Date;
+	private java.sql.Date order_Date;
 	
 	public PurchasedOrder() {
 		super();
@@ -16,6 +16,17 @@ public class PurchasedOrder {
 			double productPrice, int quantity, double total, String customerName, Date order_Date) {
 		super();
 		OrderId = orderId;
+		this.quantity = quantity;
+		this.productName = productName;
+		this.customerName = customerName;
+		this.total = total;
+		this.productPrice = productPrice;
+		this.order_Date = order_Date;
+	}
+	
+	public PurchasedOrder(String productName,
+			double productPrice, int quantity, double total, String customerName, Date order_Date) {
+		super();
 		this.quantity = quantity;
 		this.productName = productName;
 		this.customerName = customerName;
@@ -72,12 +83,12 @@ public class PurchasedOrder {
 		this.productPrice = productPrice;
 	}
 
-	public Date getOrder_Date() {
+	public java.sql.Date getOrder_Date() {
 		return order_Date;
 	}
 
 	public void setOrder_Date(Date order_Date) {
 		this.order_Date = order_Date;
-	}
+	}	
 	
 }
