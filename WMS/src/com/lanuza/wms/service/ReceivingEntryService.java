@@ -1,6 +1,7 @@
 package com.lanuza.wms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JTable;
 
@@ -18,4 +19,10 @@ public interface ReceivingEntryService {
 	void deleteReceivingEntry(int receivingId);
 	
 	void tableLoad(JTable table);
+	
+	double getSumOfTotal();
+	
+	void reflectReceivingEntryToStock();
+	
+	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
 }

@@ -1,6 +1,7 @@
 package com.lanuza.wms.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JTable;
 
@@ -45,6 +46,20 @@ public class ReceivingEntryServiceImpl implements ReceivingEntryService{
 	public void tableLoad(JTable table) {
 		receivingEntryDAO.tableLoad(table);
 		
+	}
+	@Override
+	public double getSumOfTotal() {
+        return receivingEntryDAO.getSumOfTotal();
+    }
+	@Override
+	public void reflectReceivingEntryToStock() {
+		receivingEntryDAO.reflectReceivingEntryToStock();
+		
+	}
+
+	@Override
+	public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
+		return receivingEntryDAO.getAvailabilityAndPriceByProductDescription(selectedProduct);
 	}
 
 }

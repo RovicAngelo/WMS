@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sound.midi.Receiver;
 import javax.swing.JOptionPane;
@@ -41,8 +44,9 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
+	                        resultSet.getDate("ExpDate"),
 	                        resultSet.getString("SupplierName"),
-	                        resultSet.getDate("Receiving_Date")
+	                        resultSet.getDate("Received_Date")
 	                );
 	            }
 
@@ -69,8 +73,9 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	            preparedStatement.setDouble(2, receivingEntry.getProductPrice());
 	            preparedStatement.setInt(3, receivingEntry.getQuantity());
 	            preparedStatement.setDouble(4, receivingEntry.getTotal());
-	            preparedStatement.setString(5, receivingEntry.getSupplierName());
-	            preparedStatement.setDate(6, receivingEntry.getReceived_Date());
+	            preparedStatement.setDate(5, receivingEntry.getExpDate());
+	            preparedStatement.setString(6, receivingEntry.getSupplierName());
+	            preparedStatement.setDate(7, receivingEntry.getReceived_Date());
 
 	            int rowsAffected = preparedStatement.executeUpdate();
 
@@ -129,6 +134,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
+	                        resultSet.getDate("ExpDate"),
 	                        resultSet.getString("SupplierName"),
 	                        resultSet.getDate("Received_Date")
 	                );
@@ -152,16 +158,17 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "UPDATE tblreceivingentry SET ProductName = ?, ProductPrice = ?,Quantity = ?,Total = ?,"
+	            String sql = "UPDATE tblreceivingentry SET ProductName = ?, ProductPrice = ?,Quantity = ?,Total = ?,ExpDate =?"
 	            		+ " SupplierName = ?, Received_Date = ? WHERE ReceivingId = ?";
 	            preparedStatement = connection.prepareStatement(sql);	         
 	            preparedStatement.setString(1, receivingentry.getProductName());
 	            preparedStatement.setDouble(2, receivingentry.getProductPrice());
 	            preparedStatement.setInt(3, receivingentry.getQuantity());
 	            preparedStatement.setDouble(4, receivingentry.getTotal());
-	            preparedStatement.setString(5, receivingentry.getSupplierName());
-	            preparedStatement.setDate(6, receivingentry.getReceived_Date());
-	            preparedStatement.setInt(7, receivingentry.getReceivingId());
+	            preparedStatement.setDate(5, receivingentry.getExpDate());
+	            preparedStatement.setString(6, receivingentry.getSupplierName());
+	            preparedStatement.setDate(7, receivingentry.getReceived_Date());
+	            preparedStatement.setInt(8, receivingentry.getReceivingId());
 
 	            int rowsAffected = preparedStatement.executeUpdate();
 
@@ -187,7 +194,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "SELECT * FROM tblpurchasedorder";
+	            String sql = "SELECT * FROM tblreceivingentry";
 	            preparedStatement = connection.prepareStatement(sql);
 	            resultSet = preparedStatement.executeQuery();
 
@@ -200,4 +207,85 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	            DBConnection.close(connection, preparedStatement, resultSet);
 	        }
 	    }
+	    
+	    @Override
+	    public double getSumOfTotal() {
+	    	Connection connection = null;
+		    PreparedStatement preparedStatement = null;
+		    ResultSet resultSet = null;
+	        double sum = 0.0;
+
+	        try {
+	        	 connection = DBConnection.getConnection();
+	             preparedStatement = connection.prepareStatement("SELECT SUM(Total) FROM tblreceivingentry");
+	             resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	            	sum = resultSet.getDouble(1);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+	        return sum;
+	    }
+	    
+	    @Override
+		public void reflectReceivingEntryToStock() {
+			 Connection connection = null;
+		     PreparedStatement preparedStatement = null;
+		     Statement statement = null;
+		     ResultSet resultSet = null;
+		
+		  try {				 			  
+			 connection = DBConnection.getConnection();          
+	         String sqlJoins = "INSERT INTO tblstock(ProductDescription,ProductPrice,Qty,Total) SELECT ProductDescription, MAX(ProductPrice),SUM(Qty),SUM(Total) FROM tblreceiving GROUP BY ProductDescription";
+	         statement = connection.createStatement();
+			 statement.executeUpdate(sqlJoins);
+
+	         JOptionPane.showMessageDialog(null, "Table data successfully modified stock");
+	         
+	         preparedStatement = connection.prepareStatement("truncate table phildrinksdb.tblreceivingentry");
+	         preparedStatement.executeUpdate(); 
+	         
+		  } catch (Exception e) {
+				// TODO: handle exception
+		  } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+
+		}	    
+
+		@Override
+		public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
+			 Connection connection = null;
+		        PreparedStatement preparedStatement = null;
+		        ResultSet resultSet = null;
+		        double price = 0.0;
+		        String supplier = "";
+
+		        try {
+		            connection = DBConnection.getConnection();            
+		            preparedStatement = connection.prepareStatement("Select ProductPrice, Supplier from tblproduct where ProductDescription = ?");
+		            preparedStatement.setString(1, selectedProduct);
+		            resultSet = preparedStatement.executeQuery();					
+					if(resultSet.next()) {		
+						price = resultSet.getInt("ProductPrice");	
+						supplier = resultSet.getString("Supplier");										
+					}
+
+		        } catch (SQLException e) {
+		            e.printStackTrace(); // Handle the exception according to your needs
+		        } finally {
+		            DBConnection.close(connection, preparedStatement, resultSet);
+		        }
+
+		        // Create a Map to hold the results
+		        Map<String, Object> result = new HashMap<>();
+		        result.put("ProductPrice", price);
+		        result.put("Supplier", supplier);
+
+		        return result;
+		}
 }

@@ -6,17 +6,31 @@ public class ReceivingEntry {
 	private int receivingId,quantity;
 	private String productName,supplierName;
 	private double total,productPrice;
-	private Date received_Date;
+	private Date received_Date, expDate;
 	public ReceivingEntry() {
 		super();
 	}
-	public ReceivingEntry(int receivingId, String productName, double productPrice,int quantity, double total, String supplierName,
+	//with all parameter
+	public ReceivingEntry(int receivingId, String productName, double productPrice,int quantity, double total,Date expDate, String supplierName,
 			 Date received_Date) {
 		super();
 		this.receivingId = receivingId;
 		this.quantity = quantity;
 		this.productName = productName;
+		this.expDate = expDate;
 		this.supplierName = supplierName;
+		this.total = total;
+		this.productPrice = productPrice;
+		this.received_Date = received_Date;
+	}
+	//with no id
+	public ReceivingEntry(String productName, double productPrice,int quantity, double total,Date expDate, String supplierName,
+			 Date received_Date) {
+		super();
+		this.quantity = quantity;
+		this.productName = productName;
+		this.supplierName = supplierName;
+		this.expDate = expDate;
 		this.total = total;
 		this.productPrice = productPrice;
 		this.received_Date = received_Date;
@@ -62,6 +76,12 @@ public class ReceivingEntry {
 	}
 	public void setReceived_Date(Date received_Date) {
 		this.received_Date = received_Date;
+	}
+	public Date getExpDate() {
+		return expDate;
+	}
+	public void setExpDate(Date expDate) {
+		this.expDate = expDate;
 	}
 	
 }
