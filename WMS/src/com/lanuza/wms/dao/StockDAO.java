@@ -13,5 +13,7 @@ public interface StockDAO {
 	List<Stock> getAllStock();
 	
 	void tableLoad(JTable table);
+	
+	double getSumOfTotal();
 
 }

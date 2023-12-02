@@ -10,4 +10,6 @@ public interface StockService {
 	List<Stock> getAllStock();
 	
 	void tableLoad(JTable table);
+	
+	double getSumOfTotal();
 }

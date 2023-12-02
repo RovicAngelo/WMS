@@ -25,6 +25,11 @@ public class StockServiceImpl implements StockService{
 		public void tableLoad(JTable table) {
 			stockDAO.tableLoad(table);		
 		}
+
+		@Override
+		public double getSumOfTotal() {		
+			return stockDAO.getSumOfTotal();
+		}
 	 
 
 

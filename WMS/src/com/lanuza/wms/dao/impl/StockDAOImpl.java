@@ -74,5 +74,28 @@ public class StockDAOImpl implements StockDAO{
 	            DBConnection.close(connection, preparedStatement, resultSet);
 	        }
 	    }
+
+		@Override
+		public double getSumOfTotal() {
+			Connection connection = null;
+		    PreparedStatement preparedStatement = null;
+		    ResultSet resultSet = null;
+	        double sum = 0.0;
+
+	        try {
+	        	 connection = DBConnection.getConnection();
+	             preparedStatement = connection.prepareStatement("SELECT SUM(Total) FROM tblstock");
+	             resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	            	sum = resultSet.getDouble(1);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+	        return sum;
+		}
 	    	    
 }
