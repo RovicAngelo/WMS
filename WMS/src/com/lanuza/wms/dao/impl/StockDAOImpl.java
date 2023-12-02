@@ -31,13 +31,14 @@ public class StockDAOImpl implements StockDAO{
 	            resultSet = preparedStatement.executeQuery();
 
 	            while (resultSet.next()) {
-	                // Create Product objects from the result set and add to the list
+	                // Create Stock objects from the result set and add to the list
 	            	Stock stock = new Stock(
-	                		resultSet.getInt("ProductCode"),
-	                        resultSet.getString("ProductDescription"),	           
+	            			resultSet.getInt("stockId"), 	                  
+	                        resultSet.getString("ProductName"),
 	                        resultSet.getDouble("ProductPrice"),
-	                        resultSet.getInt("Qty"),
-	                        resultSet.getDouble("Total")
+	                        resultSet.getInt("Quantity"),
+	                        resultSet.getDouble("Total"),
+	                        resultSet.getString("SupplierName")	
 	                );
 	            	stocks.add(stock);
 	            }
@@ -73,5 +74,5 @@ public class StockDAOImpl implements StockDAO{
 	            DBConnection.close(connection, preparedStatement, resultSet);
 	        }
 	    }
-
+	    	    
 }

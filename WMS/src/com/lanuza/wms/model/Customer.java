@@ -2,18 +2,21 @@ package com.lanuza.wms.model;
 
 public class Customer {
 	private int customerId;
-	private String Name,Brgy,Municipality,Province,PhoneNo;
+	private String Name,PhoneNo;
 	
 	public Customer() {
 		super();
 	}
-	public Customer(int customerId, String name, String brgy, String municipality, String province, String phoneNo) {
+	public Customer(int customerId, String name, String phoneNo) {
 		super();
 		this.customerId = customerId;
 		Name = name;
-		Brgy = brgy;
-		Municipality = municipality;
-		Province = province;
+		PhoneNo = phoneNo;
+	}
+	
+	public Customer( String name, String phoneNo) {
+		super();
+		Name = name;
 		PhoneNo = phoneNo;
 	}
 	public int getCustomerId() {
@@ -28,24 +31,6 @@ public class Customer {
 	public void setName(String name) {
 		Name = name;
 	}
-	public String getBrgy() {
-		return Brgy;
-	}
-	public void setBrgy(String brgy) {
-		Brgy = brgy;
-	}
-	public String getMunicipality() {
-		return Municipality;
-	}
-	public void setMunicipality(String municipality) {
-		Municipality = municipality;
-	}
-	public String getProvince() {
-		return Province;
-	}
-	public void setProvince(String province) {
-		Province = province;
-	}
 	public String getPhoneNo() {
 		return PhoneNo;
 	}
@@ -54,8 +39,7 @@ public class Customer {
 	}
 	@Override
 	public String toString() {
-		return "Customer [customerId=" + customerId + ", Name=" + Name + ", Brgy=" + Brgy + ", Municipality="
-				+ Municipality + ", Province=" + Province + ", PhoneNo=" + PhoneNo + "]";
+		return "Customer [customerId=" + customerId + ", Name=" + Name + ", PhoneNo=" + PhoneNo + "]";
 	}
 	
 	

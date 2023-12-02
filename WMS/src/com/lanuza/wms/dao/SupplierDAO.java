@@ -10,7 +10,7 @@ import com.lanuza.wms.model.Supplier;
 public interface SupplierDAO {
 	
 	Supplier getSupplierById(int supplierId);
-	
+			
 	List<Supplier> getAllSupplier();
     
 	void addSupplier(Supplier supplier);

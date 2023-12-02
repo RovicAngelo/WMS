@@ -229,7 +229,7 @@ public class Stock {
 		frame.getContentPane().add(panelButtons);
 		
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnBack.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
 		btnBack.setToolTipText("Back");
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
@@ -245,7 +245,7 @@ public class Stock {
 		panelButtons.add(btnBack);
 		
 		JButton btnPrint = new JButton("");
-		btnPrint.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnPrint.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
 		btnPrint.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -264,7 +264,7 @@ public class Stock {
 		panelButtons.add(btnPrint);
 		
 		JButton btnSaveFile = new JButton("");
-		btnSaveFile.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnSaveFile.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
 		btnSaveFile.setToolTipText("Save as file");
 		btnSaveFile.setFocusPainted(false);
 		btnSaveFile.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -273,7 +273,7 @@ public class Stock {
 		panelButtons.add(btnSaveFile);
 		
 		JButton btnMode = new JButton("");
-		btnMode.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/stock.png")));
+		btnMode.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
 		btnMode.setToolTipText("Mode(Light/Dark)");
 		btnMode.setFocusPainted(false);
 		btnMode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -316,7 +316,7 @@ public class Stock {
 		panelTable1.add(txtSearchBy);
 		
 		JButton btnSearchBy = new JButton("");
-		btnSearchBy.setIcon(new ImageIcon(ReceivingModern.class.getResource("/com/lanuza/icons/search.png")));
+		btnSearchBy.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setToolTipText("Add");
 		btnSearchBy.setFocusPainted(false);
 		btnSearchBy.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));

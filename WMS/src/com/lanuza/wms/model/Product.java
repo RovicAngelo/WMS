@@ -1,30 +1,36 @@
 package com.lanuza.wms.model;
 
 public class Product {
-	private String productDescription, supplier;
-	private int productId, productCode;
-	private double productPrice;	
 	
+	private String description,supplierName;
+	private int productId;
+	private double price;	
 	
-
 	public Product() {
 		super();
 	}
-	public Product(int productId, int productCode, String productDescription, double productPrice,String supplier) {
+	
+	public Product(String description,double price,String supplierName) {
 		super();
-		this.productId = productId;
-		this.productDescription = productDescription;
-		this.supplier = supplier;
-		this.productCode = productCode;
-		this.productPrice = productPrice;
+		this.description = description;
+		this.supplierName = supplierName;
+		this.price = price;
 	}
 	
-	public Product( int productCode, String productDescription, double productPrice,String supplier) {
+	public Product(int productId,String description,double price,String supplierName) {
 		super();
-		this.productDescription = productDescription;
-		this.supplier = supplier;
-		this.productCode = productCode;
-		this.productPrice = productPrice;
+		this.description = description;
+		this.productId = productId;
+		this.supplierName = supplierName;
+		this.price = price;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public int getProductId() {
 		return productId;
@@ -32,43 +38,20 @@ public class Product {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	
-	public String getProductDescription() {
-		return productDescription;
+	public String getSupplierName() {
+		return supplierName;
 	}
-	public void setProductDescription(String productDescription) {
-		this.productDescription = productDescription;
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
-	public String getSupplier() {
-		return supplier;
+
+	public double getPrice() {
+		return price;
 	}
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
+	public void setPrice(double price) {
+		this.price = price;
 	}
-	public int getProductCode() {
-		return productCode;
-	}
-	public void setProductCode(int productCode) {
-		this.productCode = productCode;
-	}
-	public double getProductPrice() {
-		return productPrice;
-	}
-	public void setProductPrice(double productPrice) {
-		this.productPrice = productPrice;
-	}
-	
-	@Override
-	public String toString() {
-	    return "Product{" +
-	    		 "id=" + productId +
-	    		 ",code=" + productCode +
-	            ", name='" + productDescription + '\'' +      
-	            ", price=" + productPrice +
-	            ",supplier='"+ supplier +'\'' +
-	            '}';
-	}
-	
+
 	
 }
  

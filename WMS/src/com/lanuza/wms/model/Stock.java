@@ -1,27 +1,27 @@
 package com.lanuza.wms.model;
 
 public class Stock {
-	private int productCode, quantity;
-	private String productDescription;
-	private Double productPrice,total;				
-		
+	private int stockId,quantity;
+	private String productName,SupplierName;
+	private double total,productPrice;
 	
 	public Stock() {
 		super();
 	}
-	public Stock(int productCode, String productDescription, Double productPrice, int quantity, Double total) {
+	public Stock(int stockId, String productName,double productPrice, int quantity, double total, String supplierName) {
 		super();
-		this.productCode = productCode;
+		this.stockId = stockId;
 		this.quantity = quantity;
-		this.productDescription = productDescription;
-		this.productPrice = productPrice;
+		this.productName = productName;
+		SupplierName = supplierName;
 		this.total = total;
+		this.productPrice = productPrice;
 	}
-	public int getProductCode() {
-		return productCode;
+	public int getStockId() {
+		return stockId;
 	}
-	public void setProductCode(int productCode) {
-		this.productCode = productCode;
+	public void setStockId(int stockId) {
+		this.stockId = stockId;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -29,28 +29,30 @@ public class Stock {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public String getProductDescription() {
-		return productDescription;
+	public String getProductName() {
+		return productName;
 	}
-	public void setProductDescription(String productDescription) {
-		this.productDescription = productDescription;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
-	public Double getProductPrice() {
-		return productPrice;
+	public String getSupplierName() {
+		return SupplierName;
 	}
-	public void setProductPrice(Double productPrice) {
-		this.productPrice = productPrice;
+	public void setSupplierName(String supplierName) {
+		SupplierName = supplierName;
 	}
-	public Double getTotal() {
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(Double total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
-	@Override
-	public String toString() {
-		return "Stock [productCode=" + productCode + ", quantity=" + quantity + ", productDescription="
-				+ productDescription + ", productPrice=" + productPrice + ", total=" + total + "]";
+	public double getProductPrice() {
+		return productPrice;
 	}
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
+	
 	
 }

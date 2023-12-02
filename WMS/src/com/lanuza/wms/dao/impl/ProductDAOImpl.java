@@ -27,7 +27,7 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM tblproduct WHERE ProductID = ?";
+            String sql = "SELECT * FROM tblproduct WHERE ProductId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, productId);
             resultSet = preparedStatement.executeQuery();
@@ -35,11 +35,10 @@ public class ProductDAOImpl implements ProductDAO {
             if (resultSet.next()) {
                 // Create a Product object from the result set
                 product = new Product(
-                		resultSet.getInt("ProductId"),
-                        resultSet.getInt("ProductCode"),
-                        resultSet.getString("ProductDescription"),
-                        resultSet.getDouble("ProductPrice"),
-                        resultSet.getString("Supplier")
+                		resultSet.getInt("ProductId"), 
+                        resultSet.getString("description"),
+                        resultSet.getDouble("price"),
+                        resultSet.getString("SupplierName")
                 );
             }
 
@@ -60,12 +59,11 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO tblproduct (ProductCode, ProductDescription, ProductPrice, Supplier) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO tblproduct (Description,Price, SupplierName) VALUES (?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, product.getProductCode());
-            preparedStatement.setString(2, product.getProductDescription());
-            preparedStatement.setDouble(3, product.getProductPrice());
-            preparedStatement.setString(4, product.getSupplier());
+            preparedStatement.setString(1, product.getDescription());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setString(3, product.getSupplierName());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -91,11 +89,9 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "DELETE FROM tblproduct WHERE ProductID = ?";
+            String sql = "DELETE FROM tblproduct WHERE ProductId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, productId);
-
-            int rowsAffected = preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,11 +117,10 @@ public class ProductDAOImpl implements ProductDAO {
             while (resultSet.next()) {
                 // Create Product objects from the result set and add to the list
                 Product product = new Product(
-                		resultSet.getInt("ProductId"),
-                        resultSet.getInt("ProductCode"),
-                        resultSet.getString("ProductDescription"),
-                        resultSet.getDouble("ProductPrice"),
-                        resultSet.getString("Supplier")
+                		resultSet.getInt("ProductId"),                   
+                        resultSet.getString("Description"),
+                        resultSet.getDouble("Price"),
+                        resultSet.getString("SupplierName")
                 );
                 products.add(product);
             }
@@ -158,13 +153,12 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE tblproduct SET ProductCode = ?, ProductDescription = ?, ProductPrice = ?, Supplier = ? WHERE ProductID = ?";
+            String sql = "UPDATE tblproduct SET Description = ?, Price = ?, SupplierName = ? WHERE ProductId = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, product.getProductCode());
-            preparedStatement.setString(2, product.getProductDescription());
-            preparedStatement.setDouble(3, product.getProductPrice());
-            preparedStatement.setString(4, product.getSupplier());
-            preparedStatement.setInt(5, product.getProductId());
+            preparedStatement.setString(1, product.getDescription());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setString(3, product.getSupplierName());
+            preparedStatement.setInt(4, product.getProductId());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -203,5 +197,8 @@ public class ProductDAOImpl implements ProductDAO {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
     }
+    
+	
+    
 }
 

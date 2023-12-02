@@ -46,7 +46,7 @@ public class ProductForm {
 	private JComboBox<Supplier>supplierCombox;
 	private JTable table;
     private JFrame frame; //not sure wether to use panel or frame in sub forms
-	private JTextField txtCode,txtDescription,txtPrice,txtId;
+	private JTextField txtDescription,txtPrice,txtId;
 	//private JComboBox<Supplier> supplierCombox; 		supplier not yet available
 	
 	 public ProductForm() {
@@ -60,7 +60,7 @@ public class ProductForm {
 	 private void loadData() {
 	        // Call the tableLoad method from ProductService
 	        productService.tableLoad(table);
-	    }
+	    }	 
 	
 	 private void initComponents() {
 		 	// UI components initialization...
@@ -84,17 +84,13 @@ public class ProductForm {
 			frame.getContentPane().add(panel);
 								
 			 // Create label with text, fgcolor, font, bounds, horizontalAlignment parameters
-			JLabel lblProduct = new CustomLabel("Description",new Color(0,0,0),new Font("Tahoma", Font.BOLD, 15),new Rectangle(8, 73, 88, 25),SwingConstants.CENTER);
-			panel.add(lblProduct);
-			
-			JLabel lblCode = new JLabel("Code");
-			lblCode.setFont(new Font("Tahoma", Font.BOLD, 15));
-			lblCode.setBounds(25, 33, 50, 25);
-			panel.add(lblCode);
+			JLabel lblDescription = new CustomLabel("Description",new Color(0,0,0),new Font("Tahoma", Font.BOLD, 15),new Rectangle(8, 73, 88, 25),SwingConstants.CENTER);
+			lblDescription.setLocation(10, 48);
+			panel.add(lblDescription);
 			
 			JLabel lblPrice = new JLabel("Price");
 			lblPrice.setFont(new Font("Tahoma", Font.BOLD, 15));
-			lblPrice.setBounds(20, 113, 50, 25);
+			lblPrice.setBounds(20, 98, 50, 25);
 			panel.add(lblPrice);
 								
 			JLabel lblProductSection = new JLabel("Manage Product");
@@ -103,41 +99,35 @@ public class ProductForm {
 			lblProductSection.setBounds(399, 25, 148, 30);
 			topPanel.add(lblProductSection);
 			
-			// Create textfields with font, bounds, bgcolor, fbcolor,tooltip,column,cursor,opaque,editable parameters
-			txtCode = new CustomTextField(new Font("Tahoma", Font.BOLD, 13),new Rectangle(99, 32, 182, 29),new Color(250,250,250),new Color(0,0,0),"Type Product Code",10,null,true,true);
-			panel.add(txtCode);
-			
 			txtPrice = new JTextField();
 			txtPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
 			txtPrice.setColumns(10);
-			txtPrice.setBounds(99, 112, 182, 29);
+			txtPrice.setBounds(99, 97, 182, 29);
 			panel.add(txtPrice);
 			
 			txtDescription = new JTextField();
 			txtDescription.setFont(new Font("Tahoma", Font.BOLD, 13));
 			txtDescription.setColumns(10);
-			txtDescription.setBounds(99, 72, 182, 29);
+			txtDescription.setBounds(99, 47, 182, 29);
 			panel.add(txtDescription);
 			
 			 // Create button with text, icon,bgColor,fgColor, tooltiptext, action, bounds, focus paint
 			JButton btnAdd = new CustomButton("Add",new Color(240,240,240), new Color(0,0,0),"Add",new Rectangle(99, 202, 89, 29),false);
 			btnAdd.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
-			    	if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
 			  		}else {
-			  		String description,supplier;
-			  		int  code;
+			  		String description,supplierName;
 			  		//int qty= 0,total=0; this is an attribute of tblstock to be transfer as having 0 as initial 
 			  		Double price;
 			        //text fields and combo box components
-				  		code = Integer.parseInt(txtCode.getText());
 				  		description = txtDescription.getText();
 				  		price =  Double.parseDouble(txtPrice.getText());
-				  		supplier = supplierCombox.getSelectedItem().toString();	
+				  		supplierName = supplierCombox.getSelectedItem().toString();	
 		
 				        // Create a Product object with the input data
-				        Product product = new Product(code, description, price, supplier);
+				        Product product = new Product(description, price, supplierName);
 	
 				        // Call the addProduct method from the ProductService
 				        productService.addProduct(product);
@@ -154,7 +144,6 @@ public class ProductForm {
 				        loadData();
 				        //clear the text fields
 				        txtId.setText("");
-				        txtCode.setText("");
 				        txtDescription.setText("");
 				        txtPrice.setText("");
 				        supplierCombox.setSelectedItem("");
@@ -169,21 +158,20 @@ public class ProductForm {
 			btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		
-			  		txtCode.setText("");
 			  		txtDescription.setText("");
 			  		txtPrice.setText("");
 			  		supplierCombox.setSelectedItem("");
-			  		txtCode.requestFocus();
+			  		txtDescription.requestFocus();
 			  	}
 			  });
 			btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
 			panel.add(btnClear);
 			
-			JLabel lblSupplierId = new JLabel("Supplier");
-			lblSupplierId.setForeground(Color.BLACK);
-			lblSupplierId.setFont(new Font("Tahoma", Font.BOLD, 15));
-			lblSupplierId.setBounds(10, 149, 95, 33);
-			panel.add(lblSupplierId);
+			JLabel lblSupplierName = new JLabel("Supplier");
+			lblSupplierName.setForeground(Color.BLACK);
+			lblSupplierName.setFont(new Font("Tahoma", Font.BOLD, 15));
+			lblSupplierName.setBounds(10, 149, 88, 33);
+			panel.add(lblSupplierName);
 			
 			supplierCombox = new JComboBox<Supplier>();
 			supplierCombox.setMaximumRowCount(2);
@@ -207,12 +195,11 @@ public class ProductForm {
 			        txtId.setText(id);
 
 			        // for text fields named txtCode, txtDescription, and txtPrice
-			        txtCode.setText(model.getValueAt(rowIndex, 1).toString());
-			        txtDescription.setText(model.getValueAt(rowIndex, 2).toString());
-			        txtPrice.setText(model.getValueAt(rowIndex, 3).toString());
+			        txtDescription.setText(model.getValueAt(rowIndex, 1).toString());
+			        txtPrice.setText(model.getValueAt(rowIndex, 2).toString());
 
 			        // for combo box named supplierCombox
-			        supplierCombox.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+			        supplierCombox.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
 			    }
 			});
 
@@ -249,7 +236,7 @@ public class ProductForm {
 			JButton btnUpdate = new JButton("Update");
 			btnUpdate.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
-			    	if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 			  		}else {
 			        int selectedRow = table.getSelectedRow();
@@ -258,18 +245,16 @@ public class ProductForm {
 
 			            //text fields for editing
 			            String description = txtDescription.getText();
-			            int code =  Integer.parseInt(txtCode.getText());
 			            double price = Double.parseDouble(txtPrice.getText());
 			            String supplier = supplierCombox.getSelectedItem().toString();
 
-			            Product updatedProduct = new Product(productId,code, description, price, supplier);
+			            Product updatedProduct = new Product(productId,description, price, supplier);
 			            productService.updateProduct(updatedProduct);		           
 			            
 			            //load table
 			            loadData();
 			            // Clear the fields 
 			            txtId.setText("");
-			            txtCode.setText("");
 			            txtDescription.setText("");
 			            txtPrice.setText("");	
 			            supplierCombox.setSelectedItem("");
@@ -287,7 +272,7 @@ public class ProductForm {
 			JButton btnDelete = new JButton("Delete");
 			btnDelete.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
-			    	if(txtCode.getText().isEmpty() || txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
+			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Select a product to be deleted");
 			  		}else {
 				        int selectedRow = table.getSelectedRow();
@@ -304,7 +289,6 @@ public class ProductForm {
 				        
 				        // Clear the fields 
 			            txtId.setText("");
-			            txtCode.setText("");
 			            txtDescription.setText("");
 			            txtPrice.setText("");	
 			            supplierCombox.setSelectedItem("");

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,15 +19,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.lanuza.wms.dao.ProductDAO;
 import com.lanuza.wms.dao.SupplierDAO;
-import com.lanuza.wms.dao.impl.ProductDAOImpl;
 import com.lanuza.wms.dao.impl.SupplierDAOImpl;
-import com.lanuza.wms.model.Product;
 import com.lanuza.wms.model.Supplier;
-import com.lanuza.wms.service.ProductService;
 import com.lanuza.wms.service.SupplierService;
-import com.lanuza.wms.service.impl.ProductServiceImpl;
 import com.lanuza.wms.service.impl.SupplierServiceImpl;
 
 public class SupplierFom {
@@ -36,10 +30,7 @@ public class SupplierFom {
 	private JButton btnBack;
 	private JTextField txtName;
 	private JTable table;
-	private JTextField txtBrgy;
 	private JTextField txtSupplierId;
-	private JTextField txtMunicipality;
-	private JTextField txtProvince;
 	private JTextField txtPhoneNo;
 	private final SupplierService supplierService;
 	private final SupplierDAO supplierDAO;
@@ -92,7 +83,7 @@ public class SupplierFom {
 		  	  			  
 		  txtName = new JTextField();
 		  txtName.setColumns(10);
-		  txtName.setBounds(93, 29, 182, 28);
+		  txtName.setBounds(103, 63, 172, 28);
 		  panel.add(txtName);
 		  
 		  txtSupplierId = new JTextField();		  		  
@@ -100,25 +91,9 @@ public class SupplierFom {
 		  txtSupplierId.setBounds(109, 31, 161, 29);
 		  panel_1.add(txtSupplierId);
 		  
-		  txtBrgy = new JTextField();
-		  txtBrgy.setColumns(10);
-		  txtBrgy.setBounds(93, 68, 182, 28);
-		  panel.add(txtBrgy);
-		  
-		  txtMunicipality = new JTextField();
-		  txtMunicipality.setToolTipText("City/Municipality");
-		  txtMunicipality.setColumns(10);
-		  txtMunicipality.setBounds(103, 107, 172, 28);
-		  panel.add(txtMunicipality);
-		  
-		  txtProvince = new JTextField();
-		  txtProvince.setColumns(10);
-		  txtProvince.setBounds(103, 143, 172, 28);
-		  panel.add(txtProvince);
-		  
 		  txtPhoneNo = new JTextField();
 		  txtPhoneNo.setColumns(10);
-		  txtPhoneNo.setBounds(103, 182, 172, 28);
+		  txtPhoneNo.setBounds(103, 126, 172, 28);
 		  panel.add(txtPhoneNo);
 		  
 		  JLabel topLabel = new JLabel("Manage Supplier ");
@@ -130,31 +105,13 @@ public class SupplierFom {
 		  JLabel lblName = new JLabel("Name");
 		  lblName.setForeground(Color.BLACK);
 		  lblName.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  lblName.setBounds(32, 25, 51, 33);
+		  lblName.setBounds(22, 59, 51, 33);
 		  panel.add(lblName);
-		  
-		  JLabel lblBrgy = new JLabel("Brgy");
-		  lblBrgy.setForeground(Color.BLACK);
-		  lblBrgy.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  lblBrgy.setBounds(32, 64, 41, 33);
-		  panel.add(lblBrgy);
-		  
-		  JLabel lblCity = new JLabel("Municipality");
-		  lblCity.setForeground(Color.BLACK);
-		  lblCity.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  lblCity.setBounds(10, 103, 92, 33);
-		  panel.add(lblCity);
-		  
-		  JLabel lblProvince = new JLabel("Province");
-		  lblProvince.setForeground(Color.BLACK);
-		  lblProvince.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  lblProvince.setBounds(12, 143, 71, 29);
-		  panel.add(lblProvince);
 		  
 		  JLabel lblPhoneNo = new JLabel("Phone No.");
 		  lblPhoneNo.setForeground(Color.BLACK);
 		  lblPhoneNo.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  lblPhoneNo.setBounds(12, 187, 76, 28);
+		  lblPhoneNo.setBounds(17, 126, 76, 28);
 		  panel.add(lblPhoneNo);
 		  
 		  JLabel lblSupplierList = new JLabel("Supplier List");
@@ -182,10 +139,7 @@ public class SupplierFom {
 					
 					txtSupplierId.setText(id);	
 					txtName.setText(model.getValueAt(Myindex, 1).toString());	
-					txtBrgy.setText(model.getValueAt(Myindex, 2).toString());
-					txtMunicipality.setText(model.getValueAt(Myindex, 3).toString());
-					txtProvince.setText(model.getValueAt(Myindex, 4).toString());
-					txtPhoneNo.setText(model.getValueAt(Myindex, 5).toString());					
+					txtPhoneNo.setText(model.getValueAt(Myindex, 2).toString());					
 				}
 			});
 		  
@@ -205,18 +159,15 @@ public class SupplierFom {
 		  JButton btnAdd = new JButton("Add");
 		  btnAdd.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e) {
-			    	if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+			    	if(txtName.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
 			  		}else {
-			  			String name,brgy,municipality,province,phoneNumber;
+			  			String name,phoneNumber;
 				  		name = txtName.getText();
-				  		brgy = txtBrgy.getText();
-				  		municipality = txtMunicipality.getText();
-						province = txtProvince.getText();
 						phoneNumber = txtPhoneNo.getText();
 		
 				        // Create a Supplier object with the input data
-				        Supplier supplier = new Supplier(name, brgy, municipality, province,phoneNumber);
+				        Supplier supplier = new Supplier(name,phoneNumber);
 	
 				        // Call the addSupplier method from the SupplierService
 				        supplierService.addSupplier(supplier);
@@ -225,37 +176,31 @@ public class SupplierFom {
 				        loadData();
 				        //clear the text fields
 				        txtName.setText("");
-				        txtBrgy.setText("");
-				        txtMunicipality.setText("");
-				        txtProvince.setText("");
 				        txtPhoneNo.setText("");
 			        // ...
 			  		}
 			    }
 			});				   		
 		  btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  btnAdd.setBounds(87, 221, 89, 29);
+		  btnAdd.setBounds(80, 204, 89, 29);
 		  panel.add(btnAdd);
 		  
 		  JButton btnClear = new JButton("Clear");
 		  btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {	  		
 			  		txtName.setText("");
-			  		txtBrgy.setText("");
-			  		txtMunicipality.setText("");
-			  		txtProvince.setText("");
 			  		txtPhoneNo.setText("");
 			  		txtName.requestFocus();
 			  	}
 			  });
 		  btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
-		  btnClear.setBounds(186, 221, 89, 29);
+		  btnClear.setBounds(179, 204, 89, 29);
 		  panel.add(btnClear);
 		  			  				  		  	  
 		  JButton btnUpdate = new JButton("Update");
 			  	btnUpdate.addActionListener(new ActionListener() {
 				    public void actionPerformed(ActionEvent e) {
-				    	if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+				    	if(txtName.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
 				  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 				  		}else {
 				        int selectedRow = table.getSelectedRow();
@@ -263,23 +208,17 @@ public class SupplierFom {
 				            int supplierId = (int) table.getValueAt(selectedRow, 0);
 
 				            //text fields for editing
-				            String name, brgy, municipality, province, phoneNo,id; 
+				            String name, phoneNo; 
 			  				name = txtName.getText();
-			  				brgy = txtBrgy.getText();
-			  				municipality = txtMunicipality.getText();
-			  				province = txtProvince.getText();
 			  				phoneNo = txtPhoneNo.getText();
 
-			  				Supplier updatedSupplier = new Supplier(supplierId,name, brgy, municipality, province,phoneNo);
+			  				Supplier updatedSupplier = new Supplier(supplierId,name,phoneNo);
 				            supplierService.updateSupplier(updatedSupplier);		           
 				            
 				            //load table
 				            loadData();
 				            // Clear the fields 
 				            txtName.setText("");
-				            txtBrgy.setText("");
-				            txtMunicipality.setText("");
-				            txtProvince.setText("");	
 				            txtPhoneNo.setText("");
 				            // ...
 				        } else {
@@ -298,7 +237,7 @@ public class SupplierFom {
 		  JButton btnDelete = new JButton("Delete");		  
 		  btnDelete.addActionListener(new ActionListener() {				  	
 			    public void actionPerformed(ActionEvent e) {
-			    	if(txtName.getText().isEmpty() || txtBrgy.getText().isEmpty() || txtMunicipality.getText().isEmpty() || txtProvince.getText().isEmpty() ||txtPhoneNo.getText().isEmpty()) {
+			    	if(txtName.getText().isEmpty()||txtPhoneNo.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Select a supplier to be deleted");
 			  		}else {
 				        int selectedRow = table.getSelectedRow();
@@ -314,9 +253,6 @@ public class SupplierFom {
 				        loadData();
 				        //clear textfields
 				        txtName.setText("");
-						txtBrgy.setText("");
-						txtMunicipality.setText("");
-						txtProvince.setText("");
 						txtPhoneNo.setText("");
 						txtSupplierId.setText("");
 						txtName.requestFocus();	

@@ -34,13 +34,10 @@ public class SupplierDAOImpl implements SupplierDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                // Create a Product object from the result set
+                // Create a Supplier object from the result set
             	supplier = new Supplier(
                 		resultSet.getInt("SupplierId"),
                         resultSet.getString("Name"),
-                        resultSet.getString("Brgy"),
-                        resultSet.getString("Municipality"),
-                        resultSet.getString("Province"),
                         resultSet.getString("PhoneNo")
                 );
             }
@@ -62,13 +59,10 @@ public class SupplierDAOImpl implements SupplierDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO tblsupplier (Name, Brgy, Municipality, Province, PhoneNo) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tblsupplier (Name, PhoneNo) VALUES (?, ?)";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, supplier.getName());
-            preparedStatement.setString(2, supplier.getBrgy());
-            preparedStatement.setString(3, supplier.getMunicipality());
-            preparedStatement.setString(4, supplier.getProvince());
-            preparedStatement.setString(5, supplier.getPhoneNo());
+            preparedStatement.setString(1, supplier.getName());           
+            preparedStatement.setString(2, supplier.getPhoneNo());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -98,8 +92,6 @@ public class SupplierDAOImpl implements SupplierDAO {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, supplierId);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle the exception appropriately (log or throw a custom exception)
@@ -122,13 +114,10 @@ public class SupplierDAOImpl implements SupplierDAO {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                // Create Product objects from the result set and add to the list
+                // Create Supplier objects from the result set and add to the list
             	Supplier supplier = new Supplier(
                 		resultSet.getInt("SupplierId"),
-                        resultSet.getString("Name"),
-                        resultSet.getString("Brgy"),
-                        resultSet.getString("Municipality"),
-                        resultSet.getString("Province"),
+                        resultSet.getString("Name"),           
                         resultSet.getString("PhoneNo")
                 );
             	suppliers.add(supplier);
@@ -151,14 +140,11 @@ public class SupplierDAOImpl implements SupplierDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE tblsupplier SET Name = ?, Brgy = ?, Municipality = ?, Province = ?, PhoneNo = ? WHERE SupplierId = ?";
+            String sql = "UPDATE tblsupplier SET Name = ?, PhoneNo = ? WHERE SupplierId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, supplier.getName());
-            preparedStatement.setString(2, supplier.getBrgy());
-            preparedStatement.setString(3, supplier.getMunicipality());
-            preparedStatement.setString(4, supplier.getProvince());
-            preparedStatement.setString(5, supplier.getPhoneNo());
-            preparedStatement.setInt(6, supplier.getSupplierId());
+            preparedStatement.setString(2, supplier.getPhoneNo());
+            preparedStatement.setInt(3, supplier.getSupplierId());
 
             int rowsAffected = preparedStatement.executeUpdate();
 

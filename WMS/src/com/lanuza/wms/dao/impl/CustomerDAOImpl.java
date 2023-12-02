@@ -27,7 +27,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM tblcustomer WHERE SupplierId = ?";
+            String sql = "SELECT * FROM tblcustomer WHERE CustomerId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, customerId);
             resultSet = preparedStatement.executeQuery();
@@ -37,9 +37,6 @@ public class CustomerDAOImpl implements CustomerDAO {
             	customer = new Customer(
                 		resultSet.getInt("CustomerId"),
                         resultSet.getString("Name"),
-                        resultSet.getString("Brgy"),
-                        resultSet.getString("Municipality"),
-                        resultSet.getString("Province"),
                         resultSet.getString("PhoneNo")
                 );
             }
@@ -61,13 +58,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO tblcustomer (Name, Brgy, Municipality, Province, PhoneNo) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tblcustomer (Name, PhoneNo) VALUES (?, ?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, customer.getName());
-            preparedStatement.setString(2, customer.getBrgy());
-            preparedStatement.setString(3, customer.getMunicipality());
-            preparedStatement.setString(4, customer.getProvince());
-            preparedStatement.setString(5, customer.getPhoneNo());
+            preparedStatement.setString(2, customer.getPhoneNo());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -87,7 +81,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public void deleteCustomer(int supplierId) {
+    public void deleteCustomer(int customerId) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -95,7 +89,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             connection = DBConnection.getConnection();
             String sql = "DELETE FROM tblcustomer WHERE CustomerId = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, supplierId);
+            preparedStatement.setInt(1, customerId);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -123,9 +117,6 @@ public class CustomerDAOImpl implements CustomerDAO {
             	Customer customer = new Customer(
                 		resultSet.getInt("CustomerId"),
                         resultSet.getString("Name"),
-                        resultSet.getString("Brgy"),
-                        resultSet.getString("Municipality"),
-                        resultSet.getString("Province"),
                         resultSet.getString("PhoneNo")
                 );
             	customers.add(customer);
@@ -148,14 +139,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE tblsupplier SET Name = ?, Brgy = ?, Municipality = ?, Province = ?, PhoneNo = ? WHERE CustomerId = ?";
+            String sql = "UPDATE tblcustomer SET Name = ?,PhoneNo = ? WHERE CustomerId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, customer.getName());
-            preparedStatement.setString(2, customer.getBrgy());
-            preparedStatement.setString(3, customer.getMunicipality());
-            preparedStatement.setString(4, customer.getProvince());
-            preparedStatement.setString(5, customer.getPhoneNo());
-            preparedStatement.setInt(6, customer.getCustomerId());
+            preparedStatement.setString(2, customer.getPhoneNo());
+            preparedStatement.setInt(3, customer.getCustomerId());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
