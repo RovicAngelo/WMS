@@ -2,20 +2,37 @@ package com.lanuza.wms.model;
 
 public class Account {
 	
-	private String username, password,name,type;
+	private String username, password,name,role;
 	private int accountId;
 		
 	public Account() {
 		super();
 	}
 	
-	public Account( int accountId, String username, String password, String name, String type) {
+	public Account(int accountId,String name, String username, String password, String role) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.name = name;
-		this.type = type;
+		this.role = role;
 		this.accountId = accountId;
+	}
+	//for update queries
+	public Account(String name, String username, String password, String role,int accountId) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.role = role;
+		this.accountId = accountId;
+	}
+	
+	public Account(String name, String username, String password, String role) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.role = role;
 	}
 	public String getUsername() {
 		return username;
@@ -35,11 +52,11 @@ public class Account {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
-		return type;
+	public String getRole() {
+		return role;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public int getAccountId() {
 		return accountId;
@@ -49,10 +66,7 @@ public class Account {
 	}
 	@Override
 	public String toString() {
-		return "Account [username=" + username + ", password=" + password + ", name=" + name + ", type=" + type
+		return "Account [username=" + username + ", password=" + password + ", name=" + name + ", role=" + role
 				+ ", accountId=" + accountId + "]";
-	}
-	
-	
-	
+	}	
 }

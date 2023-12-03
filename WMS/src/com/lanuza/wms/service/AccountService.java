@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import com.lanuza.wms.model.Account;
 
 public interface AccountService {
-Account getAccountById(int accountId);
+	Account getAccountById(int accountId);
 	
 	List<Account> getAllAccount();
     
@@ -18,4 +18,7 @@ Account getAccountById(int accountId);
 	void deleteAccount(int accountId);
 	
 	void tableLoad(JTable table);
+	
+	Account getAccountByUsernameAndPassword(String username, String password);
+
 }

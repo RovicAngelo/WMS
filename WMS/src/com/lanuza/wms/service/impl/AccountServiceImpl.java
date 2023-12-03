@@ -46,5 +46,9 @@ public class AccountServiceImpl implements AccountService{
 			accountDAO.tableLoad(table);
 			
 		}
+		
+		public Account getAccountByUsernameAndPassword(String username, String password) {
+	        return accountDAO.getAccountByUsernameAndPassword(username, password);
+	    }
 
 }

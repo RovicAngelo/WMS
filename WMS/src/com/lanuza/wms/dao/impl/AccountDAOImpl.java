@@ -34,12 +34,12 @@ public class AccountDAOImpl implements AccountDAO{
 
             if (resultSet.next()) {
                 // Create a customer object from the result set
-            	account = new Account(
-                		resultSet.getInt("AccountId"),
+            	account = new Account(              		
+                        resultSet.getString("Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Password"),
-                        resultSet.getString("Name"),
-                        resultSet.getString("Type")
+                        resultSet.getString("Role"),
+                        resultSet.getInt("AccountId")
                 );
             }
 
@@ -60,12 +60,12 @@ public class AccountDAOImpl implements AccountDAO{
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO tblaccount (Username, Password, Name, Type) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO tblaccount (Name,Username, Password, Role) VALUES (?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, account.getUsername());
-            preparedStatement.setString(2, account.getPassword());
-            preparedStatement.setString(3, account.getName());
-            preparedStatement.setString(4, account.getType());
+            preparedStatement.setString(1, account.getName());
+            preparedStatement.setString(2, account.getUsername());
+            preparedStatement.setString(3, account.getPassword());
+            preparedStatement.setString(4, account.getRole());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -118,12 +118,12 @@ public class AccountDAOImpl implements AccountDAO{
 
             while (resultSet.next()) {
                 // Create Customer objects from the result set and add to the list
-            	Account account = new Account(
-            			resultSet.getInt("AccountId"),
+            	Account account = new Account(      			
+            			resultSet.getString("Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Password"),
-                        resultSet.getString("Name"),
-                        resultSet.getString("Type")
+                        resultSet.getString("Role"),
+                        resultSet.getInt("AccountId")
                 );
             	accounts.add(account);
             }
@@ -145,12 +145,12 @@ public class AccountDAOImpl implements AccountDAO{
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE tblaccount SET Username = ?, Password = ?, Name = ?, Type = ? WHERE AccountId = ?";
+            String sql = "UPDATE tblaccount SET Name = ?, Username = ?, Password = ?,  Role = ? WHERE AccountId = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, account.getUsername());
-            preparedStatement.setString(2, account.getPassword());
-            preparedStatement.setString(3, account.getName());
-            preparedStatement.setString(4, account.getType());
+            preparedStatement.setString(1, account.getName());
+            preparedStatement.setString(2, account.getUsername());
+            preparedStatement.setString(3, account.getPassword());
+            preparedStatement.setString(4, account.getRole());
             preparedStatement.setInt(5, account.getAccountId());
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -189,5 +189,42 @@ public class AccountDAOImpl implements AccountDAO{
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
+    }
+    @Override
+    public Account getAccountByUsernameAndPassword(String username, String password) {
+    	 Connection connection = null;
+         PreparedStatement preparedStatement = null;
+         ResultSet resultSet = null;
+        Account account = null;
+
+        try {
+        	connection = DBConnection.getConnection();
+             preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE Username = ? AND Password = ?");
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            try {
+            	resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    account = new Account(
+                        resultSet.getString("Name"),
+                        resultSet.getString("Username"),
+                        resultSet.getString("Password"),
+                        resultSet.getString("Role"),
+                        resultSet.getInt("AccountId")
+                    );
+                }    
+            }
+            finally {
+    			// TODO: handle finally clause
+    		}
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as needed
+        }finally {
+			// TODO: handle finally clause
+		}
+
+        return account;
     }
 }
