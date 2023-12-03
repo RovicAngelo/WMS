@@ -25,6 +25,14 @@ public class Product {
 		this.price = price;
 	}
 
+	//for update query
+	public Product(String description,double price,String supplierName,int productId) {
+		super();
+		this.description = description;
+		this.productId = productId;
+		this.supplierName = supplierName;
+		this.price = price;
+	}
 	public String getDescription() {
 		return description;
 	}

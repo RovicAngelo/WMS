@@ -34,12 +34,12 @@ public class AccountDAOImpl implements AccountDAO{
 
             if (resultSet.next()) {
                 // Create a customer object from the result set
-            	account = new Account(              		
+            	account = new Account(      
+                        resultSet.getInt("AccountId"),
                         resultSet.getString("Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Password"),
-                        resultSet.getString("Role"),
-                        resultSet.getInt("AccountId")
+                        resultSet.getString("Role")
                 );
             }
 
@@ -118,12 +118,12 @@ public class AccountDAOImpl implements AccountDAO{
 
             while (resultSet.next()) {
                 // Create Customer objects from the result set and add to the list
-            	Account account = new Account(      			
+            	Account account = new Account(  
+                        resultSet.getInt("AccountId"),
             			resultSet.getString("Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Password"),
-                        resultSet.getString("Role"),
-                        resultSet.getInt("AccountId")
+                        resultSet.getString("Role")
                 );
             	accounts.add(account);
             }
@@ -199,7 +199,7 @@ public class AccountDAOImpl implements AccountDAO{
 
         try {
         	connection = DBConnection.getConnection();
-             preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE Username = ? AND Password = ?");
+            preparedStatement = connection.prepareStatement("SELECT * FROM tblaccount WHERE Username = ? AND Password = ?");
 
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
@@ -220,7 +220,7 @@ public class AccountDAOImpl implements AccountDAO{
     			// TODO: handle finally clause
     		}
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception as needed
+            e.printStackTrace(); // Handle or log the exception
         }finally {
 			// TODO: handle finally clause
 		}

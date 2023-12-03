@@ -149,7 +149,7 @@ public class SupplierFom {
 		  btnBack.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
 		  		frame.dispose();
-		  		new Stock();
+		  		new StockForm();
 		  	}
 		  });
 		  btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));

@@ -36,8 +36,8 @@ public class ProductDAOImpl implements ProductDAO {
                 // Create a Product object from the result set
                 product = new Product(
                 		resultSet.getInt("ProductId"), 
-                        resultSet.getString("description"),
-                        resultSet.getDouble("price"),
+                        resultSet.getString("Description"),
+                        resultSet.getDouble("Price"),
                         resultSet.getString("SupplierName")
                 );
             }
@@ -131,7 +131,6 @@ public class ProductDAOImpl implements ProductDAO {
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
-
         return products;
     }
 
@@ -196,9 +195,5 @@ public class ProductDAOImpl implements ProductDAO {
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
-    }
-    
-	
-    
+    }  	  
 }
-

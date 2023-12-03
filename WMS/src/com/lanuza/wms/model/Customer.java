@@ -13,6 +13,13 @@ public class Customer {
 		Name = name;
 		PhoneNo = phoneNo;
 	}
+	//for update query
+	public Customer( String name, String phoneNo,int customerId) {
+		super();
+		this.customerId = customerId;
+		Name = name;
+		PhoneNo = phoneNo;
+	}
 	
 	public Customer( String name, String phoneNo) {
 		super();

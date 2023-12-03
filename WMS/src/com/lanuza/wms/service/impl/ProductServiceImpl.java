@@ -43,8 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void tableLoad(JTable table) {
-		productDAO.tableLoad(table);
-		
+		productDAO.tableLoad(table);	
 	}
 
 }

@@ -47,6 +47,7 @@ public class AccountServiceImpl implements AccountService{
 			
 		}
 		
+		@Override
 		public Account getAccountByUsernameAndPassword(String username, String password) {
 	        return accountDAO.getAccountByUsernameAndPassword(username, password);
 	    }

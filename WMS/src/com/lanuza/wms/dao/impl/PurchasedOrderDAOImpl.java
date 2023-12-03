@@ -25,7 +25,6 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	    public PurchasedOrder getPurchasedOrderById(int orderId) {
 	        Connection connection = null;
 	        PreparedStatement preparedStatement = null;
-	        Statement statement = null;
 	        ResultSet resultSet = null;
 	        PurchasedOrder purchasedOrder = null;
 
@@ -169,9 +168,9 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            int rowsAffected = preparedStatement.executeUpdate();
 
 	            if (rowsAffected > 0) {
-	            	JOptionPane.showMessageDialog(null, "purchasedOrder updated successfully.");
+	            	JOptionPane.showMessageDialog(null, "Order updated successfully.");
 	            } else {
-	            	JOptionPane.showMessageDialog(null, "No purchasedOrder found with the given ID.");
+	            	JOptionPane.showMessageDialog(null, "No Order found with the given ID.");
 	            }
 
 	        } catch (SQLException e) {
@@ -243,7 +242,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            connection = DBConnection.getConnection();
 	            
 	            // Query to get current quantity from tblpurchaseorder
-	            String sqlPurchaseOrder = "SELECT SUM(quantity) AS TotalQty FROM phildrinksdb.tblpurchaseorder WHERE ProductDescription = ?";
+	            String sqlPurchaseOrder = "SELECT SUM(Quantity) AS TotalQty FROM tblpurchasedorder WHERE ProductDescription = ?";
 	            preparedStatement = connection.prepareStatement(sqlPurchaseOrder);
 	            preparedStatement.setString(1, selectedProduct);
 	            resultSet = preparedStatement.executeQuery();
@@ -253,7 +252,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            }
 	            
 	            // Query to get availability and max price from tblstock
-	            String sqlStock = "SELECT SUM(Qty) AS TotalQty, MAX(ProductPrice) AS MaxPrice FROM phildrinksdb.tblstock WHERE ProductDescription = ?";
+	            String sqlStock = "SELECT SUM(Quantity) AS TotalQty, MAX(ProductPrice) AS MaxPrice FROM tblstock WHERE ProductDescription = ?";
 	            preparedStatement = connection.prepareStatement(sqlStock);
 	            preparedStatement.setString(1, selectedProduct);
 	            resultSet = preparedStatement.executeQuery();
@@ -289,15 +288,15 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 		  try {				 			  
 			 connection = DBConnection.getConnection();          
 	         String sqlJoins = "UPDATE tblstock s "
-						+ "JOIN tblpurchaseorder o ON s.ProductDescription = o.ProductDescription "
+						+ "JOIN tblpurchasedorder o ON s.ProductDescription = o.ProductDescription "
 						+ "SET "
-						+ "s.Qty = CASE WHEN (s.Qty - o.Qty) < 0 THEN 0 ELSE (s.Qty - o.Qty) END, "
+						+ "s.Quantity = CASE WHEN (s.Quantity - o.Quantity) < 0 THEN 0 ELSE (s.Quantity - o.Quantity) END, "
 						+ "s.Total = CASE WHEN (s.Total - o.Total) < 0 THEN 0 ELSE (s.Total - o.Total) END;";
 	         statement = connection.createStatement();
 			 statement.executeUpdate(sqlJoins);
 
 	         JOptionPane.showMessageDialog(null, "Table data successfully modified stock");
-	         preparedStatement = connection.prepareStatement("truncate table phildrinksdb.tblpurchaseorder");
+	         preparedStatement = connection.prepareStatement("truncate table tblpurchasedorder");
 	         preparedStatement.executeUpdate(); 
 	         
 		  } catch (Exception e) {

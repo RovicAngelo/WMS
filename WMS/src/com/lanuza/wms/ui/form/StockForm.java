@@ -36,7 +36,7 @@ public class StockForm {
 	}
 	private void displayGrossTotal() {
         double sumOfTotal = stockService.getSumOfTotal();
-        // Update UI component (e.g., setText on a JTextField)
+        // Update UI component (setText on a txtGrossTotal)
         txtGrossTotal.setText(String.valueOf(sumOfTotal));
 	}  
 				

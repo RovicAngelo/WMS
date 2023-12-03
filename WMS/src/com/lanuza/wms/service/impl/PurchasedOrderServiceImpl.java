@@ -46,6 +46,7 @@ public class PurchasedOrderServiceImpl implements PurchasedOrderService{
 			purchaseOrderDAO.tableLoad(table);
 		}
 		
+		@Override
 		public double getSumOfTotal() {
 	        return purchaseOrderDAO.getSumOfTotal();
 	    }
@@ -58,8 +59,7 @@ public class PurchasedOrderServiceImpl implements PurchasedOrderService{
 
 		@Override
 		public void reflectPurchaseOrderToStock() {
-			purchaseOrderDAO.reflectPurchaseOrderToStock();
-			
+			purchaseOrderDAO.reflectPurchaseOrderToStock();			
 		}
 
 }

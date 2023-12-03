@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import com.lanuza.wms.dao.SupplierDAO;
-
 import com.lanuza.wms.model.Supplier;
 import com.lanuza.wms.util.DBConnection;
 

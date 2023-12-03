@@ -33,7 +33,7 @@ public class StockDAOImpl implements StockDAO{
 	            while (resultSet.next()) {
 	                // Create Stock objects from the result set and add to the list
 	            	Stock stock = new Stock(
-	            			resultSet.getInt("stockId"), 	                  
+	            			resultSet.getInt("StockId"), 	                  
 	                        resultSet.getString("ProductName"),
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),

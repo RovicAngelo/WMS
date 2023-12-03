@@ -9,15 +9,12 @@ import java.awt.Font;
 import java.awt.Component;
 
 public class Dashboard extends JFrame implements ActionListener {
-	    // JPanel warehousePanel;
-	    private JLabel greetLabel;
+
+		private static final long serialVersionUID = 1L;
 	    private JButton btnProduct,btnLogout, btnReceiving,btnOrder,btnInventory;
-	    private JPanel dashboardPanel;
-	    //private JPanel dpPanel;
+	    private JPanel dashboardPanel,panel_1;
 	    private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
-	    private JPanel panel_1;
-	    private JLabel lblUsername;
-	    private JLabel lblRole;
+	    private JLabel lblUsername,lblRole,greetLabel;
 
 	   public Dashboard() {
 	    	
@@ -26,20 +23,11 @@ public class Dashboard extends JFrame implements ActionListener {
 	        this.setResizable(false);
 	        this.setSize(1000, 600);        
 
-	        // warehousePanel = new JPanel();
-	        // warehousePanel.setSize(800, 350); // this set the x and y dimension of Frame
-	        // warehousePanel.setBounds(90, 120, 800, 350);
-	        // warehousePanel.setVisible(true);
-	        // warehousePanel.setBackground(Color.WHITE);
-
 	        JPanel menuPanel = new JPanel();
 	        menuPanel.setBounds(0, 0, 250, 561);
-	        //menuPanel.setOpaque(false);
 	        menuPanel.setVisible(true);
-	        // menuPanel.setBackground(new Color(29, 77, 122)); blue
 	        menuPanel.setBackground(new Color(3, 65, 68));
 	        menuPanel.setBorder(BorderFactory.createEtchedBorder());
-	        // accountLabel.setBorder(BorderFactory.createEtchedBorder());
 	     	 
 	        btnProduct = new JButton();
 	        btnProduct.setFocusPainted(false);
@@ -136,7 +124,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	        	@Override
 	        	public void mouseClicked(MouseEvent e) {
 	        		dispose();
-		    		Account execAccount = new Account();
+		    		new ProfileForm();
 	        	}
 	        });
 	        lblNewLabel.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -144,7 +132,7 @@ public class Dashboard extends JFrame implements ActionListener {
 	        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	        lblNewLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 	        lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-	        lblNewLabel.setIcon(new ImageIcon(Dashboard.class.getResource("/com/lanuza/icons/user.png")));
+	        lblNewLabel.setIcon(new ImageIcon(Dashboard.class.getResource("/com/lanuza/wms/ui/resources/icons/user.png")));
 	        lblNewLabel.setBounds(0, 0, 162, 128);
 	        panel.add(lblNewLabel);
 	        
@@ -181,31 +169,25 @@ public class Dashboard extends JFrame implements ActionListener {
 	    }
 
 	    public void actionPerformed(ActionEvent e) {
-	    	/*if(e.getSource() == lblUsername) {
-	    		this.dispose();
-	    		Account execAccount = new Account();
-	    		
-	    	}else */
 	    		if(e.getSource() == btnProduct) {
 	    		this.dispose();	    		
-	    		Product execProduct = new Product();
-	    		
-	    		
+	    		new ProductForm();
+	    		    		
 	    	}else if(e.getSource() == btnReceiving) {
 	    		//this.dispose(); disabled the dispose method to allow multi instantiation of the frame
-	    		ReceivingModern execReceiving = new ReceivingModern();
+	    		new ReceivingEntryForm();
 	    		
 	    	}else if(e.getSource() == btnOrder) {
 	    		//this.dispose(); disabled the dispose method to allow multi instantiation of the frame
-	    		Order execOrder = new Order();
+	    		new PurchasedOrderForm();
 	    	
 	    	}else if(e.getSource() == btnInventory) {
 		    		this.dispose();
-		    		Stock execInventory = new Stock();
+		    		new StockForm();
 		    		   			   		
 	    	}else if (e.getSource() == btnLogout) {        	
 	        	this.dispose();
-	        	Login Logout = new Login();
+	        	new LoginForm();
 	        }       
 	        
 	    }

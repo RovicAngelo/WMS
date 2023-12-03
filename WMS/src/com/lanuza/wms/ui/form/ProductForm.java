@@ -38,16 +38,13 @@ import com.lanuza.wms.ui.components.CustomTextField;
 
 public class ProductForm {
 
-	private static final long serialVersionUID = 1L;
 	private final ProductService productService;
 	private final ProductDAO productDAO;
 	
-	//private JComboBox<Product> productCombox;
 	private JComboBox<Supplier>supplierCombox;
 	private JTable table;
     private JFrame frame; //not sure wether to use panel or frame in sub forms
 	private JTextField txtDescription,txtPrice,txtId;
-	//private JComboBox<Supplier> supplierCombox; 		supplier not yet available
 	
 	 public ProductForm() {
 		 // Create instances of ProductDAOImpl and ProductServiceImpl internally
@@ -130,15 +127,7 @@ public class ProductForm {
 				        Product product = new Product(description, price, supplierName);
 	
 				        // Call the addProduct method from the ProductService
-				        productService.addProduct(product);
-				        
-				        /*
-				    	//query to add the product in stock with empty qty and total
-				  		String addProductInStockQuery = "insert into tblstock(ProductCode,ProductDescription,ProductPrice,Qty,Total) select ProductCode, ProductDescription, ProductPrice,Qty,Total from tblproduct";
-				  		st = con.createStatement();
-						st.executeUpdate(addProductInStockQuery);
-						st.close();
-						*/
+				        productService.addProduct(product);				        
 				        			        
 				        // Load the table
 				        loadData();
@@ -248,7 +237,7 @@ public class ProductForm {
 			            double price = Double.parseDouble(txtPrice.getText());
 			            String supplier = supplierCombox.getSelectedItem().toString();
 
-			            Product updatedProduct = new Product(productId,description, price, supplier);
+			            Product updatedProduct = new Product(description, price, supplier,productId);
 			            productService.updateProduct(updatedProduct);		           
 			            
 			            //load table

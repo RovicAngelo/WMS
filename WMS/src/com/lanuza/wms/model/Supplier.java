@@ -4,10 +4,18 @@ public class Supplier {
 	
 	private int supplierId;
 	private String name,phoneNo;
+	
 	public Supplier() {
 		super();
 	}
 	public Supplier(int supplierId, String name, String phoneNo) {
+		super();
+		this.supplierId = supplierId;
+		this.name = name;
+		this.phoneNo = phoneNo;
+	}
+	//for update query
+	public Supplier(String name, String phoneNo,int supplierId) {
 		super();
 		this.supplierId = supplierId;
 		this.name = name;

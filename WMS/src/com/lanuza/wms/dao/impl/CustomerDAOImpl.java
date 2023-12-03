@@ -108,7 +108,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM tblscustomer";
+            String sql = "SELECT * FROM tblcustomer";
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
@@ -124,7 +124,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle the exception appropriately (log or throw a custom exception)
+            // Handle the exception appropriately
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
         }

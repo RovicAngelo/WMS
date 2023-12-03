@@ -43,8 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void tableLoad(JTable table) {
-		customerDAO.tableLoad(table);
-		
+		customerDAO.tableLoad(table);		
 	}
 
 }

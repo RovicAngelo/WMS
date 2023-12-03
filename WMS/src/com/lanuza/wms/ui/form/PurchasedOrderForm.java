@@ -494,7 +494,7 @@ public class PurchasedOrderForm {
 	}	   
 		 private void openStock(ActionEvent e) {
 			 //go to stockForm
-		        new Stock();
+		        new StockForm();
 		    } 
 		 private void openProduct(ActionEvent e) {
 			 //go to productform
@@ -579,7 +579,6 @@ public class PurchasedOrderForm {
 		            JOptionPane.showMessageDialog(null, "Select an item to be deleted");
 		        } else {
 		        		//delete order row
-		            	purchasedOrderService.deletePurchasedOrder(codeQuery);
 		            	int id = Integer.parseInt(txtOrderId.getText());
 		            	purchasedOrderService.deletePurchasedOrder(id);
 		            	//show display the grossTotal in the label
@@ -632,7 +631,7 @@ public class PurchasedOrderForm {
 		                oldprice = price;
 		                newtotal = oldqty * oldprice;
 		                // Update Order
-		                PurchasedOrder purchasedOrder = new PurchasedOrder(id,selectedProduct,price,oldqty,newtotal,customer,currentDate);
+		                PurchasedOrder purchasedOrder = new PurchasedOrder(selectedProduct,price,oldqty,newtotal,customer,currentDate,id);
 		                purchasedOrderService.updatePurchasedOrder(purchasedOrder);	                		                	                
 		                // Update the gross total label		                
 		               double sumOfTotal  = purchasedOrderService.getSumOfTotal();	

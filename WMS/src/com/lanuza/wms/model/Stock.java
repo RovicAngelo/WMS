@@ -17,6 +17,16 @@ public class Stock {
 		this.total = total;
 		this.productPrice = productPrice;
 	}
+	//for update query
+	public Stock(String productName,double productPrice, int quantity, double total, String supplierName,int stockId) {
+		super();
+		this.stockId = stockId;
+		this.quantity = quantity;
+		this.productName = productName;
+		SupplierName = supplierName;
+		this.total = total;
+		this.productPrice = productPrice;
+	}
 	public int getStockId() {
 		return stockId;
 	}

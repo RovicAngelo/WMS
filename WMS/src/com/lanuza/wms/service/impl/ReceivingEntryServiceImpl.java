@@ -44,22 +44,20 @@ public class ReceivingEntryServiceImpl implements ReceivingEntryService{
 
 	@Override
 	public void tableLoad(JTable table) {
-		receivingEntryDAO.tableLoad(table);
-		
+		receivingEntryDAO.tableLoad(table);		
 	}
+	
 	@Override
 	public double getSumOfTotal() {
         return receivingEntryDAO.getSumOfTotal();
     }
 	@Override
 	public void reflectReceivingEntryToStock() {
-		receivingEntryDAO.reflectReceivingEntryToStock();
-		
+		receivingEntryDAO.reflectReceivingEntryToStock();	
 	}
 
 	@Override
 	public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
 		return receivingEntryDAO.getAvailabilityAndPriceByProductDescription(selectedProduct);
 	}
-
 }

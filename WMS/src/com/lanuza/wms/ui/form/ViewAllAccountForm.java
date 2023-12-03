@@ -4,39 +4,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.AccountDAO;
-import com.lanuza.wms.dao.SupplierDAO;
 import com.lanuza.wms.dao.impl.AccountDAOImpl;
-import com.lanuza.wms.dao.impl.SupplierDAOImpl;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
-import com.lanuza.wms.service.impl.SupplierServiceImpl;
-
-import net.proteanit.sql.DbUtils;
 
 public class ViewAllAccountForm {
 	

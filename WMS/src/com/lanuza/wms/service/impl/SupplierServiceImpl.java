@@ -43,8 +43,6 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public void tableLoad(JTable table) {
-		supplierDAO.tableLoad(table);
-		
+		supplierDAO.tableLoad(table);		
 	}
-
 }

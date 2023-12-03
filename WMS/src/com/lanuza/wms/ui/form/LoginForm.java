@@ -13,6 +13,8 @@ import com.lanuza.wms.service.impl.AccountServiceImpl;
 import java.awt.event.*;
 
 public class LoginForm extends JFrame{
+
+	private static final long serialVersionUID = 1L;
 	private ProfileForm profileForm;
 		private final AccountDAO accountDAO;
 		private final AccountService accountService;

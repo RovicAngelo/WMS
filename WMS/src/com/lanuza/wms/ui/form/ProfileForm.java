@@ -292,7 +292,7 @@ public class ProfileForm {
 				newrole = newRoleCombox.getSelectedItem().toString();
 				accid = Integer.parseInt( txtCurrentId.getText());
 				
-				Account updateAccount = new Account(accid,newName,newUsername,newPassword,newrole);
+				Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
 				accountService.updateAccount(updateAccount);			
 
 				updateProfile(updateAccount);

@@ -7,12 +7,26 @@ public class ReceivingEntry {
 	private String productName,supplierName;
 	private double total,productPrice;
 	private Date received_Date, expDate;
+	
 	public ReceivingEntry() {
 		super();
 	}
 	//with all parameter
 	public ReceivingEntry(int receivingId, String productName, double productPrice,int quantity, double total,Date expDate, String supplierName,
 			 Date received_Date) {
+		super();
+		this.receivingId = receivingId;
+		this.quantity = quantity;
+		this.productName = productName;
+		this.expDate = expDate;
+		this.supplierName = supplierName;
+		this.total = total;
+		this.productPrice = productPrice;
+		this.received_Date = received_Date;
+	}
+	//for update query
+	public ReceivingEntry(String productName, double productPrice,int quantity, double total,Date expDate, String supplierName,
+			 Date received_Date,int receivingId) {
 		super();
 		this.receivingId = receivingId;
 		this.quantity = quantity;

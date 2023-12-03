@@ -30,7 +30,4 @@ public class StockServiceImpl implements StockService{
 		public double getSumOfTotal() {		
 			return stockDAO.getSumOfTotal();
 		}
-	 
-
-
 }

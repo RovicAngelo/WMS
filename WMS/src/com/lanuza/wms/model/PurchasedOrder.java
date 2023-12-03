@@ -23,6 +23,18 @@ public class PurchasedOrder {
 		this.productPrice = productPrice;
 		this.order_Date = order_Date;
 	}
+	//for update query
+	public PurchasedOrder( String productName,
+			double productPrice, int quantity, double total, String customerName, Date order_Date,int orderId) {
+		super();
+		OrderId = orderId;
+		this.quantity = quantity;
+		this.productName = productName;
+		this.customerName = customerName;
+		this.total = total;
+		this.productPrice = productPrice;
+		this.order_Date = order_Date;
+	}
 	
 	public PurchasedOrder(String productName,
 			double productPrice, int quantity, double total, String customerName, Date order_Date) {

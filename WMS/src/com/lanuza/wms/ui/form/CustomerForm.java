@@ -97,7 +97,7 @@ public class CustomerForm {
 		JLabel lblId = new JLabel("CustomerID");
 		lblId.setForeground(Color.BLACK);
 		lblId.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblId.setBounds(10, 31, 76, 33);
+		lblId.setBounds(10, 31, 89, 33);
 		panel_1.add(lblId);
 		
 		txtName = new JTextField();
@@ -156,7 +156,7 @@ public class CustomerForm {
 			public void actionPerformed(ActionEvent e) {
 				
 				frame.dispose();
-				Stock back = new Stock();
+				new StockForm();
 			}
 		});
 		btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -178,7 +178,7 @@ public class CustomerForm {
 		  				name = txtName.getText();
 		  				phoneNo = txtPhoneNo.getText();
 						
-						Customer customer = new Customer(customerId,name,phoneNo);
+						Customer customer = new Customer(name,phoneNo,customerId);
 						customerService.updateCustomer(customer);
 		  				
 						loadData();	

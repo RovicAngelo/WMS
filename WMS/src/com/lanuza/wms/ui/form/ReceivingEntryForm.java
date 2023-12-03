@@ -23,7 +23,6 @@ import com.lanuza.wms.model.Supplier;
 import com.lanuza.wms.service.ReceivingEntryService;
 import com.lanuza.wms.service.impl.ReceivingEntryServiceImpl;
 import com.toedter.calendar.JDateChooser;
-import net.proteanit.sql.DbUtils;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -523,7 +522,7 @@ public class ReceivingEntryForm {
 						oldprice = priceQuery;//to get the current price in the textfield
 						newtotal = oldqty * oldprice; //to set the updated total by multiplying the current qty and price 
 									
-						ReceivingEntry receivingEntry = new ReceivingEntry(selectedProduct,priceQuery,oldqty,newtotal,MyExpDate,supplierQuery,currentDate);
+						ReceivingEntry receivingEntry = new ReceivingEntry(selectedProduct,priceQuery,oldqty,newtotal,MyExpDate,supplierQuery,currentDate,id);
 						receivingEntryService.updateReceivingEntry(receivingEntry);
 		  				displayGrossTotal();
 						loadData();	
@@ -550,7 +549,7 @@ public class ReceivingEntryForm {
 		btnStock.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Stock();
+				new StockForm();
 			}
 		});
 		btnStock.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
