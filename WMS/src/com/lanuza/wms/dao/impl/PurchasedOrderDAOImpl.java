@@ -101,6 +101,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            String sql = "DELETE FROM tblpurchasedorder WHERE OrderId = ?";
 	            preparedStatement = connection.prepareStatement(sql);
 	            preparedStatement.setInt(1, orderId);
+	            preparedStatement.executeUpdate();
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();

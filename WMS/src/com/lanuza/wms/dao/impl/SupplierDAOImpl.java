@@ -90,6 +90,7 @@ public class SupplierDAOImpl implements SupplierDAO {
             String sql = "DELETE FROM tblsupplier WHERE SupplierId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, supplierId);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

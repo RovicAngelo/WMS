@@ -90,6 +90,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             String sql = "DELETE FROM tblcustomer WHERE CustomerId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, customerId);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

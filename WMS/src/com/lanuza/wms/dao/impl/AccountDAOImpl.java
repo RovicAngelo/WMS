@@ -94,6 +94,7 @@ public class AccountDAOImpl implements AccountDAO{
             String sql = "DELETE FROM tblaccount WHERE AccountId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountId);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -195,5 +196,28 @@ public class ProductDAOImpl implements ProductDAO {
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
-    }  	  
+    }
+
+	@Override
+	public String getSupplierName() {
+			Connection connection = null;
+	        PreparedStatement preparedStatement = null;
+	        ResultSet resultSet = null;
+	        String name = "";	        
+	        
+		 try {
+        	 connection = DBConnection.getConnection();
+             preparedStatement = connection.prepareStatement("SELECT Name FROM tblsupplier");
+             resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+            	name = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+		return name;
+	}  	  
 }

@@ -102,6 +102,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	            String sql = "DELETE FROM tblreceivingentry WHERE ReceivingId = ?";
 	            preparedStatement = connection.prepareStatement(sql);
 	            preparedStatement.setInt(1, receivingId);
+	            preparedStatement.executeUpdate();
 
 	        } catch (SQLException e) {
 	            e.printStackTrace();
