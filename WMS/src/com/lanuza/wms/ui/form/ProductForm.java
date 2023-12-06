@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,7 +29,6 @@ import javax.swing.table.DefaultTableModel;
 import com.lanuza.wms.dao.ProductDAO;
 import com.lanuza.wms.dao.impl.ProductDAOImpl;
 import com.lanuza.wms.model.Product;
-import com.lanuza.wms.model.Supplier;
 import com.lanuza.wms.service.ProductService;
 import com.lanuza.wms.service.impl.ProductServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
@@ -41,7 +41,7 @@ public class ProductForm {
 	private final ProductService productService;
 	private final ProductDAO productDAO;
 	
-	private JComboBox<Supplier>supplierCombox;
+	private JComboBox<String>supplierCombox;
 	private JTable table;
     private JFrame frame; //not sure wether to use panel or frame in sub forms
 	private JTextField txtDescription,txtPrice,txtId;
@@ -52,12 +52,21 @@ public class ProductForm {
 	        this.productService = new ProductServiceImpl(productDAO);
 	     initComponents();
 	     loadData();
+	     populateSupplierCombox();
 	 }
 	 
 	 private void loadData() {
 	        // Call the tableLoad method from ProductService
 	        productService.tableLoad(table);
-	    }	 
+	    }	
+	 
+	 private void populateSupplierCombox() {
+		    List<String> supplierNames = productService.getAllSupplierName();
+
+		    for (String supplierName : supplierNames) {
+		    	supplierCombox.addItem(supplierName);
+		    }
+		}
 	
 	 private void initComponents() {
 		 	// UI components initialization...
@@ -109,25 +118,32 @@ public class ProductForm {
 			panel.add(txtDescription);
 			
 			 // Create button with text, icon,bgColor,fgColor, tooltiptext, action, bounds, focus paint
-			JButton btnAdd = new CustomButton("Add",new Color(240,240,240), new Color(0,0,0),"Add",new Rectangle(99, 202, 89, 29),false);
+			JButton btnAdd = new JButton();
+			btnAdd.setText("Add");
+			btnAdd.setBackground(new Color(240,240,240));
+			btnAdd.setForeground(new Color(0,0,0));
+			btnAdd.setBounds(new Rectangle(99, 202, 89, 29));
+			btnAdd.setFocusPainted(false);
 			btnAdd.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing Information(s)");
 			  		}else {
-			  		String description,supplierName;
-			  		//int qty= 0,total=0; this is an attribute of tblstock to be transfer as having 0 as initial 
-			  		Double price;
+			  		String productDescription,supplierName;
+			  		int qty= 0;	//this is an attribute of tblstock to be transfer as having 0 as initial 
+			  		Double productPrice,total=0.0;
 			        //text fields and combo box components
-				  		description = txtDescription.getText();
-				  		price =  Double.parseDouble(txtPrice.getText());
+			  			productDescription = txtDescription.getText();
+				  		productPrice =  Double.parseDouble(txtPrice.getText());
 				  		supplierName = supplierCombox.getSelectedItem().toString();	
 		
 				        // Create a Product object with the input data
-				        Product product = new Product(description, price, supplierName);
+				        Product product = new Product(productDescription, productPrice,qty,total, supplierName);
 	
 				        // Call the addProduct method from the ProductService
-				        productService.addProduct(product);				        
+				        productService.addProduct(product);		
+				        
+				        productService.transferDataAndSetDefaults(product);
 				        			        
 				        // Load the table
 				        loadData();
@@ -136,14 +152,18 @@ public class ProductForm {
 				        txtDescription.setText("");
 				        txtPrice.setText("");
 				        supplierCombox.setSelectedItem("");
-			        // ...
 			  		}
 			    }
 			});			
 			btnAdd.setFont(new Font("Tahoma", Font.BOLD, 15));
 			panel.add(btnAdd);
 			
-			JButton btnClear = new CustomButton("Clear",new Color(240,240,240), new Color(0,0,0),"Add",new Rectangle(192, 202, 89, 29),false);
+			JButton btnClear = new JButton();
+			btnClear.setText("Clear");
+			btnClear.setBackground(new Color(240,240,240));
+			btnClear.setForeground(new Color(0,0,0));
+			btnClear.setBounds(new Rectangle(192, 202, 89, 29));
+			btnClear.setFocusPainted(false);
 			btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {
 			  		
@@ -162,7 +182,7 @@ public class ProductForm {
 			lblSupplierName.setBounds(10, 149, 88, 33);
 			panel.add(lblSupplierName);
 			
-			supplierCombox = new JComboBox<Supplier>();
+			supplierCombox = new JComboBox<String>();
 			supplierCombox.setMaximumRowCount(2);
 			supplierCombox.setFont(new Font("Tahoma", Font.BOLD, 13));
 			supplierCombox.setEditable(true);
@@ -203,8 +223,8 @@ public class ProductForm {
 			JButton btnBack = new JButton("Back");
 			btnBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//frame.dispose();
-					//new Dashboard();
+					frame.dispose();
+					new Dashboard();
 				}
 			});
 			btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -225,6 +245,7 @@ public class ProductForm {
 			JButton btnUpdate = new JButton("Update");
 			btnUpdate.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
+		    	
 			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Missing information(s)!");
 			  		}else {
@@ -233,11 +254,13 @@ public class ProductForm {
 			            int productId = (int) table.getValueAt(selectedRow, 0);
 
 			            //text fields for editing
-			            String description = txtDescription.getText();
-			            double price = Double.parseDouble(txtPrice.getText());
+			            String productDescription = txtDescription.getText();
+			            double productPrice = Double.parseDouble(txtPrice.getText());
+			            int qty = 0;
+			            double total = 0.0;
 			            String supplier = supplierCombox.getSelectedItem().toString();
 
-			            Product updatedProduct = new Product(description, price, supplier,productId);
+			            Product updatedProduct = new Product(productDescription, productPrice, qty, total, supplier,productId);
 			            productService.updateProduct(updatedProduct);		           
 			            
 			            //load table

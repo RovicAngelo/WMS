@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +36,10 @@ public class ProductDAOImpl implements ProductDAO {
                 // Create a Product object from the result set
                 product = new Product(
                 		resultSet.getInt("ProductId"), 
-                        resultSet.getString("Description"),
-                        resultSet.getDouble("Price"),
+                        resultSet.getString("ProductDescription"),
+                        resultSet.getDouble("ProductPrice"),
+                        resultSet.getInt("Quantity"),
+                        resultSet.getDouble("Total"),
                         resultSet.getString("SupplierName")
                 );
             }
@@ -60,11 +61,13 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "INSERT INTO tblproduct (Description,Price, SupplierName) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO tblproduct (ProductDescription,ProductPrice,Quantity,Total, SupplierName) VALUES (?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, product.getDescription());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setString(3, product.getSupplierName());
+            preparedStatement.setString(1, product.getProductDescription());
+            preparedStatement.setDouble(2, product.getProductPrice());
+            preparedStatement.setInt(3, product.getQuantity());
+            preparedStatement.setDouble(4, product.getTotal());
+            preparedStatement.setString(5, product.getSupplierName());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -93,6 +96,7 @@ public class ProductDAOImpl implements ProductDAO {
             String sql = "DELETE FROM tblproduct WHERE ProductId = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, productId);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,9 +122,11 @@ public class ProductDAOImpl implements ProductDAO {
             while (resultSet.next()) {
                 // Create Product objects from the result set and add to the list
                 Product product = new Product(
-                		resultSet.getInt("ProductId"),                   
-                        resultSet.getString("Description"),
-                        resultSet.getDouble("Price"),
+                		resultSet.getInt("ProductId"), 
+                        resultSet.getString("ProductDescription"),
+                        resultSet.getDouble("ProductPrice"),
+                        resultSet.getInt("Quantity"),
+                        resultSet.getDouble("Total"),
                         resultSet.getString("SupplierName")
                 );
                 products.add(product);
@@ -139,26 +145,17 @@ public class ProductDAOImpl implements ProductDAO {
     public void updateProduct(Product product) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        /*
-        DefaultTableModel model = (DefaultTableModel)table.getModel();
-		int Myindex = table.getSelectedRow();
-		String id = table.getModel().getValueAt(Myindex,0).toString();	
-		
-		txtId.setText(id);					
-		txtCode.setText(model.getValueAt(Myindex, 1).toString());
-		txtDescription.setText(model.getValueAt(Myindex, 2).toString());
-		txtPrice.setText(model.getValueAt(Myindex, 3).toString());	
-		supplierCombox.setSelectedItem(model.getValueAt(Myindex, 4).toString());
-		*/
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "UPDATE tblproduct SET Description = ?, Price = ?, SupplierName = ? WHERE ProductId = ?";
+            String sql = "UPDATE tblproduct SET ProductDescription = ?, ProductPrice = ?, Quantity=?, Totat=? ,SupplierName = ? WHERE ProductId = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, product.getDescription());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setString(3, product.getSupplierName());
-            preparedStatement.setInt(4, product.getProductId());
+            preparedStatement.setString(1, product.getProductDescription());
+            preparedStatement.setDouble(2, product.getProductPrice());
+            preparedStatement.setInt(3, product.getQuantity());
+            preparedStatement.setDouble(4, product.getTotal());
+            preparedStatement.setString(5, product.getSupplierName());
+            preparedStatement.setInt(6, product.getProductId());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -184,7 +181,7 @@ public class ProductDAOImpl implements ProductDAO {
 
         try {
             connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM tblproduct";
+            String sql = "SELECT ProductId, ProductDescription, ProductPrice,SupplierName FROM tblproduct";
             preparedStatement = connection.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
 
@@ -199,25 +196,48 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
 	@Override
-	public String getSupplierName() {
-			Connection connection = null;
-	        PreparedStatement preparedStatement = null;
-	        ResultSet resultSet = null;
-	        String name = "";	        
-	        
-		 try {
-        	 connection = DBConnection.getConnection();
-             preparedStatement = connection.prepareStatement("SELECT Name FROM tblsupplier");
-             resultSet = preparedStatement.executeQuery();
+	public List<String> getAllSupplierName() {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    List<String> names = new ArrayList<>();
 
-            if (resultSet.next()) {
-            	name = resultSet.getString(1);
-            }
+	    try {
+	        connection = DBConnection.getConnection();
+	        preparedStatement = connection.prepareStatement("SELECT Name FROM tblsupplier");
+	        resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            String name = resultSet.getString("Name");
+	            names.add(name);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBConnection.close(connection, preparedStatement, resultSet);
+	    }
+	    return names;
+	}
+	
+	@Override
+	public void transferDataAndSetDefaults(Product product) {
+		Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+        	connection = DBConnection.getConnection();
+	        preparedStatement = connection.prepareStatement("INSERT INTO tblstock(ProductDescription, ProductPrice, Quantity, Total, SupplierName) VALUES (?, ?, ?, ?, ?)");
+			preparedStatement.setString(1, product.getProductDescription());
+			preparedStatement.setDouble(2, product.getProductPrice());
+			preparedStatement.setInt(3, product.getQuantity());
+			preparedStatement.setDouble(4, product.getTotal());
+			preparedStatement.setString(5, product.getSupplierName());
+			preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DBConnection.close(connection, preparedStatement, resultSet);
-        }
-		return name;
-	}  	  
+        }	    	          
+    }	
+	 
 }

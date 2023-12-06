@@ -20,5 +20,9 @@ public interface ProductDAO {
 	void deleteProduct(int productId);
 	
 	void tableLoad(JTable table);
+	
+	List<String> getAllSupplierName();
+	
+	void transferDataAndSetDefaults(Product product);
 
 }
