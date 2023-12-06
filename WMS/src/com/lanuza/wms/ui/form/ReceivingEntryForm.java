@@ -1,32 +1,44 @@
 package com.lanuza.wms.ui.form;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.border.LineBorder;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import javax.swing.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.ReceivingEntryDAO;
 import com.lanuza.wms.dao.impl.ReceivingEntryDAOImpl;
-import com.lanuza.wms.model.Product;
 import com.lanuza.wms.model.ReceivingEntry;
-import com.lanuza.wms.model.Supplier;
 import com.lanuza.wms.service.ReceivingEntryService;
 import com.lanuza.wms.service.impl.ReceivingEntryServiceImpl;
 import com.toedter.calendar.JDateChooser;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
 
 public class ReceivingEntryForm {
 	private final ReceivingEntryService receivingEntryService;
@@ -59,10 +71,12 @@ public class ReceivingEntryForm {
 		LocalDateTime now = LocalDateTime.now();		
 		lblCurrentDate.setText(dtf.format(now));;
 	}
+	
 	//to load the data in the table
 	void loadData() {
 		receivingEntryService.tableLoad(table);
 	}
+	
 	private void displayGrossTotal() {
         double sumOfTotal = receivingEntryService.getSumOfTotal();
         // Update UI component (e.g., setText on a JTextField)
@@ -71,8 +85,11 @@ public class ReceivingEntryForm {
 	
 	//to populate the productNameCombox with Desription attribute of tblproduct 
 	private void populateProductCombox() {
-		 String productDescription = receivingEntryService.getProductDescription();
-		 productNameCombox.addItem(productDescription);
+	    List<String> productDescriptions = receivingEntryService.getAllProductDescriptions();
+
+	    for (String description : productDescriptions) {
+	        productNameCombox.addItem(description);
+	    }
 	}
 		
 	private void initialize() {
@@ -245,9 +262,9 @@ public class ReceivingEntryForm {
 				
 				String id = table.getModel().getValueAt(Myindex,0).toString();
 				txtSearchId.setText(id);
-				productNameCombox.setSelectedItem(model.getValueAt(Myindex, 2).toString());
-				txtQty.setText(model.getValueAt(Myindex, 4).toString());	
-				//expDateChooser.setDateFormatString(model.getValueAt(Myindex, 6).toString()); // this code is not functioning
+				productNameCombox.setSelectedItem(model.getValueAt(Myindex,1).toString());
+				txtQty.setText(model.getValueAt(Myindex, 3).toString());	
+				expDateChooser.setDateFormatString(model.getValueAt(Myindex, 5).toString()); // this code is not functioning
 			}
 		});
 		scrollPane.setViewportView(table);

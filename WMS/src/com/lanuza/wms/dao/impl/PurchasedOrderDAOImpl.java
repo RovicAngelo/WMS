@@ -39,7 +39,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	                // Create a PurchasedOrder object from the result set
 	                purchasedOrder = new PurchasedOrder(
 	                		resultSet.getInt("OrderId"), 	                  
-	                        resultSet.getString("ProductName"),
+	                        resultSet.getString("ProductDescription"),
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
@@ -65,7 +65,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "INSERT INTO tblpurchasedorder (ProductName,ProductPrice,Quantity,Total,CustomerName,Order_Date) VALUES (?, ?, ?, ?, ?, ?)";
+	            String sql = "INSERT INTO tblpurchasedorder (ProductDescription,ProductPrice,Quantity,Total,CustomerName,Order_Date) VALUES (?, ?, ?, ?, ?, ?)";
 	            preparedStatement = connection.prepareStatement(sql);
 	            preparedStatement.setString(1, purchasedOrder.getProductName());
 	            preparedStatement.setDouble(2, purchasedOrder.getProductPrice());
@@ -128,7 +128,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	                // Create PurchasedOrder objects from the result set and add to the list
 	            	PurchasedOrder purchasedOrder = new PurchasedOrder(
 	                  		resultSet.getInt("OrderId"), 	                  
-	                        resultSet.getString("ProductName"),
+	                        resultSet.getString("ProductDescription"),
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
@@ -155,7 +155,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "UPDATE tblpurchasedorder SET ProductName = ?, ProductPrice = ?,Quantity = ?,Total = ?,"
+	            String sql = "UPDATE tblpurchasedorder SET ProductDescription = ?, ProductPrice = ?,Quantity = ?,Total = ?,"
 	            		+ " CustomerName = ?, Order_Date = ? WHERE OrderId = ?";
 	            preparedStatement = connection.prepareStatement(sql);	         
 	            preparedStatement.setString(1, purchasedOrder.getProductName());
@@ -235,8 +235,8 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	        ResultSet resultSet = null;
 
 	        double currentQty = 0;
-	        int availability = 0;
-	        int price = 0;
+	        double availability = 0.0;
+	        double price = 0;
 	        double newAvailableQty = 0;
 
 	        try {
@@ -259,8 +259,8 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            resultSet = preparedStatement.executeQuery();
 
 	            while (resultSet.next()) {
-	                availability = resultSet.getInt("TotalQty");
-	                price = resultSet.getInt("MaxPrice");
+	                availability = resultSet.getDouble("TotalQty");
+	                price = resultSet.getDouble("MaxPrice");
 
 	                newAvailableQty = availability - currentQty;
 	            }
@@ -301,12 +301,59 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	         preparedStatement.executeUpdate(); 
 	         
 		  } catch (Exception e) {
-				// TODO: handle exception
 		  } finally {
 	            DBConnection.close(connection, preparedStatement, resultSet);
 	        }
 
 		}
+		
+		@Override
+		public List<String> getAllCustomerName() {
+				Connection connection = null;
+		        PreparedStatement preparedStatement = null;
+		        ResultSet resultSet = null;
+		        List<String> names = new ArrayList<>();
+		        
+			 try {
+	        	 connection = DBConnection.getConnection();
+	             preparedStatement = connection.prepareStatement("SELECT Name FROM tblcustomer");
+	             resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	            	String name = resultSet.getString("Name");
+	            	names.add(name);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+			return names;
+		}  	  
+		
+		@Override
+		public List<String> getAllProductDescription() {
+				Connection connection = null;
+		        PreparedStatement preparedStatement = null;
+		        ResultSet resultSet = null;     
+		        List<String> names = new ArrayList<>();  
+		        
+			 try {
+	        	 connection = DBConnection.getConnection();
+	             preparedStatement = connection.prepareStatement("SELECT ProductDescription FROM tblproduct");
+	             resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	            	String name = resultSet.getString("ProductDescription");
+	            	names.add(name);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            DBConnection.close(connection, preparedStatement, resultSet);
+	        }
+			return names;
+		}  	  
 
 		/*
 		public void addPurchasedOrder(PurchasedOrder purchasedOrder) throws SQLException {

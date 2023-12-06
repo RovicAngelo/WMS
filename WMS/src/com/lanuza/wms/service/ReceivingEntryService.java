@@ -25,4 +25,6 @@ public interface ReceivingEntryService {
 	void reflectReceivingEntryToStock();
 	
 	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
+	
+	List<String> getAllProductDescriptions();
 }

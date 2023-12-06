@@ -64,5 +64,7 @@ public interface ReceivingEntryDAO {
 	void reflectReceivingEntryToStock();
 	
 	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
+	
+	List<String> getAllProductDescriptions();
 }
 

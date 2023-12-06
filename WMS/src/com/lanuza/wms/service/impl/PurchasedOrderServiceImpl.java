@@ -62,4 +62,14 @@ public class PurchasedOrderServiceImpl implements PurchasedOrderService{
 			purchaseOrderDAO.reflectPurchaseOrderToStock();			
 		}
 
+		@Override
+		public List<String> getAllProductDescription() {
+			return purchaseOrderDAO.getAllProductDescription();
+		}
+
+		@Override
+		public List<String> getAllCustomerName() {
+			return purchaseOrderDAO.getAllCustomerName();
+		}
+
 }

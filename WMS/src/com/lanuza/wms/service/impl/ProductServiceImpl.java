@@ -46,4 +46,17 @@ public class ProductServiceImpl implements ProductService {
 		productDAO.tableLoad(table);	
 	}
 
+
+	@Override
+	public void transferDataAndSetDefaults(Product product) {
+		productDAO.transferDataAndSetDefaults(product);
+		
+	}
+
+	@Override
+	public List<String> getAllSupplierName() {
+		// TODO Auto-generated method stub
+		return productDAO.getAllSupplierName();
+	}
+
 }

@@ -60,4 +60,11 @@ public class ReceivingEntryServiceImpl implements ReceivingEntryService{
 	public Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct) {
 		return receivingEntryDAO.getAvailabilityAndPriceByProductDescription(selectedProduct);
 	}
+
+	@Override
+	public List<String> getAllProductDescriptions() {
+		return receivingEntryDAO.getAllProductDescriptions();
+	}
+
+
 }

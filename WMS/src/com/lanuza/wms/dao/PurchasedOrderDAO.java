@@ -64,5 +64,9 @@ public interface PurchasedOrderDAO {
 	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
 	
 	void reflectPurchaseOrderToStock();
+	
+	List<String> getAllProductDescription();
+	
+	List<String> getAllCustomerName();
 }
 

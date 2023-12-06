@@ -38,7 +38,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	                // Create a receivingentry object from the result set
 	            	receivingEntry = new ReceivingEntry(
 	                		resultSet.getInt("ReceivingId"), 	                  
-	                        resultSet.getString("ProductName"),
+	                        resultSet.getString("ProductDescription"),
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
@@ -65,7 +65,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "INSERT INTO tblreceivingentry (ProductName,ProductPrice,Quantity,Total,ExpDate,SupplierName,ReceivedDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	            String sql = "INSERT INTO tblreceivingentry (ProductDescription,ProductPrice,Quantity,Total,ExpDate,SupplierName,ReceivedDate) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	            preparedStatement = connection.prepareStatement(sql);
 	            preparedStatement.setString(1, receivingEntry.getProductName());
 	            preparedStatement.setDouble(2, receivingEntry.getProductPrice());
@@ -129,7 +129,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 	                // Create receivingentry objects from the result set and add to the list
 	            	ReceivingEntry receivingentry = new ReceivingEntry(
 	                  		resultSet.getInt("ReceivingId"), 	                  
-	                        resultSet.getString("ProductName"),
+	                        resultSet.getString("ProductDescription"),
 	                        resultSet.getDouble("ProductPrice"),
 	                        resultSet.getInt("Quantity"),
 	                        resultSet.getDouble("Total"),
@@ -157,7 +157,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "UPDATE tblreceivingentry SET ProductName = ?, ProductPrice = ?,Quantity = ?,Total = ?,ExpDate =?"
+	            String sql = "UPDATE tblreceivingentry SET ProductDescription = ?, ProductPrice = ?,Quantity = ?,Total = ?,ExpDate =?"
 	            		+ " SupplierName = ?, ReceivedDate = ? WHERE ReceivingId = ?";
 	            preparedStatement = connection.prepareStatement(sql);	         
 	            preparedStatement.setString(1, receivingentry.getProductName());
@@ -239,7 +239,7 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 		
 		  try {				 			  
 			 connection = DBConnection.getConnection();          
-	         String sqlJoins = "INSERT INTO tblstock(ProductDescription,ProductPrice,Quantity,Total) SELECT ProductDescription, MAX(ProductPrice),SUM(Quantity),SUM(Total) FROM tblreceivingentry GROUP BY ProductDescription";
+	         String sqlJoins = "INSERT INTO tblstock(ProductDescription,ProductPrice,Quantity,Total,SupplierName) SELECT ProductDescription, MAX(ProductPrice),SUM(Quantity),SUM(Total),MAX(SupplierName) FROM tblreceivingentry GROUP BY ProductDescription";
 	         statement = connection.createStatement();
 			 statement.executeUpdate(sqlJoins);
 
@@ -266,11 +266,11 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 
 		        try {
 		            connection = DBConnection.getConnection();            
-		            preparedStatement = connection.prepareStatement("Select Price, SupplierName from tblproduct where Description = ?");
+		            preparedStatement = connection.prepareStatement("Select ProductPrice, SupplierName from tblproduct where ProductDescription = ?");
 		            preparedStatement.setString(1, selectedProduct);
 		            resultSet = preparedStatement.executeQuery();					
 					if(resultSet.next()) {		
-						price = resultSet.getInt("Price");	
+						price = resultSet.getInt("ProductPrice");	
 						supplier = resultSet.getString("SupplierName");										
 					}
 
@@ -286,5 +286,29 @@ public class ReceivingEntryDAOImpl implements ReceivingEntryDAO{
 		        result.put("Supplier", supplier);
 
 		        return result;
+		}
+		
+		@Override
+		public List<String> getAllProductDescriptions() {
+		    Connection connection = null;
+		    PreparedStatement preparedStatement = null;
+		    ResultSet resultSet = null;
+		    List<String> descriptions = new ArrayList<>();
+
+		    try {
+		        connection = DBConnection.getConnection();
+		        preparedStatement = connection.prepareStatement("SELECT ProductDescription FROM tblproduct");
+		        resultSet = preparedStatement.executeQuery();
+
+		        while (resultSet.next()) {
+		            String description = resultSet.getString("ProductDescription");
+		            descriptions.add(description);
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        DBConnection.close(connection, preparedStatement, resultSet);
+		    }
+		    return descriptions;
 		}
 }
