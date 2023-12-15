@@ -23,7 +23,7 @@ public class StockForm {
 	int priceQuery;
 	int temp = 0;	
 	
-	StockForm() {
+	public StockForm() {
 		this.stockDAO = new StockDAOImpl();
 		this.stockService = new StockServiceImpl(stockDAO);
 		initialize();
@@ -95,27 +95,19 @@ public class StockForm {
 		
 		JPanel panelTable4 = new JPanel();
 		panelTable4.setBackground(new Color(226, 226, 226));
-		panelTable4.setBounds(34, 249, 42, 389);
+		panelTable4.setBounds(34, 215, 42, 423);
 		frame.getContentPane().add(panelTable4);
 		
 		JPanel panelTable2 = new JPanel();
 		panelTable2.setBackground(new Color(226, 226, 226));
-		panelTable2.setBounds(1121, 247, 42, 403);
+		panelTable2.setBounds(1121, 215, 42, 435);
 		frame.getContentPane().add(panelTable2);
 		
 		JPanel panelTable1 = new JPanel();
 		panelTable1.setBackground(new Color(226, 226, 226));
-		panelTable1.setBounds(34, 93, 1129, 159);
+		panelTable1.setBounds(34, 92, 1130, 126);
 		frame.getContentPane().add(panelTable1);
 		panelTable1.setLayout(null);
-		
-		
-		
-		JLabel lblGrossTotal = new JLabel("Gross Total");
-		lblGrossTotal.setBounds(761, 5, 116, 33);
-		panelTable3.add(lblGrossTotal);
-		lblGrossTotal.setForeground(Color.BLACK);
-		lblGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 19));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);			
 		
@@ -166,19 +158,10 @@ public class StockForm {
 		lblM_1.setBounds(0, 229, 58, 28);
 		panelShortcut1.add(lblM_1);
 		
-		txtGrossTotal = new JLabel("0");
-		txtGrossTotal.setBounds(877, 0, 159, 38);
-		panelTable3.add(txtGrossTotal);
-		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtGrossTotal.setOpaque(true);
-		txtGrossTotal.setBackground(new Color(255, 255, 255));
-		txtGrossTotal.setHorizontalAlignment(SwingConstants.LEFT);
-		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
 		txtSearchBy = new JTextField();
 		txtSearchBy.setToolTipText("Search by...");
 		txtSearchBy.setColumns(10);
-		txtSearchBy.setBounds(37, 115, 287, 33);
+		txtSearchBy.setBounds(48, 72, 278, 33);
 		panelTable1.add(txtSearchBy);
 		
 		JTextArea txtrCtrlS = new JTextArea();
@@ -222,7 +205,7 @@ public class StockForm {
 		panelShortcut1.add(txtrM);
 	
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(76, 252, 1046, 332);
+		scrollPane.setBounds(76, 215, 1046, 369);
 		frame.getContentPane().add(scrollPane);
 		
 		
@@ -233,8 +216,7 @@ public class StockForm {
 		});
 		scrollPane.setViewportView(table);
 		
-		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
+		JButton btnBack = new JButton("Back");
 		btnBack.setToolTipText("Back");
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
@@ -249,8 +231,7 @@ public class StockForm {
 		btnBack.setBounds(0, 0, 63, 38);
 		panelButtons.add(btnBack);
 		
-		JButton btnPrint = new JButton("");
-		btnPrint.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
+		JButton btnPrint = new JButton("Print");
 		btnPrint.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -268,8 +249,7 @@ public class StockForm {
 		btnPrint.setBounds(126, 0, 63, 38);
 		panelButtons.add(btnPrint);
 		
-		JButton btnSaveFile = new JButton("");
-		btnSaveFile.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
+		JButton btnSaveFile = new JButton("Save");
 		btnSaveFile.setToolTipText("Save as file");
 		btnSaveFile.setFocusPainted(false);
 		btnSaveFile.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -277,8 +257,7 @@ public class StockForm {
 		btnSaveFile.setBounds(63, 0, 63, 38);
 		panelButtons.add(btnSaveFile);
 		
-		JButton btnMode = new JButton("");
-		btnMode.setIcon(new ImageIcon(ReceivingEntryForm.class.getResource("/com/lanuza/wms/ui/resources/icons/stock.png")));
+		JButton btnMode = new JButton("Mode");
 		btnMode.setToolTipText("Mode(Light/Dark)");
 		btnMode.setFocusPainted(false);
 		btnMode.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -292,7 +271,24 @@ public class StockForm {
 		btnSearchBy.setFocusPainted(false);
 		btnSearchBy.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setBackground(new Color(243, 243, 243));
-		btnSearchBy.setBounds(325, 115, 63, 33);
+		btnSearchBy.setBounds(323, 72, 63, 33);
 		panelTable1.add(btnSearchBy);	
+		
+		txtGrossTotal = new JLabel("0");
+		txtGrossTotal.setBounds(927, 77, 159, 38);
+		panelTable1.add(txtGrossTotal);
+		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtGrossTotal.setOpaque(true);
+		txtGrossTotal.setBackground(new Color(255, 255, 255));
+		txtGrossTotal.setHorizontalAlignment(SwingConstants.LEFT);
+		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		
+		
+		JLabel lblGrossTotal = new JLabel("Gross Total");
+		lblGrossTotal.setBounds(810, 78, 116, 33);
+		panelTable1.add(lblGrossTotal);
+		lblGrossTotal.setForeground(Color.BLACK);
+		lblGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 19));
 	}
 }

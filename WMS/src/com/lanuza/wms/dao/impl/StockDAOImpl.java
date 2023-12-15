@@ -61,7 +61,7 @@ public class StockDAOImpl implements StockDAO{
 
 	        try {
 	            connection = DBConnection.getConnection();
-	            String sql = "SELECT * FROM tblstock";
+	            String sql = "SELECT StockId,MAX(ProductDescription) as ProductDescription,MAX(ProductPrice) as ProductPrice,SUM(Quantity) as Quantity,SUM(Total) as Total FROM tblstock Group by ProductDescription;";
 	            preparedStatement = connection.prepareStatement(sql);
 	            resultSet = preparedStatement.executeQuery();
 
