@@ -55,7 +55,7 @@ public class ReceivingEntryForm {
 	java.util.Date EDate;
 	java.sql.Date MyExpDate;
 	
-	ReceivingEntryForm() {
+	public ReceivingEntryForm() {
 		this.receivingEntryDAO = new ReceivingEntryDAOImpl();
 		this.receivingEntryService = new ReceivingEntryServiceImpl(receivingEntryDAO);
 		initialize();
@@ -102,7 +102,7 @@ public class ReceivingEntryForm {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panelTable3 = new JPanel();
-		panelTable3.setBackground(new Color(226, 226, 226));
+		panelTable3.setBackground(new Color(233, 233, 233));
 		panelTable3.setLayout(null);
 		panelTable3.setBounds(76, 444, 1046, 197);
 		frame.getContentPane().add(panelTable3);
@@ -116,7 +116,7 @@ public class ReceivingEntryForm {
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(null);
 		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 641, 1370, 20);
+		bottomPanel.setBounds(0, 641, 1334, 20);
 		frame.getContentPane().add(bottomPanel);
 		
 		JPanel sidePanel2 = new JPanel();
@@ -145,17 +145,17 @@ public class ReceivingEntryForm {
 		frame.getContentPane().add(panelButtons);
 		
 		JPanel panelTable4 = new JPanel();
-		panelTable4.setBackground(new Color(226, 226, 226));
+		panelTable4.setBackground(new Color(233, 233, 233));
 		panelTable4.setBounds(34, 198, 42, 443);
 		frame.getContentPane().add(panelTable4);
 		
 		JPanel panelTable2 = new JPanel();
-		panelTable2.setBackground(new Color(226, 226, 226));
+		panelTable2.setBackground(new Color(233, 233, 233));
 		panelTable2.setBounds(1121, 198, 42, 443);
 		frame.getContentPane().add(panelTable2);
 		
 		JPanel panelTable1 = new JPanel();
-		panelTable1.setBackground(new Color(226, 226, 226));
+		panelTable1.setBackground(new Color(233, 233, 233));
 		panelTable1.setBounds(34, 93, 1129, 107);
 		frame.getContentPane().add(panelTable1);
 		panelTable1.setLayout(null);
@@ -206,7 +206,7 @@ public class ReceivingEntryForm {
 		lblM.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblM.setBounds(0, 213, 58, 28);
 		panelShortcut1.add(lblM);
-		
+		 
 		lblCurrentDate = new JLabel("");
 		lblCurrentDate.setBounds(1026, 0, 93, 40);
 		panelTable1.add(lblCurrentDate);
@@ -311,12 +311,12 @@ public class ReceivingEntryForm {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Receiving Manager", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(142, 11, 723, 169);
+		panel.setBounds(184, 11, 800, 169);
 		panelTable3.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(637, 120, 63, 38);
+		btnUpdate.setBounds(727, 120, 63, 38);
 		panel.add(btnUpdate);
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
@@ -379,7 +379,7 @@ public class ReceivingEntryForm {
 		btnUpdate.setBackground(new Color(243, 243, 243));
 		
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(491, 120, 63, 38);
+		btnDelete.setBounds(581, 120, 63, 38);
 		panel.add(btnDelete);
 		btnDelete.addMouseListener(new MouseAdapter() {
 			@Override
@@ -416,7 +416,7 @@ public class ReceivingEntryForm {
 		btnDelete.setBackground(new Color(243, 243, 243));
 		
 		JButton btnAdd = new JButton("Add");
-		btnAdd.setBounds(418, 120, 63, 38);
+		btnAdd.setBounds(508, 120, 63, 38);
 		panel.add(btnAdd);
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -476,15 +476,8 @@ public class ReceivingEntryForm {
 		btnAdd.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnAdd.setBackground(new Color(243, 243, 243));
 		
-		txtSearchId = new JTextField();
-		txtSearchId.setBounds(37, 34, 63, 31);
-		panel.add(txtSearchId);
-		txtSearchId.setToolTipText("Id");
-		txtSearchId.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtSearchId.setColumns(10);
-		
 		productNameCombox = new JComboBox<String>();
-		productNameCombox.setBounds(200, 34, 248, 31);
+		productNameCombox.setBounds(237, 67, 206, 31);
 		panel.add(productNameCombox);
 		productNameCombox.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		productNameCombox.setToolTipText("Code");
@@ -493,14 +486,14 @@ public class ReceivingEntryForm {
 		productNameCombox.setEditable(true);
 		
 		txtQty = new JTextField();
-		txtQty.setBounds(200, 76, 212, 31);
+		txtQty.setBounds(237, 25, 183, 31);
 		panel.add(txtQty);
 		txtQty.setToolTipText("Qty");
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
 		
 		expDateChooser = new JDateChooser();
-		expDateChooser.setBounds(586, 34, 114, 31);
+		expDateChooser.setBounds(564, 25, 155, 31);
 		panel.add(expDateChooser);
 		expDateChooser.setDateFormatString("d MM yyyy");
 		expDateChooser.setToolTipText("Date");
@@ -508,26 +501,20 @@ public class ReceivingEntryForm {
 		JLabel lblExpiryDate = new JLabel("Expiry Date");
 		lblExpiryDate.setForeground(Color.BLACK);
 		lblExpiryDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblExpiryDate.setBounds(502, 35, 74, 29);
+		lblExpiryDate.setBounds(480, 26, 74, 29);
 		panel.add(lblExpiryDate);
 		
 		JLabel lblProduct = new JLabel("Product");
 		lblProduct.setForeground(Color.BLACK);
 		lblProduct.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblProduct.setBounds(134, 35, 51, 29);
+		lblProduct.setBounds(176, 68, 51, 29);
 		panel.add(lblProduct);
 		
 		JLabel lblQuantity = new JLabel("Quantity");
 		lblQuantity.setForeground(Color.BLACK);
 		lblQuantity.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblQuantity.setBounds(134, 77, 56, 29);
+		lblQuantity.setBounds(176, 26, 56, 29);
 		panel.add(lblQuantity);
-		
-		JLabel lblId = new JLabel("ID");
-		lblId.setForeground(Color.BLACK);
-		lblId.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblId.setBounds(13, 35, 14, 29);
-		panel.add(lblId);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addMouseListener(new MouseAdapter() {
@@ -544,8 +531,21 @@ public class ReceivingEntryForm {
 		btnClear.setFocusPainted(false);
 		btnClear.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnClear.setBackground(new Color(243, 243, 243));
-		btnClear.setBounds(564, 120, 63, 38);
+		btnClear.setBounds(654, 120, 63, 38);
 		panel.add(btnClear);
+		
+		txtSearchId = new JTextField();
+		txtSearchId.setBounds(62, 25, 63, 31);
+		panel.add(txtSearchId);
+		txtSearchId.setToolTipText("Id");
+		txtSearchId.setFont(new Font("Tahoma", Font.BOLD, 13));
+		txtSearchId.setColumns(10);
+		
+		JLabel lblId = new JLabel("ID");
+		lblId.setBounds(38, 26, 14, 29);
+		panel.add(lblId);
+		lblId.setForeground(Color.BLACK);
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 13));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
