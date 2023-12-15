@@ -1,65 +1,94 @@
 package com.lanuza.wms.model;
 
 public class Product {
-	
-	private String description,supplierName;
-	private int productId;
-	private double price;	
+
+	private String productDescription,supplierName;
+	private int productId,quantity;
+	private double productPrice,total;	
 	
 	public Product() {
 		super();
 	}
 	
-	public Product(String description,double price,String supplierName) {
+	public Product( int productId,String productDescription, double productPrice, int quantity,
+			double total,String supplierName) {
 		super();
-		this.description = description;
+		this.productDescription = productDescription;
 		this.supplierName = supplierName;
-		this.price = price;
+		this.productId = productId;
+		this.quantity = quantity;
+		this.productPrice = productPrice;
+		this.total = total;
 	}
 	
-	public Product(int productId,String description,double price,String supplierName) {
+	public Product(String productDescription, double productPrice, int quantity,
+			double total,String supplierName, int productId) {
 		super();
-		this.description = description;
-		this.productId = productId;
+		this.productDescription = productDescription;
 		this.supplierName = supplierName;
-		this.price = price;
+		this.productId = productId;
+		this.quantity = quantity;
+		this.productPrice = productPrice;
+		this.total = total;
+	}
+	
+	public Product(String productDescription, double productPrice, int quantity,
+			double total,String supplierName) {
+		super();
+		this.productDescription = productDescription;
+		this.supplierName = supplierName;
+		this.quantity = quantity;
+		this.productPrice = productPrice;
+		this.total = total;
+	}
+	
+	public String getProductDescription() {
+		return productDescription;
 	}
 
-	//for update query
-	public Product(String description,double price,String supplierName,int productId) {
-		super();
-		this.description = description;
-		this.productId = productId;
-		this.supplierName = supplierName;
-		this.price = price;
-	}
-	public String getDescription() {
-		return description;
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public int getProductId() {
-		return productId;
-	}
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
 	public String getSupplierName() {
 		return supplierName;
 	}
+
 	public void setSupplierName(String supplierName) {
 		this.supplierName = supplierName;
 	}
 
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
-		this.price = price;
+	public int getProductId() {
+		return productId;
 	}
 
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
 	
 }
  

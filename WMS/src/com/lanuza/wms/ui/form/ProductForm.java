@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
@@ -31,18 +30,20 @@ import com.lanuza.wms.dao.impl.ProductDAOImpl;
 import com.lanuza.wms.model.Product;
 import com.lanuza.wms.service.ProductService;
 import com.lanuza.wms.service.impl.ProductServiceImpl;
-import com.lanuza.wms.ui.components.CustomButton;
 import com.lanuza.wms.ui.components.CustomLabel;
 import com.lanuza.wms.ui.components.CustomPanel;
 import com.lanuza.wms.ui.components.CustomTextField;
+
+import com.lanuza.wms.ui.components.table.Table;
 
 public class ProductForm {
 
 	private final ProductService productService;
 	private final ProductDAO productDAO;
 	
+	private Table table;
+	
 	private JComboBox<String>supplierCombox;
-	private JTable table;
     private JFrame frame; //not sure wether to use panel or frame in sub forms
 	private JTextField txtDescription,txtPrice,txtId;
 	
@@ -123,7 +124,7 @@ public class ProductForm {
 			btnAdd.setBackground(new Color(240,240,240));
 			btnAdd.setForeground(new Color(0,0,0));
 			btnAdd.setBounds(new Rectangle(99, 202, 89, 29));
-			btnAdd.setFocusPainted(false);
+			btnAdd.setFocusPainted(false); 
 			btnAdd.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
@@ -193,7 +194,7 @@ public class ProductForm {
 			scrollPane.setBounds(331, 158, 626, 321);
 			frame.getContentPane().add(scrollPane);
 			
-			table = new JTable();
+			table = new Table();
 			table.addMouseListener(new MouseAdapter() {
 			    public void mouseClicked(MouseEvent e) {
 			        DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -210,8 +211,7 @@ public class ProductForm {
 			        // for combo box named supplierCombox
 			        supplierCombox.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
 			    }
-			});
-
+			});			
 			scrollPane.setViewportView(table);
 			
 			JLabel lblProductList = new JLabel("Product List");
@@ -232,17 +232,19 @@ public class ProductForm {
 			frame.getContentPane().add(btnBack);
 			
 			JPanel panel_1 = new JPanel();
-			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Search ID", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(20, 365, 293, 114);
 			frame.getContentPane().add(panel_1);
+			panel_1.setLayout(null);
 			
 			//Create textfields with font, bounds, bgcolor, fbcolor,tooltip,column,cursor,opaque,editable parameters
 			txtId = new CustomTextField(new Font("Tahoma",Font.BOLD, 13), new Rectangle(102, 31, 168, 29) ,new Color(250,250,250),new Color(0,0,0),"Type Product Code",10,null,true,false);
+			txtId.setBounds(102, 31, 168, 29);
 			panel_1.add(txtId);
 			
 			// Update button action listener
 			JButton btnUpdate = new JButton("Update");
+			btnUpdate.setBounds(88, 71, 89, 29);
 			btnUpdate.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 		    	
@@ -278,10 +280,10 @@ public class ProductForm {
 			    }
 			});		
 			btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
-			btnUpdate.setBounds(88, 71, 89, 29);
 			panel_1.add(btnUpdate);
 
 			JButton btnDelete = new JButton("Delete");
+			btnDelete.setBounds(181, 71, 89, 29);
 			btnDelete.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {
 			    	if(txtDescription.getText().isEmpty() || txtPrice.getText().isEmpty()) {
@@ -308,13 +310,12 @@ public class ProductForm {
 			    }
 			});
 			btnDelete.setFont(new Font("Tahoma", Font.BOLD, 15));
-			btnDelete.setBounds(181, 71, 89, 29);
 			panel_1.add(btnDelete);			
 			
 			JLabel lblProductId = new JLabel("ProductID");
+			lblProductId.setBounds(10, 27, 82, 33);
 			lblProductId.setForeground(Color.BLACK);
 			lblProductId.setFont(new Font("Tahoma", Font.BOLD, 15));
-			lblProductId.setBounds(10, 27, 82, 33);
 			panel_1.add(lblProductId);			  	
 	 }
 }
