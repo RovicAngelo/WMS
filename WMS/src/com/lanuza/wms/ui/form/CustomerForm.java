@@ -24,7 +24,7 @@ public class CustomerForm {
 	private  JTextField txtCustomerId;
 	private JTextField txtPhoneNo;
 
-	CustomerForm() {
+	public CustomerForm() {
 		this.customerDAO = new CustomerDAOImpl();
 		this.customerService = new CustomerServiceImpl(customerDAO);
 		initialize();
@@ -156,7 +156,7 @@ public class CustomerForm {
 			public void actionPerformed(ActionEvent e) {
 				
 				frame.dispose();
-				new StockForm();
+				new Dashboard();
 			}
 		});
 		btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
