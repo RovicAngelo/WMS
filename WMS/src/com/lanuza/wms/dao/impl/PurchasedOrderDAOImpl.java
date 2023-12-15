@@ -347,7 +347,7 @@ public class PurchasedOrderDAOImpl implements PurchasedOrderDAO {
 	            	String name = resultSet.getString("ProductDescription");
 	            	names.add(name);
 	            }
-	        } catch (SQLException e) {
+	        } catch (SQLException e) { 
 	            e.printStackTrace();
 	        } finally {
 	            DBConnection.close(connection, preparedStatement, resultSet);

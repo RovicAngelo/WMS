@@ -60,7 +60,7 @@ public class PurchasedOrderForm {
 	java.util.Date EDate;
 	java.sql.Date MyExpDate;
 	
-	PurchasedOrderForm() {
+	public PurchasedOrderForm() {
 		this.purchasedOrderDAO = new PurchasedOrderDAOImpl();
 		this.purchasedOrderService = new PurchasedOrderServiceImpl(purchasedOrderDAO);
 		initialize();
@@ -296,7 +296,7 @@ public class PurchasedOrderForm {
 		txtQty.setToolTipText("Qty");
 		txtQty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtQty.setColumns(10);
-		
+		 
 		txtOrderId = new JTextField();
 		txtOrderId.setBounds(100, 11, 66, 31);
 		panelButtom.add(txtOrderId);
