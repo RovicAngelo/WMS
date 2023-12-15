@@ -25,7 +25,7 @@ import com.lanuza.wms.model.Supplier;
 import com.lanuza.wms.service.SupplierService;
 import com.lanuza.wms.service.impl.SupplierServiceImpl;
 
-public class SupplierFom {
+public class SupplierForm {
 	private JFrame frame;
 	private JButton btnBack;
 	private JTextField txtName;
@@ -35,7 +35,7 @@ public class SupplierFom {
 	private final SupplierService supplierService;
 	private final SupplierDAO supplierDAO;
 		
-	public SupplierFom() {
+	public SupplierForm() {
 	    this.supplierDAO = new SupplierDAOImpl();
 	    this.supplierService = new SupplierServiceImpl(supplierDAO);
 		initialize();
@@ -149,7 +149,7 @@ public class SupplierFom {
 		  btnBack.addActionListener(new ActionListener() {
 		  	public void actionPerformed(ActionEvent e) {
 		  		frame.dispose();
-		  		new StockForm();
+		  		new Dashboard();
 		  	}
 		  });
 		  btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -176,7 +176,9 @@ public class SupplierFom {
 				        loadData();
 				        //clear the text fields
 				        txtName.setText("");
-				        txtPhoneNo.setText("");
+						txtPhoneNo.setText("");
+						txtSupplierId.setText("");
+						txtName.requestFocus();	
 			        // ...
 			  		}
 			    }
@@ -188,9 +190,10 @@ public class SupplierFom {
 		  JButton btnClear = new JButton("Clear");
 		  btnClear.addActionListener(new ActionListener() {
 			  	public void actionPerformed(ActionEvent e) {	  		
-			  		txtName.setText("");
-			  		txtPhoneNo.setText("");
-			  		txtName.requestFocus();
+			  		 txtName.setText("");
+					 txtPhoneNo.setText("");
+					 txtSupplierId.setText("");
+					 txtName.requestFocus();	
 			  	}
 			  });
 		  btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -205,7 +208,7 @@ public class SupplierFom {
 				  		}else {
 				        int selectedRow = table.getSelectedRow();
 				        if (selectedRow != -1) {
-				            int supplierId = (int) table.getValueAt(selectedRow, 0);
+				            int supplierId = Integer.parseInt(txtSupplierId.getText());
 
 				            //text fields for editing
 				            String name, phoneNo; 
@@ -219,7 +222,10 @@ public class SupplierFom {
 				            loadData();
 				            // Clear the fields 
 				            txtName.setText("");
-				            txtPhoneNo.setText("");
+							txtPhoneNo.setText("");
+							txtSupplierId.setText("");
+							txtName.requestFocus();	
+				            
 				            // ...
 				        } else {
 				            JOptionPane.showMessageDialog(null, "Please select a supplier to update");
@@ -230,19 +236,16 @@ public class SupplierFom {
 		  btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));
 		  btnUpdate.setBounds(88, 71, 89, 29);
 		  panel_1.add(btnUpdate);
-		  
-		  
-		  
-		  
+		  		  	  	  
 		  JButton btnDelete = new JButton("Delete");		  
 		  btnDelete.addActionListener(new ActionListener() {				  	
-			    public void actionPerformed(ActionEvent e) {
-			    	if(txtName.getText().isEmpty()||txtPhoneNo.getText().isEmpty()) {
+			    public void actionPerformed(ActionEvent e) {		    	
+			    	if(txtSupplierId.getText().isEmpty()) {
 			  			JOptionPane.showMessageDialog(null,"Select a supplier to be deleted");
 			  		}else {
 				        int selectedRow = table.getSelectedRow();
 				        if (selectedRow != -1) {
-				            int supplierId = (int) table.getValueAt(selectedRow, 0);
+				            int supplierId = Integer.parseInt(txtSupplierId.getText());
 				            supplierService.deleteSupplier(supplierId);
 				            //show a message
 				            JOptionPane.showMessageDialog(null, "Supplier deleted successfully");
