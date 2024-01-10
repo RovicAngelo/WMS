@@ -46,7 +46,7 @@ To use this application follow this guidelines.
 
 > **Login View**
 
-> &nbsp;&nbsp;&nbsp;&nbsp; In the login view, use the admin accounts provided for user authentication:
+-  In the login view, use the admin accounts provided for user authentication:
 
 
 					| Account | Username | Password |
@@ -63,7 +63,7 @@ To use this application follow this guidelines.
 
 - The dashboard view serves as an overview page displaying key warehouse statistics and metrics. It provides a concise and visual representation of important information about the warehouse, such as inventory levels, order status, or any other relevant metrics.
 
-<img src="" alt="dashboard view" width="600" height="400" >
+<img src="/com/lanuza/wms/ui/resources/images/dashboardview.PNG" alt="dashboard view" width="600" height="400" >
 
 > **Product View**
 
