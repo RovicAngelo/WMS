@@ -1,6 +1,6 @@
 # Warehouse Management System
 
-A Java CRUD Application for managing orders, receiving entries and storage of products in warehouses.:heavy_exclamation_mark:
+A Java CRUD Application for managing orders, receiving entries and storage of products in warehouses.
 
 <br>
 
@@ -10,7 +10,6 @@ A Java CRUD Application for managing orders, receiving entries and storage of pr
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Development](#development)
 - [License](#license)
 
 ## Overview
@@ -22,8 +21,8 @@ This application is created using java and swing library. It has basic function 
 ## Features
 
 - User Authentication
-- CRUD
-- Plain UI
+- perform CRUD
+- User-friendly interface using java swing library
 - Print ❗
 - Light-Dark Mode ❗
 - Save as File ❗
@@ -59,94 +58,152 @@ $ java src/com/lanuza/wms/Main
 
 ## Usage
 	
-To use this application follow this guidelines.
-
-<br><br>
-
-> **Login View**
-
--  In the login view, use the admin accounts provided for user authentication:
-
-
-					| Account | Username | Password |
-					| ------- | -------- | -------- |
-					| Admin 1 | admin1   | pass1    |
-					| Admin 2 | admin2   | pass2    |
-					| Admin 3 | admin3   | pass3    |
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/loginview.PNG" alt="login view" width="600" height="400" >
-
-<br><br>
-
-> **Dashboard View**
-
-- The dashboard view serves as an overview page displaying key warehouse statistics and metrics. It provides a concise and visual representation of important information about the warehouse, such as inventory levels, order status, or any other relevant metrics.
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/dashboardview.PNG" alt="dashboard view" width="600" height="400" >
-
-<br><br>
-
-> **Product View**
-
-- The product view is a section of the application where users can manage and view information related to products. This includes adding new products that will reflect to the stock and editing existing product details
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/productview.PNG" alt="product view" width="600" height="400" >
-
-<br><br>
-
-> **Supplier View**
-
-- The supplier view is where users can manage information about suppliers. It typically involves functionalities such as adding new suppliers, updating supplier details, and viewing a list of current suppliers.
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/supplierview.PNG" alt="login view" width="600" height="400">
-
-<br><br>
-
-> **Customer View**
-
-- The customer view allows users to manage customer information. This includes adding new customers and updating customer details.
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/customerview.PNG" alt="login view" width="600" height="400">
-
-<br><br>
-
-> **Order View**
-
--  In the order view, users can manage and track orders. This includes creating new orders, updating order details, and viewing the status of existing orders
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/orderview.PNG" alt="login view" width="600" height="400">
-
-<br><br>
-
-> **Receiving View**
-
-- The receiving view is where users can manage the receiving process of goods or products. It involves functionalities such as confirming received shipments, updating inventory levels
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/receivingview.PNG" alt="login view" width="600" height="400">
-
-<br><br>
-
-> **Stock View**
-
-- The stock view provides an overview of the current stock levels in the warehouse. It may include information about stock quantities, low stock alerts, and other metrics related to inventory management.
-
-<img src="./WMS/src/com/lanuza/wms/ui/resources/images/stockview.PNG" alt="login view" width="600" height="400">
-
-<br><br>
-
-> **Logout**
-
-- The logout option is a feature that allows users to securely log out of the application. 
+To use this application follow the guidelines.
 
 <br>
 
-## Development
+<div style="display:flex;">
+  <div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Login View</h3>
+  <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+  In the login view, use the admin accounts provided for user authentication:<br><br>
+  - <b>Admin 1</b>: <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Username - <i>admin1</i>,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Password - <i>pass1</i> <br>
+  - <b>Admin 2</b>:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Username - <i>admin2</i>,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Password - <i>pass2</i> <br>
+  - <b>Admin 3</b>: <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Username - <i>admin3</i>,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;Password - <i>pass3</i>
+</p>
 
-To set up a development environment:
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/loginview.PNG" alt="Login View" width="750" height="400">
+    </p>
+  </div>
+</div>
 
-1. Clone the repository: `git clone https://github.com/yourusername/SwingApp.git`
-2. Open the project in your favorite Java IDE.
-3. Make changes and test locally.
+
+<br><br>
+
+<div style="display:flex;">
+	<div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Login View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The dashboard view serves as an overview page displaying key warehouse statistics and metrics. It provides a concise and visual representation of important information about the warehouse, such as inventory levels, order status, or any other relevant metrics.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/dashboardview.PNG" alt="dashboard View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<div style="display:flex;">
+	<div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Product View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The product view is a section of the application where users can manage and view information related to products. This includes adding new products that will reflect to the stock and editing existing product details.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/productview.PNG" alt="product View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<div style="display:flex;">
+	<div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Supplier View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The supplier view is where users can manage information about suppliers. It typically involves functionalities such as adding new suppliers, updating supplier details, and viewing a list of current suppliers.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/supplierview.PNG" alt="supplier View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<div style="display:flex;">
+	<div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Customer View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The customer view allows users to manage customer information. This includes adding new customers and updating customer details.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/customerview.PNG" alt="customer View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+	
+<div style="display:flex;">
+  <div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Order View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      In the order view, users can manage and track orders. This includes creating new orders, updating order details, and viewing the status of existing orders.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/orderview.PNG" alt="order View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<div style="display:flex;">
+  <div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Receiving View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The receiving view is where users can manage the receiving process of goods or products. It involves functionalities such as confirming received shipments, updating inventory levels.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/receivingview.PNG" alt="login View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<div style="display:flex;">
+  <div style="flex:25%; padding-right: 10px;">
+    <h3 style="color: #6DA4AA;">Stock View</h3>
+    <p  style="font-family: Verdana, sans-serif; text-align: justify;">
+      The stock view provides an overview of the current stock levels in the warehouse. It may include information about stock quantities, low stock alerts, and other metrics related to inventory management.
+    </p>
+  </div>
+  <div style="flex:75%;">
+    <p align="center">
+      <img src="./WMS/src/com/lanuza/wms/ui/resources/images/stockview.PNG" alt="Stock View" width="750" height="400">
+    </p>
+  </div>
+</div>
+
+<br><br>
+
+<h3 style="color: #6DA4AA;">Logut</h3>
+
+- The logout option is a feature that allows users to securely log out of the application. 
 
 <br>
 
@@ -170,4 +227,4 @@ To set up a development environment:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/mit/) file for details.
