@@ -91,7 +91,7 @@ To use this application follow the guidelines.
 
 <div style="display:flex;">
 	<div style="flex:25%; padding-right: 10px;">
-    <h3 style="color: #6DA4AA;">Login View</h3>
+    <h3 style="color: #6DA4AA;">Dashboard View</h3>
     <p  style="font-family: Verdana, sans-serif; text-align: justify;">
       The dashboard view serves as an overview page displaying key warehouse statistics and metrics. It provides a concise and visual representation of important information about the warehouse, such as inventory levels, order status, or any other relevant metrics.
     </p>
