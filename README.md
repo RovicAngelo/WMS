@@ -227,4 +227,4 @@ To use this application follow the guidelines.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE]([https://opensource.org/license/mit/](https://github.com/RovicAngelo/WMS?tab=MIT-1-ov-file)https://github.com/RovicAngelo/WMS?tab=MIT-1-ov-file) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/mit/) file for details.
