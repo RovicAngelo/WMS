@@ -1,12 +1,34 @@
 package com.lanuza.wms.ui.form;
 
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Rectangle;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.CustomerDAO;
 import com.lanuza.wms.dao.impl.CustomerDAOImpl;
@@ -14,35 +36,8 @@ import com.lanuza.wms.model.Customer;
 import com.lanuza.wms.service.CustomerService;
 import com.lanuza.wms.service.impl.CustomerServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
 import com.lanuza.wms.ui.components.RoundPanel;
 import com.lanuza.wms.ui.components.table.Table;
-
-import javax.swing.border.EmptyBorder;
-import java.awt.Dimension;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.nio.channels.SelectableChannel;
 
 public class ManageCustomerForm extends JPanel {
 
@@ -316,12 +311,12 @@ public class ManageCustomerForm extends JPanel {
 		);
 		
 		table = new Table();
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				tableSelectedRow();
-			}
-		});
+		 table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) {
+	            	tableSelectedRow();
+	            }
+	        });
 		scrollPane.setViewportView(table);
 		roundPanel.setLayout(gl_roundPanel);
 		

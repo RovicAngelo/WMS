@@ -25,6 +25,8 @@ import java.util.Map;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -248,12 +250,12 @@ public class ManageReceivingForm extends JPanel {
 		);
 		
 		table = new Table();
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				 tableRowSelection();
-			}
-		});
+		 table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) {
+	            	tableRowSelection();
+	            }
+	        });
 		scrollPane.setViewportView(table);
 		roundPanel.setLayout(gl_roundPanel);
 		

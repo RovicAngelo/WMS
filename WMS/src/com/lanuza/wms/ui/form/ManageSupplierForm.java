@@ -7,8 +7,6 @@ import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -28,6 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.SupplierDAO;
@@ -315,12 +315,12 @@ public class ManageSupplierForm extends JPanel {
 		);
 		
 		table = new Table();
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				tableSelectedRow();
-			}
-		});
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	           @Override
+	           public void valueChanged(ListSelectionEvent e) {
+	            tableSelectedRow();
+	           }
+	       });
 		scrollPane.setViewportView(table);
 		roundPanel.setLayout(gl_roundPanel);
 		

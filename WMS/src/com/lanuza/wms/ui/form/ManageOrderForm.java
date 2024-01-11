@@ -35,6 +35,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.PurchasedOrderDAO;
@@ -103,12 +105,13 @@ public class ManageOrderForm extends JPanel{
 		scrollPane.setBackground(new Color(255, 255, 255));
 		
 		table = new Table();
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				tableRowSelection();
-			}
-		});
+		
+		 table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) {
+	            	tableRowSelection();
+	            }
+	        });
 		//table.getFocusTraversalKeysEnabled();
 		//table.setFocusable(true);
 		scrollPane.setViewportView(table);			

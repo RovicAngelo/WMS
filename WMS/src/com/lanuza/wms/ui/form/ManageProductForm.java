@@ -1,24 +1,36 @@
 package com.lanuza.wms.ui.form;
 
-import javax.swing.JPanel;
-import com.lanuza.wms.ui.components.RoundPanel;
-import com.lanuza.wms.ui.components.table.Table;
-
 import java.awt.Color;
-import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.lanuza.wms.dao.ProductDAO;
 import com.lanuza.wms.dao.impl.ProductDAOImpl;
@@ -26,25 +38,8 @@ import com.lanuza.wms.model.Product;
 import com.lanuza.wms.service.ProductService;
 import com.lanuza.wms.service.impl.ProductServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.awt.Rectangle;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import javax.swing.ImageIcon;
+import com.lanuza.wms.ui.components.RoundPanel;
+import com.lanuza.wms.ui.components.table.Table;
 
 public class ManageProductForm extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -182,12 +177,14 @@ public class ManageProductForm extends JPanel {
 		);
 		
 		table = new Table();
-		table.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				tableSelectedRow();
-			}
-		});
+		 // Add a ListSelectionListener to the table
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+            	tableSelectedRow();
+            }
+        });
+
 		scrollPane.setViewportView(table);
 		roundPanel.setLayout(gl_roundPanel);
 		
