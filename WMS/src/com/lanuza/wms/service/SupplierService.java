@@ -21,4 +21,6 @@ public interface SupplierService {
 	void deleteSupplier(int supplierId);
 	
 	void tableLoad(JTable table);
+	
+	int getTotalItems();
 }

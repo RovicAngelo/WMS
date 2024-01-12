@@ -45,4 +45,10 @@ public class SupplierServiceImpl implements SupplierService {
 	public void tableLoad(JTable table) {
 		supplierDAO.tableLoad(table);		
 	}
+
+	@Override
+	public int getTotalItems() {
+		// TODO Auto-generated method stub
+		return supplierDAO.getTotalItems();
+	}
 }

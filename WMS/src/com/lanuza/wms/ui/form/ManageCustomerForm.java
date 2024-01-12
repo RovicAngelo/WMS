@@ -46,7 +46,7 @@ public class ManageCustomerForm extends JPanel {
 	private CustomerService customerService;
 	private JTextField txtCustomerId;
 	private JTextField textField_1,txtCustomer,txtPhoneNo;
-	JLabel lblCurrentDate;
+	JLabel lblCurrentDate, txtTotalItem;
 	private Table table;
 
 	public ManageCustomerForm() {
@@ -57,7 +57,7 @@ public class ManageCustomerForm extends JPanel {
 		initialize();
 		getDateToday();
 		loadData();
-		
+		displayTotalItems();
 	}
 		
 	private void initialize() {	
@@ -253,29 +253,29 @@ public class ManageCustomerForm extends JPanel {
 		btnNewCustomer.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnNewCustomer.setBackground(new Color(243, 243, 243));
 		
-		JLabel lblGrossTotal = new JLabel("Total");
+		JLabel lblGrossTotal = new JLabel("Total Item");
 		lblGrossTotal.setForeground(Color.BLACK);
 		lblGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 19));
 		
-		JLabel txtGrossTotal = new JLabel("0");
-		txtGrossTotal.setOpaque(true);
-		txtGrossTotal.setHorizontalAlignment(SwingConstants.LEFT);
-		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtGrossTotal.setBackground(Color.WHITE);
+		txtTotalItem = new JLabel("0");
+		txtTotalItem.setOpaque(true);
+		txtTotalItem.setHorizontalAlignment(SwingConstants.LEFT);
+		txtTotalItem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtTotalItem.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtTotalItem.setBackground(Color.WHITE);
 		GroupLayout gl_roundPanel = new GroupLayout(roundPanel);
 		gl_roundPanel.setHorizontalGroup(
 			gl_roundPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_roundPanel.createSequentialGroup()
-					.addGroup(gl_roundPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+					.addGroup(gl_roundPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addGap(5)
 							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblGrossTotal, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblGrossTotal)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtGrossTotal, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtTotalItem, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblCustomerId)
@@ -305,7 +305,7 @@ public class ManageCustomerForm extends JPanel {
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_roundPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtGrossTotal, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTotalItem, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblGrossTotal, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -352,12 +352,18 @@ public class ManageCustomerForm extends JPanel {
 	 private void ChangeMode(ActionEvent e) {
 			// Logic for toggling between Light/Dark mode
 			}
-		 
-	 private void getDateToday() { //method to get the date today
+	//method to get the date today
+	 private void getDateToday() { 
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDateTime now = LocalDateTime.now();		
 			lblCurrentDate.setText(dtf.format(now));
 		}
+	 //To display total items available
+	 private void displayTotalItems() {		 
+		 	int sumOfTotal = customerService.getTotalItems();
+	        // Update UI component (setText on a txtTotalItem)
+		 	txtTotalItem.setText(String.valueOf(sumOfTotal));
+		} 
 		//to load the data in the table
 	 private void printTable(ActionEvent e) {
 		 //print the order table

@@ -21,4 +21,6 @@ public interface CustomerService {
 	void deleteCustomer(int customerId);
 	
 	void tableLoad(JTable table);
+	
+	int getTotalItems();
 }

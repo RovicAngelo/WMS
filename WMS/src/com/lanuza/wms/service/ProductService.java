@@ -24,4 +24,6 @@ public interface ProductService {
 	List<String> getAllSupplierName();
 	
 	void transferDataAndSetDefaults(Product product);
+	
+	int getTotalItems();
 }

@@ -20,5 +20,7 @@ public interface SupplierDAO {
 	void deleteSupplier(int supplierId);
 	
 	void tableLoad(JTable table);
+	
+	int getTotalItems();
 
 }

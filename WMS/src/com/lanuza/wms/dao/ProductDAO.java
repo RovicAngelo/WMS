@@ -24,5 +24,7 @@ public interface ProductDAO {
 	List<String> getAllSupplierName();
 	
 	void transferDataAndSetDefaults(Product product);
+	
+	int getTotalItems();
 
 }

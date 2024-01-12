@@ -46,4 +46,10 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.tableLoad(table);		
 	}
 
+	@Override
+	public int getTotalItems() {
+		// TODO Auto-generated method stub
+		return customerDAO.getTotalItems();
+	}
+
 }

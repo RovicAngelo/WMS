@@ -45,11 +45,8 @@ public class ManageProductForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final ProductService productService;
 	private final ProductDAO productDAO;
-	private JTextField txtProductId;
-	private JTextField textField_1;
-	private JTextField txtDescription;
-	private JTextField txtPrice;
-	JLabel lblCurrentDate;
+	private JTextField txtProductId,textField_1,txtDescription,txtPrice;
+	JLabel lblCurrentDate,txtTotalItem;
 	private Table table;
 	JComboBox<String> SupplierNameCombox;
 
@@ -62,6 +59,8 @@ public class ManageProductForm extends JPanel {
 		initialize();
 		loadData();
 		populateSupplierCombox();
+		getDateToday();
+		displayTotalItems();
 		
 	}
 	private void initialize() {
@@ -119,25 +118,25 @@ public class ManageProductForm extends JPanel {
 		btnDelete.setToolTipText("Delete");
 		btnDelete.setText("Delete");
 		
-		JLabel lblTotalProduct = new JLabel("Total");
+		JLabel lblTotalProduct = new JLabel("Total Item");
 		lblTotalProduct.setForeground(Color.BLACK);
 		lblTotalProduct.setFont(new Font("Tahoma", Font.BOLD, 19));
 		
-		JLabel txtGrossTotal = new JLabel("0");
-		txtGrossTotal.setOpaque(true);
-		txtGrossTotal.setHorizontalAlignment(SwingConstants.LEFT);
-		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
-		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
-		txtGrossTotal.setBackground(Color.WHITE);
+		txtTotalItem = new JLabel("0");
+		txtTotalItem.setOpaque(true);
+		txtTotalItem.setHorizontalAlignment(SwingConstants.LEFT);
+		txtTotalItem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		txtTotalItem.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtTotalItem.setBackground(Color.WHITE);
 		GroupLayout gl_roundPanel = new GroupLayout(roundPanel);
 		gl_roundPanel.setHorizontalGroup(
 			gl_roundPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_roundPanel.createSequentialGroup()
-					.addGroup(gl_roundPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_roundPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addGap(5)
 							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblProductId)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -148,11 +147,11 @@ public class ManageProductForm extends JPanel {
 							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnAddProduct, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblTotalProduct, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblTotalProduct, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtGrossTotal, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(txtTotalItem, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_roundPanel.setVerticalGroup(
@@ -171,7 +170,7 @@ public class ManageProductForm extends JPanel {
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 348, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_roundPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtGrossTotal, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTotalItem, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTotalProduct, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -683,4 +682,11 @@ public class ManageProductForm extends JPanel {
 				exc.printStackTrace();
 			}
 		}	 
+	//To display total items available
+	 private void displayTotalItems() {
+		 
+		 	int sumOfTotal = productService.getTotalItems();
+	        // Update UI component (setText on a txtTotalItem)
+		 	txtTotalItem.setText(String.valueOf(sumOfTotal));
+		} 
 }

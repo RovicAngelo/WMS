@@ -20,5 +20,7 @@ public interface CustomerDAO {
 	void deleteCustomer(int customerId);
 	
 	void tableLoad(JTable table);
+	
+	int getTotalItems();
 
 }
