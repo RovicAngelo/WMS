@@ -412,6 +412,8 @@ public class ManageSupplierForm extends JPanel {
 		        				        			        
 		        // Load the table
 		        loadData();
+		        //display new total items
+		        displayTotalItems();
 		        //clear the text fields
 		        txtSupplierName.setText("");
 				txtPhoneNo.setText("");
@@ -435,6 +437,8 @@ public class ManageSupplierForm extends JPanel {
 		        }
 		        // Load the table
 		        loadData();
+		      //display new total items
+		        displayTotalItems();
 		        //clear textfields
 		        txtSupplierName.setText("");
 				txtPhoneNo.setText("");

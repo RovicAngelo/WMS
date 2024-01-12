@@ -402,8 +402,10 @@ public class ManageCustomerForm extends JPanel {
 			  		
 			  		Customer customer = new Customer(name,phoneNo);
 			  		customerService.addCustomer(customer);
-			  		
-			  		loadData();						
+			  		// Load the table
+			  		loadData();	
+			  		 //display new total items
+			  		displayTotalItems();
 			  		txtCustomer.setText("");
 					txtPhoneNo.setText("");
 					txtCustomer.requestFocus();	
@@ -425,6 +427,8 @@ public class ManageCustomerForm extends JPanel {
 		        }
 		        // Load the table
 		        loadData();
+		        //display new total items
+		        displayTotalItems();
 		        //clear textfields
 		        txtCustomer.setText("");
 				txtPhoneNo.setText("");

@@ -587,6 +587,7 @@ public class ManageProductForm extends JPanel {
 		        			        
 		        // Load the table
 		        loadData();
+		        displayTotalItems();
 		        //clear the text fields
 		        txtProductId.setText("");
 		        txtDescription.setText("");
@@ -645,7 +646,7 @@ public class ManageProductForm extends JPanel {
 		        }
 		        // Load the table
 		        loadData();
-		        
+		        displayTotalItems();
 		        // Clear the fields 
 	            txtProductId.setText("");
 	            txtDescription.setText("");
