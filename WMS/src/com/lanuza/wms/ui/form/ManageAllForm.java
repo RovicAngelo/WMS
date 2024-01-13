@@ -20,11 +20,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-public class ManageAllForm extends JFrame {
+import com.lanuza.wms.dao.AccountDAO;
+import com.lanuza.wms.dao.impl.AccountDAOImpl;
+import com.lanuza.wms.model.Account;
+import com.lanuza.wms.service.AccountService;
+import com.lanuza.wms.service.impl.AccountServiceImpl;
 
-    /**
-	 * 
-	 */
+public class ManageAllForm extends JFrame {
+	private final AccountDAO accountDAO;
+	private final AccountService accountService;
 	private static final long serialVersionUID = 1L;
 	private JLabel lblProfile;
     private JPanel bodyPanel;
@@ -33,6 +37,13 @@ public class ManageAllForm extends JFrame {
     private JLabel lblRole,lblUsername;
 
     public ManageAllForm(int id) {
+    	this.accountDAO = new AccountDAOImpl();
+		this.accountService = new AccountServiceImpl(accountDAO);
+		
+    	Account account = accountService.getAccountById(id);
+    	String name = account.getName();
+    	String role = account.getRole();
+    	
         // Initialize the JFrame
         setTitle("wms");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -212,7 +223,8 @@ public class ManageAllForm extends JFrame {
         menuPanel.add(btnInventory);
         getContentPane().add(menuPanel, BorderLayout.WEST);
         
-        lblUsername = new JLabel("Juan Dela Cruz");
+        lblUsername = new JLabel("no name");
+        lblUsername.setText(name);
         lblUsername.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -232,7 +244,8 @@ public class ManageAllForm extends JFrame {
         lblUsername.setBounds(35, 150, 174, 17);
         menuPanel.add(lblUsername);
         
-        lblRole = new JLabel("Admin");
+        lblRole = new JLabel("no role");
+        lblRole.setText(role);
         lblRole.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {

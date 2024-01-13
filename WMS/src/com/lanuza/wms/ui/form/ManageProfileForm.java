@@ -38,7 +38,7 @@ public class ManageProfileForm {
 	private JFrame frame;
 	private JTextField txtNewName,txtNewUsername;
 	private JPasswordField txtNewPassword,txtNewRepassword;
-	private JLabel lblCurrentId1,lblCurrentName1,lblCurrentUsername1,lblCurrentPassword1,lblCurrentRole1;
+	private JLabel lblCurrentId1,lblCurrentName1,lblCurrentUsername1,lblCurrentRole1;
 	JComboBox newRoleCombox;
 	JPanel modifyPanel;
 	String name;
@@ -59,74 +59,23 @@ public class ManageProfileForm {
 	    	lblCurrentId1 = new JLabel();
 	    	lblCurrentName1 = new JLabel();	    	
 	    	lblCurrentUsername1 = new JLabel();
-	    	lblCurrentPassword1 = new JLabel();
 	    	lblCurrentRole1 = new JLabel();
 	    	
 	    	txtNewName = new JTextField();
 	    	txtNewUsername = new JTextField();
-	    	txtNewPassword = new JPasswordField();
-	    	newRoleCombox = new JComboBox();          
+	    	newRoleCombox = new JComboBox();
+	    	
 	    	lblCurrentId1.setText(String.valueOf(account.getAccountId()));
            	lblCurrentName1.setText(name != null ? name : "null field");  
             lblCurrentUsername1.setText(user != null ? user : "null field");
-            lblCurrentPassword1.setText(pass != null ? pass : "null field");
             lblCurrentRole1.setText(role != null ? role : "null field");
 
             txtNewName.setText(name != null ? name : "null field");     
             txtNewUsername.setText(user != null ? user : "null field");
-            txtNewPassword.setText(pass != null ? pass : "null field");
             newRoleCombox.setSelectedItem(role != null ? role : "null field");
             initialize();            
         }
     }
-    /*
-    public void updateProfile(Account account) {
-    	System.out.println(account.toString());
-        // Update the UI components with the account details
-        if (account != null) {
-        	System.out.println(account.toString());
-            String name = account.getName();
-            System.out.println(name.toString());
-            String username = account.getUsername();
-            String password = account.getPassword();
-            String role = account.getRole();
-
-            lblCurrentId1.setText(String.valueOf(account.getAccountId()));
-            lblCurrentName1.setText(name != null ? name : "null field");  
-            lblCurrentUsername1.setText(username != null ? username : "null field");
-            lblCurrentPassword1.setText(password != null ? password : "null field");
-            lblCurrentRole1.setText(role != null ? role : "null field");
-
-            txtNewName.setText(name != null ? name : "null field");     
-            txtNewUsername.setText(username != null ? username : "null field");
-            txtNewPassword.setText(password != null ? password : "null field");
-            newRoleCombox.setSelectedItem(role != null ? role : "null field");
-
-        }
-    }
-    */
-        /*
-	public void updateProfile(Account account) {
-	        // Update the UI components with the account details	    	
-	    	String name = account.getName().toString();
-	    	String username = account.getUsername().toString();
-	    	String password = account.getPassword().toString();
-	    	String role = account.getRole().toString();
-	    	//String id = String.valueOf(account.getAccountId()).toString();
-	    	
-	    	lblCurrentId1.setText(String.valueOf(account.getAccountId()));
-	    	lblCurrentName1.setText(name);
-	    	lblCurrentUsername1.setText(username);
-	    	lblCurrentPassword1.setText(password);
-	    	lblCurrentRole1.setText(role);	    		    
-	    	
-	        txtNewName.setText(name);
-	        txtNewUsername.setText(username);
-	        txtNewPassword.setText(password);
-	        newRoleCombox.setSelectedItem(role);
-
-	}
-	*/
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -156,7 +105,7 @@ public class ManageProfileForm {
 		JLabel lblModifyAccount = new JLabel("Modify Account?");
 		lblModifyAccount.setForeground(new Color(0, 0, 255));
 		lblModifyAccount.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblModifyAccount.setBounds(356, 260, 112, 33);
+		lblModifyAccount.setBounds(354, 219, 112, 33);
 		panel.add(lblModifyAccount);
 		
 		JLabel lblCurrentName = new JLabel("Name");
@@ -190,16 +139,10 @@ public class ManageProfileForm {
 		lblCurrentUsername.setBounds(204, 131, 79, 33);
 		panel.add(lblCurrentUsername);
 		
-		JLabel lblCurrentPassword = new JLabel("Password");
-		lblCurrentPassword.setForeground(Color.BLACK);
-		lblCurrentPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCurrentPassword.setBounds(204, 175, 79, 33);
-		panel.add(lblCurrentPassword);
-		
 		JLabel lblCurrentRole = new JLabel("Role");
 		lblCurrentRole.setForeground(Color.BLACK);
 		lblCurrentRole.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCurrentRole.setBounds(219, 224, 46, 33);
+		lblCurrentRole.setBounds(219, 175, 46, 33);
 		panel.add(lblCurrentRole);		
 		
 		lblCurrentId1.setOpaque(true);
@@ -228,20 +171,12 @@ public class ManageProfileForm {
 		lblCurrentUsername1.setBounds(295, 135, 175, 29);
 		panel.add(lblCurrentUsername1);
 		
-		lblCurrentPassword1.setOpaque(true);
-		lblCurrentPassword1.setBackground(new Color(255, 255, 255));
-		lblCurrentPassword1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblCurrentPassword1.setForeground(Color.BLACK);
-		lblCurrentPassword1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCurrentPassword1.setBounds(295, 175, 175, 29);
-		panel.add(lblCurrentPassword1);
-		
 		lblCurrentRole1.setOpaque(true);
 		lblCurrentRole1.setBackground(new Color(255, 255, 255));
 		lblCurrentRole1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblCurrentRole1.setForeground(Color.BLACK);
 		lblCurrentRole1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblCurrentRole1.setBounds(295, 224, 173, 29);
+		lblCurrentRole1.setBounds(293, 179, 173, 29);
 		panel.add(lblCurrentRole1);
 		
 		JPanel panel_1 = new JPanel();
@@ -329,31 +264,27 @@ public class ManageProfileForm {
 			lblInput.setBounds(170, 25, 232, 31);
 			modifyPanel.add(lblInput);
 			
-			txtNewName = new JTextField();
+			
 			txtNewName.setToolTipText("Juan Dela Cruz");
 			txtNewName.setColumns(10);
 			txtNewName.setBounds(222, 88, 222, 31);
 			modifyPanel.add(txtNewName);
-			
-			txtNewUsername = new JTextField();
-			txtNewUsername.setToolTipText("");
+						
 			txtNewUsername.setColumns(10);
 			txtNewUsername.setBounds(222, 130, 222, 31);
 			modifyPanel.add(txtNewUsername);
-			
+					
 			txtNewPassword = new JPasswordField();
-			txtNewPassword.setToolTipText("");
 			txtNewPassword.setColumns(10);
 			txtNewPassword.setBounds(222, 173, 222, 31);
 			modifyPanel.add(txtNewPassword);
 			
 			txtNewRepassword = new JPasswordField();
-			txtNewRepassword.setToolTipText("");
 			txtNewRepassword.setColumns(10);
 			txtNewRepassword.setBounds(222, 216, 222, 31);
 			modifyPanel.add(txtNewRepassword);
 			
-			newRoleCombox = new JComboBox(new Object[]{});
+			//newRoleCombox = new JComboBox(new Object[]{});
 			newRoleCombox.setFont(new Font("Tahoma", Font.BOLD, 14));
 			newRoleCombox.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Guest"}));
 			newRoleCombox.setBounds(222, 270, 222, 31);
