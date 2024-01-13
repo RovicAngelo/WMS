@@ -138,8 +138,7 @@ public class NewAccountForm  {
 					if(password.equals(repassword)){
 						
 						if (role.equalsIgnoreCase("Admin")) {
-							var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");
-							System.out.println(masterpassword);
+							var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");							
 							
 							if(masterpassword.equals("password")) {
 								Account adminAccount = new Account(name,username,password,role);

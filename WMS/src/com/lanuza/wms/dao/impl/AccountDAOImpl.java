@@ -109,7 +109,7 @@ public class AccountDAOImpl implements AccountDAO{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<Account> accounts = new ArrayList<>();
+        List<Account> accounts = new ArrayList<>(); 
 
         try {
             connection = DBConnection.getConnection();
@@ -207,13 +207,13 @@ public class AccountDAOImpl implements AccountDAO{
 
             try {
             	resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     account = new Account(
                         resultSet.getString("Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Password"),
                         resultSet.getString("Role"),
-                        resultSet.getInt("AccountId")
+                        resultSet.getInt("AccountId")                       
                     );
                 }    
             }
@@ -223,9 +223,21 @@ public class AccountDAOImpl implements AccountDAO{
         } catch (SQLException e) {
             e.printStackTrace(); // Handle or log the exception
         }finally {
-			// TODO: handle finally clause
-		}
-
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace(); // Handle or log the exception
+	        }
+	    }
         return account;
     }
+	
 }

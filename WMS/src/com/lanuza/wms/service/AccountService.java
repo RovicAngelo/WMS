@@ -20,5 +20,4 @@ public interface AccountService {
 	void tableLoad(JTable table);
 	
 	Account getAccountByUsernameAndPassword(String username, String password);
-
 }

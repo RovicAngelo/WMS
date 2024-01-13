@@ -26,12 +26,43 @@ public class LoginForm extends JFrame{
 		private JLabel lblcreateAccount;
 
 		public LoginForm() {
-			this.profileForm = new ManageProfileForm();
+			//this.profileForm = new ManageProfileForm();
 			this.accountDAO = new AccountDAOImpl();
 			this.accountService = new AccountServiceImpl(accountDAO);
 			initialize();
 
 		}	
+		
+		private void performLogin() {
+	        String username = txtUsername.getText();
+	        String password = new String(txtPassword.getPassword());
+
+	        if (username.isEmpty() || password.isEmpty()) {
+	            JOptionPane.showMessageDialog(null, "Missing Information");
+	        } else {
+	        	
+	            // Use AccountService to validate credentials and get account details
+	            Account account = accountService.getAccountByUsernameAndPassword(username, password);
+	            
+
+	            if (account != null) {
+	                // Successfully logged in
+	                // Close the login form
+	                frame.dispose();
+	                
+	                int id =  account.getAccountId();
+
+	                // Open the Dashboard
+	                new ManageAllForm(id).setVisible(true);
+	            } else {
+	                // Display an error message and reset fields
+	                JOptionPane.showMessageDialog(null, "Wrong username or password");
+	                txtUsername.setText("");
+	                txtPassword.setText("");
+	            }
+	        }
+	    }
+				
 	    public void initialize() {
 	        frame = new JFrame(); // JFrame - a GUI window to add component to
 	        frame.setSize(710, 370); // this set the x and y dimension of Frame
@@ -114,33 +145,7 @@ public class LoginForm extends JFrame{
 	        btnLogin.setFocusPainted(false);
 	        btnLogin.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	                String username = txtUsername.getText();
-	                String password = txtPassword.getText();
-
-	                if (username.isEmpty() || password.isEmpty()) {
-	                    JOptionPane.showMessageDialog(null, "Missing Information");
-	                } else {
-	               
-	                    // Use AccountService to validate credentials and get account details
-	                    Account account = accountService.getAccountByUsernameAndPassword(username, password);
-	                   
-	                    if (account != null) {
-	                        // Successfully logged in
-	                        // Open the profile form and update it with the account details  
-	                        profileForm.updateProfile(account);
-
-	                        // Close the login form
-	                        frame.dispose();
-
-	                        // Open the Dashboard
-	                        new ManageAllForm().setVisible(true);;
-	                    } else {
-	                        // Display an error message and reset fields
-	                        JOptionPane.showMessageDialog(null, "Wrong username or password");
-	                        txtUsername.setText("");
-	                        txtPassword.setText("");
-	                    }
-	                }
+	               performLogin();
 	            }
 	        });
 

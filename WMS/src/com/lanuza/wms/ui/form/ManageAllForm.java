@@ -30,9 +30,9 @@ public class ManageAllForm extends JFrame {
     private JPanel bodyPanel;
     private JButton btnProduct, btnReceiving, btnDashboard, btnSupplier, btnOrder, btnInventory, btnLogout, btnCustomer;
     private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
-    private JLabel lblRole;
+    private JLabel lblRole,lblUsername;
 
-    public ManageAllForm() {
+    public ManageAllForm(int id) {
         // Initialize the JFrame
         setTitle("wms");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,7 +142,9 @@ public class ManageAllForm extends JFrame {
         lblProfile.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		showForm(new ProfileForm(true));     		
+        		new ManageProfileForm(id,true);
+        		revalidate();
+        		repaint();
         	}
         });
         lblProfile.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -150,7 +152,7 @@ public class ManageAllForm extends JFrame {
         lblProfile.setHorizontalAlignment(SwingConstants.CENTER);
         lblProfile.setHorizontalTextPosition(SwingConstants.CENTER);
         lblProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblProfile.setIcon(new ImageIcon(Dashboard.class.getResource("/com/lanuza/wms/ui/resources/icons/user.png")));
+        lblProfile.setIcon(new ImageIcon(ManageAllForm.class.getResource("/com/lanuza/wms/ui/resources/icons/user.png")));
         lblProfile.setBounds(0, 0, 174, 120);
         panel.add(lblProfile);
         
@@ -210,13 +212,17 @@ public class ManageAllForm extends JFrame {
         menuPanel.add(btnInventory);
         getContentPane().add(menuPanel, BorderLayout.WEST);
         
-        JLabel lblUsername = new JLabel("Juan Dela Cruz");
+        lblUsername = new JLabel("Juan Dela Cruz");
         lblUsername.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		showForm(new ProfileForm(true));
+        		new ManageProfileForm(id,true); 
+        		revalidate();
+        		repaint();
         	}
         });
+        
+ 
         lblUsername.setVerticalAlignment(SwingConstants.TOP);
         lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
         lblUsername.setForeground(Color.WHITE);
