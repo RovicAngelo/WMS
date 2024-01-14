@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -64,8 +65,12 @@ public class ManageAllForm extends JFrame {
      	 
         btnProduct = new JButton();
         btnProduct.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		showForm(new ManageProductForm());
+        	public void actionPerformed(ActionEvent e) {        		
+        		if(role.equals("Admin")){
+        			showForm(new ManageProductForm());
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing Products are only accessible for admin users");
+        		}        		
         	}
         });
         btnProduct.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -79,7 +84,12 @@ public class ManageAllForm extends JFrame {
         btnReceiving = new JButton();
         btnReceiving.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		showForm(new ManageReceivingForm());
+        		
+        		if(role.equals("Admin")){
+        			showForm(new ManageReceivingForm());	
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing Receivings are only accessible for admin users");
+        		}         		
         	}
         });
         btnReceiving.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -95,7 +105,11 @@ public class ManageAllForm extends JFrame {
         btnOrder = new JButton();
         btnOrder.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		showForm(new ManageOrderForm()); 		
+        		if(role.equals("Admin")){
+        			showForm(new ManageOrderForm()); 		
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing Orders are only accessible for admin users");
+        		}        		     		
         	}
         });
         btnOrder.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -170,7 +184,11 @@ public class ManageAllForm extends JFrame {
         btnCustomer = new JButton();
         btnCustomer.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		showForm(new ManageCustomerForm());
+        		if(role.equals("Admin")){
+        			showForm(new ManageCustomerForm());
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing Customers are only accessible for admin users");
+        		}          		       	
         	}
         });
         btnCustomer.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -184,8 +202,12 @@ public class ManageAllForm extends JFrame {
         
         btnSupplier = new JButton();
         btnSupplier.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		showForm(new ManageSupplierForm());
+        	public void actionPerformed(ActionEvent e) {        		
+        		if(role.equals("Admin")){
+        			showForm(new ManageSupplierForm()); 
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing Suppliers are only accessible for admin users");
+        		}         			      		
         	}
         });
         btnSupplier.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -201,6 +223,7 @@ public class ManageAllForm extends JFrame {
         btnDashboard = new JButton();
         btnDashboard.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		
         		showForm(new ManageDashboardForm());
         	}
         });
@@ -249,8 +272,13 @@ public class ManageAllForm extends JFrame {
         lblRole.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		dispose();
-        		new ViewAllAccountForm();
+        		if(role.equals("Admin")){
+        			dispose();
+            		new ViewAllAccountForm();
+        		}else {
+        			JOptionPane.showMessageDialog(null, "Managing All Accounts are only accessible for admin users");
+        		}
+        		
         	}
         });
         lblRole.setVerticalAlignment(SwingConstants.TOP);

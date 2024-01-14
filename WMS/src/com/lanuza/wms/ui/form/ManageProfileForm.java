@@ -83,7 +83,8 @@ public class ManageProfileForm {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setSize(1000,600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(false);
+		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);

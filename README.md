@@ -23,11 +23,11 @@ This application is created using java and swing library. It has basic function 
 - User Authentication
 - perform CRUD
 - User-friendly interface using java swing library
+- RBAC
 - Print ❗
 - Light-Dark Mode ❗
 - Save as File ❗
 - Real time Statistics ❗
-- RBAC ❗
 - search function ❗
 
 
@@ -220,7 +220,6 @@ To use this application follow the guidelines.
 > - Statistics in dashboard
 > - Change modes(dark/light)
 > - Save as file
-> - RBAC
 > - Search function
 
 <br>

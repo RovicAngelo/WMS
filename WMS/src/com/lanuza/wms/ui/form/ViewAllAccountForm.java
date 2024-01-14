@@ -74,7 +74,7 @@ public class ViewAllAccountForm {
 			public void actionPerformed(ActionEvent e) {
 				
 				frame.dispose();
-				//new Dashboard();
+				//new ManageAllForm();
 			}
 		});
 		btnBack.setFont(new Font("Tahoma", Font.BOLD, 15));
