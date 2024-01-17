@@ -3,7 +3,6 @@ package com.lanuza.wms.Main;
 import javax.swing.SwingUtilities;
 
 import com.lanuza.wms.ui.form.LoginForm;
-import com.lanuza.wms.ui.form.ManageAllForm;
 
 public class Main {
   

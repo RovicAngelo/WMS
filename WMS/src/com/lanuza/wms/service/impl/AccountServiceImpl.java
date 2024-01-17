@@ -52,5 +52,10 @@ public class AccountServiceImpl implements AccountService{
 	        return accountDAO.getAccountByUsernameAndPassword(username, password);
 	    }
 
+		@Override
+		public int getTotalItems() {
+			return accountDAO.getTotalItems();
+		}
+
 
 }

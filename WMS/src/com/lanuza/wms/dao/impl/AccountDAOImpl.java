@@ -239,5 +239,28 @@ public class AccountDAOImpl implements AccountDAO{
 	    }
         return account;
     }
+
+	@Override
+	public int getTotalItems() {
+		Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+        int sum = 0;
+
+        try {
+        	 connection = DBConnection.getConnection();
+             preparedStatement = connection.prepareStatement("SELECT COUNT(Name) FROM tblaccount");
+             resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+            	sum = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+        return sum;
+	}
 	
 }

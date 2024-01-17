@@ -159,7 +159,7 @@ public class ManageAllForm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setVisible(true);
-        panel.setBounds(35, 29, 174, 120);
+        panel.setBounds(35, 19, 174, 117);
         menuPanel.add(panel);
         panel.setLayout(null);
         
@@ -178,7 +178,7 @@ public class ManageAllForm extends JFrame {
         lblProfile.setHorizontalTextPosition(SwingConstants.CENTER);
         lblProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblProfile.setIcon(new ImageIcon(ManageAllForm.class.getResource("/com/lanuza/wms/ui/resources/icons/user.png")));
-        lblProfile.setBounds(0, 0, 174, 120);
+        lblProfile.setBounds(0, 0, 174, 117);
         panel.add(lblProfile);
         
         btnCustomer = new JButton();
@@ -264,7 +264,7 @@ public class ManageAllForm extends JFrame {
         lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
         lblUsername.setHorizontalTextPosition(SwingConstants.CENTER);
         lblUsername.setBorder(null);
-        lblUsername.setBounds(35, 150, 174, 17);
+        lblUsername.setBounds(35, 143, 174, 17);
         menuPanel.add(lblUsername);
         
         lblRole = new JLabel("no role");
@@ -273,8 +273,7 @@ public class ManageAllForm extends JFrame {
         	@Override
         	public void mouseClicked(MouseEvent e) {
         		if(role.equals("Admin")){
-        			dispose();
-            		new ViewAllAccountForm();
+        			showForm(new ManageAllAccount());
         		}else {
         			JOptionPane.showMessageDialog(null, "Managing All Accounts are only accessible for admin users");
         		}
@@ -286,7 +285,7 @@ public class ManageAllForm extends JFrame {
         lblRole.setForeground(Color.WHITE);
         lblRole.setHorizontalTextPosition(SwingConstants.CENTER);
         lblRole.setHorizontalAlignment(SwingConstants.CENTER);
-        lblRole.setBounds(35, 171, 174, 17);
+        lblRole.setBounds(35, 164, 174, 17);
         menuPanel.add(lblRole);
 
 

@@ -21,5 +21,5 @@ public interface AccountDAO {
 	
 	Account getAccountByUsernameAndPassword(String username, String password);
 	
-	
+	int getTotalItems();
 }
