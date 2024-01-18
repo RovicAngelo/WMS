@@ -132,46 +132,64 @@ public class NewAccountForm  {
 				repassword = txtRepassword.getText();			
 				role = roleCombox.getSelectedItem().toString();
 				
-				if (name.isEmpty() && username.isEmpty() && password.isEmpty() && repassword.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Missing Information");
-				}else {
-					if(password.equals(repassword)){
-						
-						if (role.equalsIgnoreCase("Admin")) {
-							var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");							
-							
-							if(masterpassword.equals("password")) {
-								Account adminAccount = new Account(name,username,password,role);
-								accountService.addAccount(adminAccount);
+				
+				// Use AccountService to validate credentials and get account details
+	            Account account = accountService.getAccountByUsernameAndPassword(username, password);
+	            
+	          //To validate if account already exist
+	            if (account != null) {
+	            	//To validate if account name already exist
+	            	if(account.getName() != null && account.getPassword() != null) {
+	            		JOptionPane.showMessageDialog(null, "Account name or password already used");
+	            	}	            	
+	            //if not continue account creation    
+	            } else {
+	            	//check if inputted field are/is empty
+	            	if (name.isEmpty() && username.isEmpty() && password.isEmpty() && repassword.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Missing Information");
+					}else {
+						//check if both password and repassword are the same
+						if(password.equals(repassword)){
+							//check if account created is an admin role
+							if (role.equalsIgnoreCase("Admin")) {
+								var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");							
+								//to check if inputed masterpassword for admin creation is correct
+								if(masterpassword.equals("password")) {
+									
+						            Account adminAccount = new Account(name,username,password,role);
+									accountService.addAccount(adminAccount);
+									
+									JOptionPane.showMessageDialog(null, "Successfully creates an admin account");
+		
+									frame.dispose();
+									new LoginForm();
+								//check is masterpassword is empty									
+								}else if(masterpassword.isEmpty()) {
+									//JOptionPane.showMessageDialog(null, "Sorry wrong password", "alert", JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Missing Information");
+								//check is masterpassword is incorrect
+								}else if(masterpassword != "password") {				
+									//JOptionPane.showMessageDialog(null, "Congratulation", "information", JOptionPane.INFORMATION_MESSAGE);					
+									JOptionPane.showMessageDialog(null, "Wrong Password");
+								}
+							//check if account created is a guest role
+							}else if(role.equalsIgnoreCase("Guest")) {					
 								
-								JOptionPane.showMessageDialog(null, "Successfully creates an admin account");
-	
+								Account guestAccount = new Account(name,username,password,role);
+								accountService.addAccount(guestAccount);
+								
+								JOptionPane.showMessageDialog(null, "Successfully created a guest account");
+								
 								frame.dispose();
 								new LoginForm();
-								
-							}else if(masterpassword.isEmpty()) {
-								//JOptionPane.showMessageDialog(null, "Sorry wrong password", "alert", JOptionPane.ERROR_MESSAGE);
-								JOptionPane.showMessageDialog(null, "Missing Information");
-								
-							}else if(masterpassword != "password") {				
-								//JOptionPane.showMessageDialog(null, "Congratulation", "information", JOptionPane.INFORMATION_MESSAGE);					
-								JOptionPane.showMessageDialog(null, "Wrong Password");
-							}
-						}else if(role.equalsIgnoreCase("Guest")) {					
+							}	
+						//check if password and repassword are not the same
+						}else if(txtPassword.getText() != txtRepassword.getText()){
+							JOptionPane.showMessageDialog(null, "Password and re-password are not the same");
 							
-							Account guestAccount = new Account(name,username,password,role);
-							accountService.addAccount(guestAccount);
-							
-							JOptionPane.showMessageDialog(null, "Successfully created a guest account");
-							
-							frame.dispose();
-							new LoginForm();
-						}	
-					}else if(txtPassword.getText() != txtRepassword.getText()){
-						JOptionPane.showMessageDialog(null, "Password and re-password are not the same");
-						
-					}					
-				}											
+						}					
+					}
+	            }																			
 			}
 		});
 		btnSignIn.setFont(new Font("Tahoma", Font.BOLD, 15));
