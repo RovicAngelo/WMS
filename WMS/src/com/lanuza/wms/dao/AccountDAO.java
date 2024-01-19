@@ -19,7 +19,7 @@ public interface AccountDAO {
 	
 	void tableLoad(JTable table);
 	
-	Account getAccountByUsernameAndPassword(String username, String password);
+	Account getAccountByUsernameAndPassword(String username, String password);	
 	
 	int getTotalItems();
 }

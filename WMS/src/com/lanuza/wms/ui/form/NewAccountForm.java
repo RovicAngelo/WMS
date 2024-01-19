@@ -130,18 +130,16 @@ public class NewAccountForm  {
 				username=txtUsername.getText();
 				password=txtPassword.getText();
 				repassword = txtRepassword.getText();			
-				role = roleCombox.getSelectedItem().toString();
-				
+				role = roleCombox.getSelectedItem().toString();			
 				
 				// Use AccountService to validate credentials and get account details
 	            Account account = accountService.getAccountByUsernameAndPassword(username, password);
-	            
 	          //To validate if account already exist
 	            if (account != null) {
-	            	//To validate if account name already exist
-	            	if(account.getName() != null && account.getPassword() != null) {
-	            		JOptionPane.showMessageDialog(null, "Account name or password already used");
-	            	}	            	
+	            	//To validate if account password already exist
+	            	if(account.getPassword() != null) {
+	            		JOptionPane.showMessageDialog(null, "Password already used by other user");  
+	            	}            	              	
 	            //if not continue account creation    
 	            } else {
 	            	//check if inputted field are/is empty
@@ -168,25 +166,23 @@ public class NewAccountForm  {
 									//JOptionPane.showMessageDialog(null, "Sorry wrong password", "alert", JOptionPane.ERROR_MESSAGE);
 									JOptionPane.showMessageDialog(null, "Missing Information");
 								//check is masterpassword is incorrect
-								}else if(masterpassword != "password") {				
+								}else if(!masterpassword.equals("password")) {				
 									//JOptionPane.showMessageDialog(null, "Congratulation", "information", JOptionPane.INFORMATION_MESSAGE);					
 									JOptionPane.showMessageDialog(null, "Wrong Password");
 								}
 							//check if account created is a guest role
-							}else if(role.equalsIgnoreCase("Guest")) {					
-								
-								Account guestAccount = new Account(name,username,password,role);
-								accountService.addAccount(guestAccount);
-								
-								JOptionPane.showMessageDialog(null, "Successfully created a guest account");
-								
-								frame.dispose();
-								new LoginForm();
+							}else if(role.equalsIgnoreCase("Guest")) {											         
+										Account guestAccount = new Account(name,username,password,role);
+										accountService.addAccount(guestAccount);
+										
+										JOptionPane.showMessageDialog(null, "Successfully created a guest account");
+										
+										frame.dispose();
+										new LoginForm();
 							}	
 						//check if password and repassword are not the same
 						}else if(txtPassword.getText() != txtRepassword.getText()){
-							JOptionPane.showMessageDialog(null, "Password and re-password are not the same");
-							
+							JOptionPane.showMessageDialog(null, "Password and re-password do not match");							
 						}					
 					}
 	            }																			

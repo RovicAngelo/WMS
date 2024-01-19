@@ -21,5 +21,6 @@ public interface AccountService {
 	
 	Account getAccountByUsernameAndPassword(String username, String password);
 	
+	
 	int getTotalItems();
 }

@@ -239,6 +239,7 @@ public class AccountDAOImpl implements AccountDAO{
 	    }
         return account;
     }
+    
 
 	@Override
 	public int getTotalItems() {
@@ -262,5 +263,7 @@ public class AccountDAOImpl implements AccountDAO{
         }
         return sum;
 	}
+
+
 	
 }
