@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -53,7 +54,7 @@ public class ManageProfileForm {
 	        
 	        String name = account.getName();
             String user = account.getUsername();
-            String pass = account.getPassword();
+            //String pass = account.getPassword();
             String role = account.getRole();
             
 	    	lblCurrentId1 = new JLabel();
@@ -264,8 +265,7 @@ public class ManageProfileForm {
 			lblInput.setForeground(new Color(0, 0, 0));
 			lblInput.setBounds(170, 25, 232, 31);
 			modifyPanel.add(lblInput);
-			
-			
+					
 			txtNewName.setToolTipText("Juan Dela Cruz");
 			txtNewName.setColumns(10);
 			txtNewName.setBounds(222, 88, 222, 31);
@@ -318,32 +318,70 @@ public class ManageProfileForm {
 					newName = txtNewName.getText();
 					newUsername = txtNewUsername.getText();
 					newPassword = txtNewPassword.getPassword().toString();
+					String stringPassword = new String(txtNewPassword.getPassword());
+					
 					newrole = newRoleCombox.getSelectedItem().toString();
-					accid = Integer.parseInt( lblCurrentId1.getText());
+					accid = Integer.parseInt( lblCurrentId1.getText());		
 					
-					Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
-					accountService.updateAccount(updateAccount);			
-
-					//updateProfile(updateAccount);
+					Account account = accountService.getAccountByUsernameAndPassword(newUsername, stringPassword);
 					
-					txtNewName.setText("");
-					txtNewUsername.setText("");
-					txtNewPassword.setText("");
-					txtNewRepassword.setText("");
-					newRoleCombox.setSelectedItem("");
-					txtNewName.requestFocus();
+					//check if updated account is an admin role
+					if (newrole.equalsIgnoreCase("Admin")) {
+						
+						var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");		
+						
+						//to check if inputed masterpassword for admin creation is correct
+						if(masterpassword.equals("password")) {
+							
+							
+							//check if account exist
+							if(account != null) {
+								//To validate if account name and password already exist
+								if(account.getPassword() != null) {
+				            		JOptionPane.showMessageDialog(null, "Account password already used");			            				            		            						            
+					            } 
+							}else {							
+					            Account updateAccount = new Account(newName,newUsername,stringPassword,newrole,accid);
+								accountService.updateAccount(updateAccount);
+								
+								txtNewName.setText("");
+								txtNewUsername.setText("");
+								txtNewPassword.setText("");
+								txtNewRepassword.setText("");
+								newRoleCombox.setSelectedItem("");
+								txtNewName.requestFocus();
+								
+								frame.dispose();
+								createProductDialog.dispose();
+								new ManageDashboardForm();
+					            }
+							
+						}else if(masterpassword.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Missing Information");
+							
+						}else if(masterpassword != "password") {								
+							JOptionPane.showMessageDialog(null, "Wrong Password");
+						}
+					}else if(newrole.equalsIgnoreCase("Guest")) {	
+						//check if account exist		
+						if(account != null) {
+							//To validate if account already exist
+							if(account.getPassword() != null) {
+			            		JOptionPane.showMessageDialog(null, "Account password already used");			            				            		            	
+				            //if not continue account creation    
+				            } 
+						} else {			            								
+							Account updateAccount = new Account(newName,newUsername,stringPassword,newrole,accid);
+							accountService.updateAccount(updateAccount);												
+							
+							frame.dispose();
+							createProductDialog.dispose();
+							new ManageDashboardForm();
+			            }																		
+					}											
 				}
 			});
 			btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 15));	
-	        // Add action listener to the Save button
-	        btnUpdate.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent el) {
-	                // Perform save operation (you can customize this part)
-	                // For simplicity, just dispose the dialog in this example
-	                createProductDialog.dispose();
-	            }
-	        });
 	        
 	        btnClear.addActionListener(new ActionListener() {
 	            @Override
