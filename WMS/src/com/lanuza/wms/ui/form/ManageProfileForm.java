@@ -2,14 +2,14 @@ package com.lanuza.wms.ui.form;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -30,8 +29,6 @@ import com.lanuza.wms.dao.impl.AccountDAOImpl;
 import com.lanuza.wms.model.Account;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
-import com.lanuza.wms.ui.components.CustomButton;
-import javax.swing.ImageIcon;
 
 public class ManageProfileForm {
 	private final AccountDAO accountDAO;
@@ -317,14 +314,14 @@ public class ManageProfileForm {
 					
 					newName = txtNewName.getText();
 					newUsername = txtNewUsername.getText();
-					newPassword = txtNewPassword.getPassword().toString();
-					String stringPassword = new String(txtNewPassword.getPassword());
-					
+					newPassword = new String(txtNewPassword.getPassword());
 					newrole = newRoleCombox.getSelectedItem().toString();
 					accid = Integer.parseInt( lblCurrentId1.getText());		
 					
-					Account account = accountService.getAccountByUsernameAndPassword(newUsername, stringPassword);
-					
+					//to get this current account by id
+					Account account = accountService.getAccountById(accid);
+					//get all account except current account
+					List<Account> accounts = accountService.getAllAccountNameExcept(account.getName());
 					//check if updated account is an admin role
 					if (newrole.equalsIgnoreCase("Admin")) {
 						
@@ -332,18 +329,12 @@ public class ManageProfileForm {
 						
 						//to check if inputed masterpassword for admin creation is correct
 						if(masterpassword.equals("password")) {
-							
-							
-							//check if account exist
-							if(account != null) {
-								//To validate if account name and password already exist
-								if(account.getPassword() != null) {
-				            		JOptionPane.showMessageDialog(null, "Account password already used");			            				            		            						            
-					            } 
-							}else {							
-					            Account updateAccount = new Account(newName,newUsername,stringPassword,newrole,accid);
+							 // Check if newName is equal to the current account name
+				            // and continue with updateAccount if it's not in the accounts list
+				            if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
+								Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
 								accountService.updateAccount(updateAccount);
-								
+
 								txtNewName.setText("");
 								txtNewUsername.setText("");
 								txtNewPassword.setText("");
@@ -351,33 +342,43 @@ public class ManageProfileForm {
 								newRoleCombox.setSelectedItem("");
 								txtNewName.requestFocus();
 								
+								JOptionPane.showMessageDialog(null, "Account will be logout to apply the setting");
+								
 								frame.dispose();
-								createProductDialog.dispose();
-								new ManageDashboardForm();
+								createProductDialog.dispose();								
+				        		new LoginForm();															            				            		            						            
+							}else {							
+					            JOptionPane.showMessageDialog(null, "Name already used by other account");
 					            }
 							
 						}else if(masterpassword.isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Missing Information");
+							JOptionPane.showMessageDialog(null, "Missing master password information");
 							
 						}else if(masterpassword != "password") {								
 							JOptionPane.showMessageDialog(null, "Wrong Password");
 						}
 					}else if(newrole.equalsIgnoreCase("Guest")) {	
-						//check if account exist		
-						if(account != null) {
-							//To validate if account already exist
-							if(account.getPassword() != null) {
-			            		JOptionPane.showMessageDialog(null, "Account password already used");			            				            		            	
-				            //if not continue account creation    
-				            } 
-						} else {			            								
-							Account updateAccount = new Account(newName,newUsername,stringPassword,newrole,accid);
-							accountService.updateAccount(updateAccount);												
+					     // Check if newName is equal to the current account name
+				        // and continue with updateAccount if it's not in the accounts list
+				        if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
+							Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
+							accountService.updateAccount(updateAccount);
+
+							txtNewName.setText("");
+							txtNewUsername.setText("");
+							txtNewPassword.setText("");
+							txtNewRepassword.setText("");
+							newRoleCombox.setSelectedItem("");
+							txtNewName.requestFocus();
+							
+							JOptionPane.showMessageDialog(null, "Account will be logout to apply the setting");
 							
 							frame.dispose();
-							createProductDialog.dispose();
-							new ManageDashboardForm();
-			            }																		
+							createProductDialog.dispose();								
+			        		new LoginForm();															            				            		            						            
+						}else{							
+				            JOptionPane.showMessageDialog(null, "Name already used by other account");
+				            }														
 					}											
 				}
 			});
