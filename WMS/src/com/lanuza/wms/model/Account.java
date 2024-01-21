@@ -9,6 +9,12 @@ public class Account {
 		super();
 	}
 	
+	public Account(String name) {	
+		super();
+		this.name = name;
+	}
+	
+	
 	public Account(int accountId,String name, String username, String password, String role) {
 		super();
 		this.username = username;

@@ -57,4 +57,16 @@ public class AccountServiceImpl implements AccountService{
 			return accountDAO.getTotalItems();
 		}
 
+		@Override
+		public Account getAccountByName(String name) {
+			// TODO Auto-generated method stub
+			return accountDAO.getAccountByName(name);
+		}
+
+		@Override
+		public List<Account> getAllAccountNameExcept(String currentName) {
+			// TODO Auto-generated method stub
+			return accountDAO.getAllAccountNameExcept(currentName);
+		}
+
 }

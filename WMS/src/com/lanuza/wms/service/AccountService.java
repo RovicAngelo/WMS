@@ -21,6 +21,9 @@ public interface AccountService {
 	
 	Account getAccountByUsernameAndPassword(String username, String password);
 	
-	
 	int getTotalItems();
+	
+	Account getAccountByName(String name);	
+	
+	List<Account>getAllAccountNameExcept(String currentName);	
 }

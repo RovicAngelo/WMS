@@ -133,13 +133,11 @@ public class NewAccountForm  {
 				role = roleCombox.getSelectedItem().toString();			
 				
 				// Use AccountService to validate credentials and get account details
-	            Account account = accountService.getAccountByUsernameAndPassword(username, password);
+	            Account account = accountService.getAccountByName(name);	            
 	          //To validate if account already exist
 	            if (account != null) {
-	            	//To validate if account password already exist
-	            	if(account.getPassword() != null) {
-	            		JOptionPane.showMessageDialog(null, "Password already used by other user");  
-	            	}            	              	
+	            	//To validate if account name already exist
+	            	JOptionPane.showMessageDialog(null, "Name already used by other account");            	              	
 	            //if not continue account creation    
 	            } else {
 	            	//check if inputted field are/is empty
@@ -155,9 +153,7 @@ public class NewAccountForm  {
 								if(masterpassword.equals("password")) {
 									
 						            Account adminAccount = new Account(name,username,password,role);
-									accountService.addAccount(adminAccount);
-									
-									JOptionPane.showMessageDialog(null, "Successfully creates an admin account");
+									accountService.addAccount(adminAccount);									
 		
 									frame.dispose();
 									new LoginForm();
@@ -173,9 +169,7 @@ public class NewAccountForm  {
 							//check if account created is a guest role
 							}else if(role.equalsIgnoreCase("Guest")) {											         
 										Account guestAccount = new Account(name,username,password,role);
-										accountService.addAccount(guestAccount);
-										
-										JOptionPane.showMessageDialog(null, "Successfully created a guest account");
+										accountService.addAccount(guestAccount);										
 										
 										frame.dispose();
 										new LoginForm();

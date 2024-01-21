@@ -12,6 +12,7 @@ import javax.swing.JTable;
 
 import com.lanuza.wms.dao.AccountDAO;
 import com.lanuza.wms.model.Account;
+import com.lanuza.wms.model.ReceivingEntry;
 import com.lanuza.wms.util.DBConnection;
 
 import net.proteanit.sql.DbUtils;
@@ -264,6 +265,98 @@ public class AccountDAOImpl implements AccountDAO{
         return sum;
 	}
 
+	@Override
+	public Account getAccountByName(String name) {
+		 Connection connection = null;
+         PreparedStatement preparedStatement = null;
+         ResultSet resultSet = null;
+        Account account = null;
 
-	
+        try {
+        	connection = DBConnection.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM tblaccount WHERE Name = ?");
+
+            preparedStatement.setString(1, name);
+
+            try {
+            	resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    account = new Account(
+                        resultSet.getString("Name"),
+                        resultSet.getString("Username"),
+                        resultSet.getString("Password"),
+                        resultSet.getString("Role"),
+                        resultSet.getInt("AccountId")                       
+                    );
+                }    
+            }
+            finally {
+    			// TODO: handle finally clause
+    		}
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception
+        }finally {
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace(); // Handle or log the exception
+	        }
+	    }
+        return account;
+	}
+
+	@Override
+	public List<Account> getAllAccountNameExcept(String currentName) {
+		Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Account> accounts = new ArrayList<>();
+
+        try {
+        	connection = DBConnection.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT Name FROM tblaccount WHERE NOT Name = ?");
+
+            preparedStatement.setString(1, currentName);
+
+            try {
+            	resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    Account account = new Account(
+                        resultSet.getString("Name")                       
+                    );
+                    accounts.add(account);
+                }    
+            }
+            finally {
+    			// TODO: handle finally clause
+    		}
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception
+        }finally {
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace(); // Handle or log the exception
+	        }
+	    }
+        return accounts;
+	}
+
+		
 }
