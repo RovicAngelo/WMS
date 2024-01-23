@@ -84,6 +84,7 @@ public class ManageReceivingForm extends JPanel {
 		displayGrossTotal();
 		populateProductCombox();
 	}
+	
 	private void initialize() {
 		setLayout(null);
 		

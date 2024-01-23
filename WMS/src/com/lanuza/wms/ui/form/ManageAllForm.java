@@ -167,7 +167,7 @@ public class ManageAllForm extends JFrame {
         lblProfile.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		showForm(new profile() );
+        		showForm(new ManageProfileForm(id,true) );
         	}
         });
         lblProfile.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -249,9 +249,7 @@ public class ManageAllForm extends JFrame {
         lblUsername.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		new ManageProfileForm(id,true); 
-        		revalidate();
-        		repaint();
+        		showForm(new ManageProfileForm(id,true));
         	}
         });
         
