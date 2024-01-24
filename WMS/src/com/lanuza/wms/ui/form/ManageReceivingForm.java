@@ -1,17 +1,10 @@
 package com.lanuza.wms.ui.form;
 
-import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Rectangle;
-
-import com.lanuza.wms.dao.ReceivingEntryDAO;
-import com.lanuza.wms.dao.impl.ReceivingEntryDAOImpl;
-import com.lanuza.wms.model.PurchasedOrder;
-import com.lanuza.wms.model.ReceivingEntry;
-import com.lanuza.wms.service.ReceivingEntryService;
-import com.lanuza.wms.service.impl.ReceivingEntryServiceImpl;
-import com.lanuza.wms.ui.components.CustomButton;
-
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -22,37 +15,36 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import com.lanuza.wms.ui.components.RoundPanel;
-import com.lanuza.wms.ui.components.table.Table;
-import com.toedter.calendar.JDateChooser;
-
-import javax.swing.border.EmptyBorder;
-import java.awt.Dimension;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
-import java.awt.SystemColor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.SwingConstants;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import com.lanuza.wms.dao.ReceivingEntryDAO;
+import com.lanuza.wms.dao.impl.ReceivingEntryDAOImpl;
+import com.lanuza.wms.model.ReceivingEntry;
+import com.lanuza.wms.service.ReceivingEntryService;
+import com.lanuza.wms.service.impl.ReceivingEntryServiceImpl;
+import com.lanuza.wms.ui.components.CustomButton;
+import com.lanuza.wms.ui.components.RoundPanel;
+import com.lanuza.wms.ui.components.table.Table;
+import com.toedter.calendar.JDateChooser;
 
 public class ManageReceivingForm extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -88,63 +80,18 @@ public class ManageReceivingForm extends JPanel {
 	private void initialize() {
 		setLayout(null);
 		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 46, 1097, 38);
-		add(panelButtons);
-		
-		CustomButton btnProcess = new CustomButton(new Color(64, 128, 128), "Process Orders", this::reflectReceivingEntryToStock, new Rectangle(0, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnProcess.setText("Process");
-		btnProcess.setForeground(Color.WHITE);
-		btnProcess.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnProcess.setBackground(new Color(3, 65, 68));
-		btnProcess.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnProcess);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setText("Print");
-		btnPrint.setForeground(Color.WHITE);
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSaveFile.setText("Save");
-		btnSaveFile.setForeground(Color.WHITE);
-		btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnSaveFile.setBackground(new Color(3, 65, 68));
-		btnSaveFile.setBounds(124, 0, 63, 38);
-		panelButtons.add(btnSaveFile);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setText("Mode");
-		btnMode.setForeground(Color.WHITE);
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBounds(186, 0, 63, 38);
-		panelButtons.add(btnMode);
-		
 		textField = new JTextField();
 		textField.setToolTipText("Search by...");
 		textField.setColumns(10);
-		textField.setBounds(20, 112, 304, 33);
+		textField.setBounds(22, 27, 304, 33);
 		add(textField);
-		
-		JLabel lblReceivingSection = new JLabel("Receiving Section");
-		lblReceivingSection.setForeground(Color.BLACK);
-		lblReceivingSection.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblReceivingSection.setBounds(0, 0, 210, 29);
-		add(lblReceivingSection);
 		
 		RoundPanel roundPanel = new RoundPanel();
 		roundPanel.setRound(10);
 		roundPanel.setPreferredSize(new Dimension(400, 400));
 		roundPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roundPanel.setBackground(Color.WHITE);
-		roundPanel.setBounds(20, 156, 864, 466);
+		roundPanel.setBounds(22, 71, 864, 466);
 		add(roundPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -263,26 +210,26 @@ public class ManageReceivingForm extends JPanel {
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setIcon(new ImageIcon(ManageReceivingForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
-		btnSearchBy.setBounds(324, 112, 68, 33);
+		btnSearchBy.setBounds(326, 27, 68, 33);
 		add(btnSearchBy);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDate.setBounds(743, 109, 40, 33);
+		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
 		
 		lblCurrentDate = new JLabel("2023-12-11");
 		lblCurrentDate.setForeground(Color.BLACK);
 		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblCurrentDate.setBackground(Color.WHITE);
-		lblCurrentDate.setBounds(785, 105, 93, 40);
+		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 		
 		JPanel sidePanel2 = new JPanel();
 		sidePanel2.setLayout(null);
 		sidePanel2.setBackground(new Color(3, 65, 68));
-		sidePanel2.setBounds(927, 83, 170, 581);
+		sidePanel2.setBounds(927, 0, 170, 560);
 		add(sidePanel2);
 		
 		JPanel panelShortcut1 = new JPanel();
@@ -372,13 +319,6 @@ public class ManageReceivingForm extends JPanel {
 		txtrP.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		txtrP.setBounds(65, 206, 82, 38);
 		panelShortcut1.add(txtrP);
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 644, 1097, 20);
-		add(bottomPanel);
 
 	}
 	 private void showCreateReceivingEntryPopup() {		 	
@@ -592,7 +532,7 @@ public class ManageReceivingForm extends JPanel {
 				exc.printStackTrace();
 			}
 		}	
-	 private void reflectReceivingEntryToStock(ActionEvent e) {		
+	 public void reflectReceivingToStock(ActionEvent e) {		
 		 //subtract the table order values to table stock value based on productname
 		 receivingEntryService.reflectReceivingEntryToStock();		
 		 //load table data
@@ -748,7 +688,7 @@ public class ManageReceivingForm extends JPanel {
 			lblCurrentDate.setText(dtf.format(now));
 		}
 		//to load the data in the table
-		void loadData() {
+	public void loadData() {
 			receivingEntryService.tableLoad(table);
 		}
 		private void displayGrossTotal() {
@@ -766,14 +706,37 @@ public class ManageReceivingForm extends JPanel {
 		}
 		
 		private void tableRowSelection() {
-			//to get the value(id) of selected row
-			DefaultTableModel model = (DefaultTableModel)table.getModel();
-			int Myindex = table.getSelectedRow();
-			
-			String id = table.getModel().getValueAt(Myindex,0).toString();
-			txtReceivingId.setText(id);
-			productNameCombox.setSelectedItem(model.getValueAt(Myindex,1).toString());
-			txtQuantity.setText(model.getValueAt(Myindex, 3).toString());	
-			expDateChooser.setDateFormatString(model.getValueAt(Myindex, 5).toString()); // this code is not functioning
+		    // Check if a row is selected
+		    int rowIndex = table.getSelectedRow();
+		    if (rowIndex != -1) {
+		        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+		        // for text field named txtReceivingId
+		        String id = model.getValueAt(rowIndex, 0) != null ? model.getValueAt(rowIndex, 0).toString() : "";
+		        txtReceivingId.setText(id);
+
+		        // for combo box named productNameCombox
+		        String productName = model.getValueAt(rowIndex, 1) != null ? model.getValueAt(rowIndex, 1).toString() : "";
+		        productNameCombox.setSelectedItem(productName);
+
+		        // for text field named txtQuantity
+		        String quantity = model.getValueAt(rowIndex, 3) != null ? model.getValueAt(rowIndex, 3).toString() : "";
+		        txtQuantity.setText(quantity);
+
+		        try {
+		            // Set date only if expDateChooser is not null
+		            if (expDateChooser != null) {
+		                expDateChooser.setDateFormatString(model.getValueAt(rowIndex, 5).toString());
+		            }
+		        } catch (NullPointerException e) {
+		            // Handle the case where expDateChooser is null
+		            e.printStackTrace();  // You might want to log the exception or handle it differently
+		        }
+		    } else {
+		        // Handle the case where no row is selected (e.g., clear fields).
+		        txtReceivingId.setText("");
+		        productNameCombox.setSelectedItem(null);
+		        txtQuantity.setText("");
+		    }
 		}
 }

@@ -60,7 +60,7 @@ public class ManageAllAccount extends JPanel {
 		roundPanel.setPreferredSize(new Dimension(400, 400));
 		roundPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roundPanel.setBackground(Color.WHITE);
-		roundPanel.setBounds(20, 155, 864, 466);
+		roundPanel.setBounds(22, 71, 864, 466);
 		add(roundPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -138,26 +138,19 @@ public class ManageAllAccount extends JPanel {
 		txtSearchBy = new JTextField();
 		txtSearchBy.setToolTipText("Search by...");
 		txtSearchBy.setColumns(10);
-		txtSearchBy.setBounds(20, 111, 304, 33);
+		txtSearchBy.setBounds(22, 27, 304, 33);
 		add(txtSearchBy);
 		
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setIcon(new ImageIcon(ManageProductForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
-		btnSearchBy.setBounds(324, 111, 68, 33);
+		btnSearchBy.setBounds(326, 27, 68, 33);
 		add(btnSearchBy);
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 644, 1097, 20);
-		add(bottomPanel);
 		
 		JPanel sidePanel2 = new JPanel();
 		sidePanel2.setLayout(null);
 		sidePanel2.setBackground(new Color(3, 65, 68));
-		sidePanel2.setBounds(927, 83, 170, 581);
+		sidePanel2.setBounds(927, 0, 170, 560);
 		add(sidePanel2);
 		
 		JPanel panelShortcut1 = new JPanel();
@@ -248,54 +241,17 @@ public class ManageAllAccount extends JPanel {
 		txtrP.setBounds(65, 206, 82, 38);
 		panelShortcut1.add(txtrP);
 		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 46, 1097, 38);
-		add(panelButtons);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setForeground(new Color(255, 255, 255));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setText("Print");
-		btnPrint.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSaveFile.setForeground(new Color(255, 255, 255));
-		btnSaveFile.setBackground(new Color(3, 65, 68));
-		btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnSaveFile.setText("Save");
-		btnSaveFile.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnSaveFile);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setForeground(new Color(255, 255, 255));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setText("Mode");
-		btnMode.setBounds(124, 0, 63, 38);
-		panelButtons.add(btnMode);
-		
-		JLabel lblInfo = new JLabel("Accounts Section");
-		lblInfo.setForeground(Color.BLACK);
-		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblInfo.setBounds(0, 0, 173, 29);
-		add(lblInfo);
-		
 		lblCurrentDate = new JLabel("2023-12-11");
 		lblCurrentDate.setForeground(Color.BLACK);
 		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblCurrentDate.setBackground(Color.WHITE);
-		lblCurrentDate.setBounds(791, 91, 93, 40);
+		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDate.setBounds(749, 95, 40, 33);
+		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
 				
 	}

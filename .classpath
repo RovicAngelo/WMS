@@ -10,8 +10,8 @@
 	<classpathentry kind="lib" path="WMS/jgoodies-forms-1.8.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/user/Downloads/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="lib" path="C:/Users/user/Downloads/rs2xml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/user/Downloads/gradient-icon-font.jar"/>
 	<classpathentry kind="lib" path="C:/Users/user/Downloads/TimingFramework-0.55.jar"/>
 	<classpathentry kind="lib" path="C:/PracticeCoding/completeDashboard/miglayout-4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/Downloads/gradient-icon-font (2).jar"/>
 	<classpathentry kind="output" path="WMS/bin"/>
 </classpath>

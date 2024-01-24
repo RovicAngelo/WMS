@@ -3,7 +3,6 @@ package com.lanuza.wms.ui.form;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,13 +27,12 @@ import com.lanuza.wms.dao.impl.AccountDAOImpl;
 import com.lanuza.wms.model.Account;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
-import com.lanuza.wms.ui.components.CustomButton;
 
 public class ManageProfileForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final AccountDAO accountDAO;
 	private final AccountService accountService;
-	JPanel bodyPanel;
+	private JPanel bodyPanel;
 	private JTextField txtNewName,txtNewUsername;
 	private JPasswordField txtNewPassword,txtVerifyPassword;
 	private JComboBox<String> newRoleCombox;
@@ -66,8 +64,10 @@ public class ManageProfileForm extends JPanel {
 	    	txtNewUsername = new JTextField();
 	    	newRoleCombox = new JComboBox<String>();
 	    	
-	    	lblDisplayName.setText(name != null ? name : "null field");  
-	    	lblDisplayRole.setText(role != null ? role : "null field");  
+
+			lblDisplayName.setText(name != null ? name : "null field");
+			lblDisplayRole.setText(role != null ? role : "null field");
+
 	    	
 	    	lbltextAccountId.setText(String.valueOf(account.getAccountId()));
 	    	lbltextCurrentName.setText(name != null ? name : "null field");  
@@ -79,68 +79,26 @@ public class ManageProfileForm extends JPanel {
 			 * txtNewUsername.setText(user != null ? user : "null field");
 			 * newRoleCombox.setSelectedItem(role != null ? role : "null field");
 			 */          
-            initialize();     
-		}
+            initialize();    
+            
+		}      
 	}
 
 	private void initialize(){				
-		setLayout(null); // Set layout to null for absolute positioning
-		
-		JLabel lblProfileSection = new JLabel("Profile Section");
-		lblProfileSection.setForeground(Color.BLACK);
-		lblProfileSection.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblProfileSection.setBounds(0, 0, 184, 29);
-		add(lblProfileSection);
-		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 45, 1097, 38);
-		panelButtons.setVisible(true);
-		add(panelButtons);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", (ActionListener) null, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setText("Print");
-		btnPrint.setForeground(Color.WHITE);
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", (ActionListener) null, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setText("Mode");
-		btnMode.setForeground(Color.WHITE);
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnMode);		
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 643, 1097, 20);
-		add(bottomPanel);
+		setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(39, 96, 118, 114);	
+		panel_1.setBounds(39, 11, 118, 114);	
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.WHITE);
 		add(panel_1);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setBounds(0, 0, 117, 115);
-		panel_1.add(lblNewLabel);
-		
-		lblDisplayName.setBounds(167, 94, 219, 46);	
+		lblDisplayName.setBounds(167, 11, 219, 29);	
 		lblDisplayName.setForeground(Color.BLACK);
 		lblDisplayName.setFont(new Font("Tahoma", Font.BOLD, 16));
 		add(lblDisplayName);
-				
-		lblDisplayRole.setBounds(167, 130, 46, 20);		
+			
+		lblDisplayRole.setBounds(164, 40, 46, 13);		
 		lblDisplayRole.setForeground(Color.GRAY);
 		lblDisplayRole.setFont(new Font("Arial", Font.BOLD, 11));
 		add(lblDisplayRole);
@@ -150,7 +108,7 @@ public class ManageProfileForm extends JPanel {
 		accountInfoMenu.setHorizontalTextPosition(SwingConstants.CENTER);
 		accountInfoMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
 		accountInfoMenu.setFont(new Font("Arial", Font.BOLD, 12));
-		accountInfoMenu.setBounds(39, 238, 128, 29);
+		accountInfoMenu.setBounds(37, 155, 128, 29);
 		add(accountInfoMenu);
 		
 		modifyAccountMenu = new JLabel("Modify Account");		
@@ -158,13 +116,13 @@ public class ManageProfileForm extends JPanel {
 		modifyAccountMenu.setHorizontalTextPosition(SwingConstants.CENTER);
 		modifyAccountMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		modifyAccountMenu.setFont(new Font("Arial", Font.BOLD, 12));
-		modifyAccountMenu.setBounds(187, 238, 118, 29);
+		modifyAccountMenu.setBounds(185, 155, 118, 29);
 		add(modifyAccountMenu);							
 		
 		bodyPanel = new JPanel();
 		bodyPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		bodyPanel.setBackground(new Color(235, 235, 235));
-		bodyPanel.setBounds(24, 272, 1050, 360);
+		bodyPanel.setBounds(22, 189, 1050, 360);
 		add(bodyPanel);
 		bodyPanel.setLayout(new CardLayout(0, 0));
 		
@@ -177,7 +135,7 @@ public class ManageProfileForm extends JPanel {
 		lblAccInfoTitle.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblAccInfoTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccInfoTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblAccInfoTitle.setBounds(10, 11, 145, 29);
+		lblAccInfoTitle.setBounds(8, 0, 145, 29);
 		accountInfoPanel.add(lblAccInfoTitle);
 		
 		JLabel lblCurrentName = new JLabel("Name");
@@ -255,7 +213,7 @@ public class ManageProfileForm extends JPanel {
 		lblModAccTitle.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblModAccTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblModAccTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblModAccTitle.setBounds(0, 0, 117, 29);
+		lblModAccTitle.setBounds(10, 0, 107, 29);
 		modifyAccountPanel.add(lblModAccTitle);
 		
 		JLabel lblNewUsername = new JLabel("Username");
@@ -321,10 +279,26 @@ public class ManageProfileForm extends JPanel {
 		txtVerifyPassword.setBounds(472, 255, 286, 34);
 		modifyAccountPanel.add(txtVerifyPassword);
 		
+		JButton btnClear = new JButton("Clear");
+		btnClear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {			
+				txtNewName.setText("");
+				txtNewUsername.setText("");				
+				txtNewPassword.setText("");
+				txtVerifyPassword.setText("");
+				txtNewName.requestFocus();
+			}
+		});
+		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnClear.setToolTipText("Add");
+		btnClear.setFocusPainted(false);
+		btnClear.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnClear.setBackground(new Color(243, 243, 243));
+		btnClear.setBounds(851, 298, 83, 29);
+		modifyAccountPanel.add(btnClear);
+		
 		JButton btnSave = new JButton("Save");
-		btnSave.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnSave.setBounds(941, 298, 79, 29);
-		modifyAccountPanel.add(btnSave);
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -342,84 +316,88 @@ public class ManageProfileForm extends JPanel {
 				Account account = accountService.getAccountById(accid);
 				//get all account except current account
 				List<Account> accounts = accountService.getAllAccountNameExcept(account.getName());
-				//check if updated account is an admin role
-				if (newrole.equalsIgnoreCase("Admin")) {
-					
-					var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");		
-					
-					//to check if inputed masterpassword for admin creation is correct
-					if(masterpassword.equals("password")) {
-						if(newPassword.equals(verifyPassword)) {
-							 // Check if newName is equal to the current account name
-				            // and continue with updateAccount if it's not in the accounts list
-				            if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
-								Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
-								accountService.updateAccount(updateAccount);
-
-								txtNewName.setText("");
-								txtNewUsername.setText("");
-								txtNewPassword.setText("");
-								txtVerifyPassword.setText("");
-								newRoleCombox.setSelectedItem("");
-								txtNewName.requestFocus();
-								
-								JOptionPane.showMessageDialog(null, "please logout account to apply changes");
-																						            				            		            						            
-							}else {							
-					            JOptionPane.showMessageDialog(null, "Name already used by other account");
-					            }
-						}else {
-							JOptionPane.showMessageDialog(null, "New Password does not match with Verify Password");
-						}
-												
-					}else if(masterpassword.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Missing master password information");
-						
-					}else if(masterpassword != "password") {								
-						JOptionPane.showMessageDialog(null, "Wrong Password");
-					}
-				}else if(newrole.equalsIgnoreCase("Guest")) {	
-					if(newPassword.equals(verifyPassword)) {
-						// Check if newName is equal to the current account name
-				        // and continue with updateAccount if it's not in the accounts list
-				        if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
-							Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
-							accountService.updateAccount(updateAccount);
-
-							txtNewName.setText("");
-							txtNewUsername.setText("");
-							txtNewPassword.setText("");
-							txtVerifyPassword.setText("");
-							newRoleCombox.setSelectedItem("");
-							txtNewName.requestFocus();
+				
+				 if (newName.equals("") || newUsername.equals("") || newrole.equals("") || newPassword.equals("") || verifyPassword.equals("")) {
+					 JOptionPane.showMessageDialog(null, "Missing Information/s");
+				 }else {
+					//check if updated account is an admin role
+						if (newrole.equalsIgnoreCase("Admin")) {
 							
-							JOptionPane.showMessageDialog(null, "please logout account to apply changes");
-																												            				            		            						            
-						}else{							
-				            JOptionPane.showMessageDialog(null, "Name already used by other account");
-				            }	
-					}else {
-						JOptionPane.showMessageDialog(null, "New Password does not match with Verify Password");
-					}
-				     													
-				}	
+							var masterpassword = javax.swing.JOptionPane.showInputDialog("Enter masterpassword for Admin type");		
+							
+							//to check if inputed masterpassword for admin creation is correct
+							if(masterpassword.equals("password")) {
+								if(newPassword.equals(verifyPassword)) {
+									 // Check if newName is equal to the current account name
+						            // and continue with updateAccount if it's not in the accounts list
+						            if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
+										Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
+										accountService.updateAccount(updateAccount);
+
+										txtNewName.setText("");
+										txtNewUsername.setText("");
+										txtNewPassword.setText("");
+										txtVerifyPassword.setText("");
+										newRoleCombox.setSelectedItem("");
+										txtNewName.requestFocus();
+										
+										JOptionPane.showMessageDialog(null, "please logout account to apply changes");
+																								            				            		            						            
+									}else {							
+							            JOptionPane.showMessageDialog(null, "Name already used by other account");
+							            }
+								}else {
+									JOptionPane.showMessageDialog(null, "New Password does not match with Verify Password");
+								}
+														
+							}else if(masterpassword.isEmpty()) {
+								JOptionPane.showMessageDialog(null, "Missing master password information");
+								
+							}else if(masterpassword != "password") {								
+								JOptionPane.showMessageDialog(null, "Wrong Password");
+							}
+						}else if(newrole.equalsIgnoreCase("Guest")) {	
+							if(newPassword.equals(verifyPassword)) {
+								// Check if newName is equal to the current account name
+						        // and continue with updateAccount if it's not in the accounts list
+						        if (newName.equals(account.getName()) || !accounts.stream().anyMatch(acc -> newName.equals(acc.getName()))) {
+									Account updateAccount = new Account(newName,newUsername,newPassword,newrole,accid);
+									accountService.updateAccount(updateAccount);
+
+									txtNewName.setText("");
+									txtNewUsername.setText("");
+									txtNewPassword.setText("");
+									txtVerifyPassword.setText("");
+									newRoleCombox.setSelectedItem("");
+									txtNewName.requestFocus();
+									
+									JOptionPane.showMessageDialog(null, "please logout account to apply changes");
+																														            				            		            						            
+								}else{							
+						            JOptionPane.showMessageDialog(null, "Name already used by other account");
+						            }	
+							}else {
+								JOptionPane.showMessageDialog(null, "New Password does not match with Verify Password");
+							}
+						     													
+						} 
+				 }
+					
 			}
 		});
+		btnSave.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnSave.setToolTipText("Add");
+		btnSave.setFocusPainted(false);
+		btnSave.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSave.setBackground(new Color(243, 243, 243));
+		btnSave.setBounds(944, 298, 83, 29);
+		modifyAccountPanel.add(btnSave);
 		
-		JButton btnClear = new JButton("Clear");
-		btnClear.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnClear.setBounds(852, 298, 79, 29);
-		modifyAccountPanel.add(btnClear);	
-		btnClear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent el) {
-            	txtNewName.setText("");
-            	txtNewUsername.setText("");
-            	txtNewPassword.setText("");
-            	txtVerifyPassword.setText("");	            
-            	newRoleCombox.setSelectedItem("");
-            }
-        });
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(39, 11, 117, 115);
+		add(lblNewLabel);
+		lblNewLabel.setOpaque(true);
+		lblNewLabel.setBackground(Color.WHITE);
 					
 		accountInfoMenu.addMouseListener(new MouseAdapter() {
 			String newPasswordString = new String(txtNewPassword.getPassword());		    	

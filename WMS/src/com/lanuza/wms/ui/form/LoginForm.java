@@ -14,7 +14,6 @@ import java.awt.event.*;
 public class LoginForm extends JFrame{
 
 		private static final long serialVersionUID = 1L;
-		private ManageProfileForm profileForm;
 		private final AccountDAO accountDAO;
 		private final AccountService accountService;
 		private static JButton btnClear, btnLogin;
@@ -53,12 +52,13 @@ public class LoginForm extends JFrame{
 	                int id =  account.getAccountId();
 
 	                // Open the Dashboard
-	                new ManageAllForm(id).setVisible(true);
+	                new ManageAllForm(id).setVisible(true);;
 	            } else {
 	                // Display an error message and reset fields
 	                JOptionPane.showMessageDialog(null, "Wrong username or password");
 	                txtUsername.setText("");
 	                txtPassword.setText("");
+	                txtUsername.requestFocus();
 	            }
 	        }
 	    }

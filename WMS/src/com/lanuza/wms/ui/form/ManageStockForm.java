@@ -7,8 +7,6 @@ import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -57,53 +55,16 @@ public class ManageStockForm extends JPanel {
 	private void initialize() {
 		setLayout(null);
 		
-		JLabel lblStockView = new JLabel("Stock View");
-		lblStockView.setForeground(Color.BLACK);
-		lblStockView.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblStockView.setBounds(0, 0, 184, 29);
-		add(lblStockView);
-		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 45, 1097, 38);
-		add(panelButtons);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setText("Print");
-		btnPrint.setForeground(Color.WHITE);
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSaveFile.setText("Save");
-		btnSaveFile.setForeground(Color.WHITE);
-		btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnSaveFile.setBackground(new Color(3, 65, 68));
-		btnSaveFile.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnSaveFile);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setText("Mode");
-		btnMode.setForeground(Color.WHITE);
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBounds(124, 0, 63, 38);
-		panelButtons.add(btnMode);
-		
 		textField = new JTextField();
 		textField.setToolTipText("Search by...");
 		textField.setColumns(10);
-		textField.setBounds(20, 110, 304, 33);
+		textField.setBounds(22, 27, 304, 33);
 		add(textField);
 		
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setIcon(new ImageIcon(ManageStockForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
-		btnSearchBy.setBounds(324, 110, 68, 33);
+		btnSearchBy.setBounds(326, 27, 68, 33);
 		add(btnSearchBy);
 		
 		RoundPanel roundPanel = new RoundPanel();
@@ -111,7 +72,7 @@ public class ManageStockForm extends JPanel {
 		roundPanel.setPreferredSize(new Dimension(400, 400));
 		roundPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roundPanel.setBackground(Color.WHITE);
-		roundPanel.setBounds(20, 154, 864, 466);
+		roundPanel.setBounds(22, 71, 864, 466);
 		add(roundPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -189,7 +150,7 @@ public class ManageStockForm extends JPanel {
 		JPanel sidePanel2 = new JPanel();
 		sidePanel2.setLayout(null);
 		sidePanel2.setBackground(new Color(3, 65, 68));
-		sidePanel2.setBounds(927, 82, 170, 581);
+		sidePanel2.setBounds(927, 0, 170, 560);
 		add(sidePanel2);
 		
 		JPanel panelShortcut1 = new JPanel();
@@ -284,21 +245,14 @@ public class ManageStockForm extends JPanel {
 		lblCurrentDate.setForeground(Color.BLACK);
 		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblCurrentDate.setBackground(Color.WHITE);
-		lblCurrentDate.setBounds(791, 90, 93, 40);
+		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDate.setBounds(749, 94, 40, 33);
+		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 643, 1097, 20);
-		add(bottomPanel);
 
 	}
 	

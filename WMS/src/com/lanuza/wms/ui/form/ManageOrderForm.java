@@ -8,8 +8,6 @@ import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +18,7 @@ import java.util.Map;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -47,9 +46,6 @@ import com.lanuza.wms.service.impl.PurchasedOrderServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
 import com.lanuza.wms.ui.components.RoundPanel;
 import com.lanuza.wms.ui.components.table.Table;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.ImageIcon;
 
 
 public class ManageOrderForm extends JPanel{
@@ -81,16 +77,17 @@ public class ManageOrderForm extends JPanel{
 	}
 		private void initialize(){
 		setLayout(null);	
+		
 		textField = new JTextField();
 		textField.setToolTipText("Search by...");
 		textField.setColumns(10);
-		textField.setBounds(20, 111, 304, 33);
+		textField.setBounds(22, 27, 304, 33);
 		add(textField);
 		
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setIcon(new ImageIcon(ManageOrderForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
-		btnSearchBy.setBounds(324, 111, 68, 33);
+		btnSearchBy.setBounds(326, 27, 68, 33);
 		add(btnSearchBy);
 		
 		RoundPanel roundPanel = new RoundPanel();
@@ -98,7 +95,7 @@ public class ManageOrderForm extends JPanel{
 		roundPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roundPanel.setPreferredSize(new Dimension(400, 400));
 		roundPanel.setRound(10);
-		roundPanel.setBounds(20, 155, 864, 466);
+		roundPanel.setBounds(22, 71, 864, 466);
 		add(roundPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -217,62 +214,10 @@ public class ManageOrderForm extends JPanel{
 		);
 		roundPanel.setLayout(gl_roundPanel);
 		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 643, 1097, 20);
-		add(bottomPanel);		
-		
-		JLabel lblInfo = new JLabel("Order Section");
-		lblInfo.setForeground(Color.BLACK);
-		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblInfo.setBounds(0, -1, 170, 29);
-		add(lblInfo);
-		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 45, 1097, 38);
-		add(panelButtons);
-		
-		CustomButton btnProcess = new CustomButton(new Color(64, 128, 128), "Process Orders", this::reflectOrdersToStock, new Rectangle(0, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnProcess.setText("Process");
-		btnProcess.setForeground(Color.WHITE);
-		btnProcess.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnProcess.setBackground(new Color(3, 65, 68));
-		btnProcess.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnProcess);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setText("Print");
-		btnPrint.setForeground(Color.WHITE);
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSaveFile.setText("Save");
-		btnSaveFile.setForeground(Color.WHITE);
-		btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnSaveFile.setBackground(new Color(3, 65, 68));
-		btnSaveFile.setBounds(124, 0, 63, 38);
-		panelButtons.add(btnSaveFile);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setText("Mode");
-		btnMode.setForeground(Color.WHITE);
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBounds(186, 0, 63, 38);
-		panelButtons.add(btnMode);
-		
 		JPanel sidePanel2 = new JPanel();
 		sidePanel2.setLayout(null);
 		sidePanel2.setBackground(new Color(3, 65, 68));
-		sidePanel2.setBounds(927, 82, 170, 581);
+		sidePanel2.setBounds(926, 0, 170, 560);
 		add(sidePanel2);
 		
 		JPanel panelShortcut1 = new JPanel();
@@ -367,13 +312,13 @@ public class ManageOrderForm extends JPanel{
 		lblCurrentDate.setForeground(Color.BLACK);
 		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblCurrentDate.setBackground(Color.WHITE);
-		lblCurrentDate.setBounds(785, 104, 93, 40);
+		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDate.setBounds(743, 108, 40, 33);
+		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
    		
 	}
@@ -681,7 +626,7 @@ public class ManageOrderForm extends JPanel{
 				exc.printStackTrace();
 			}
 		}	
-	 private void reflectOrdersToStock(ActionEvent e) {		
+	 public void reflectOrdersToStock(ActionEvent e) {		
 		 //subtract the table order values to table stock value based on productname
 		 purchasedOrderService.reflectPurchaseOrderToStock();		
 		 //load table data
@@ -831,7 +776,7 @@ public class ManageOrderForm extends JPanel{
 			lblCurrentDate.setText(dtf.format(now));
 		}
 		//to load the data in the table
-		void loadData() {
+	 public void loadData() {
 			purchasedOrderService.tableLoad(table);
 		}
 		
@@ -870,30 +815,55 @@ public class ManageOrderForm extends JPanel{
 		}
 		
 		private void tableRowSelection() {
-			//to get the value(id) of selected row
-	        DefaultTableModel model = (DefaultTableModel) table.getModel();
-	        int Myindex = table.getSelectedRow();
-	        
-	        //get the values from fields
-            String id = model.getValueAt(Myindex, 0).toString();
-	        String productName = model.getValueAt(Myindex, 1).toString();
-	        int qty = Integer.parseInt(model.getValueAt(Myindex, 3).toString());
-	        
-	        //get the Availability And Price Based on ProductDescription selected
-	        Map<String, Object> result = purchasedOrderService.getAvailabilityAndPriceByProductDescription(productName);
-	        
-	        //get the availablity and price from product
-	        double newAvailableQty = (double) result.get("newAvailableQty");
-	        double productPrice = (double) result.get("productPrice");
-	        
-	        //set the value of availability and price fields based on productname selected
-	        txtAvailability.setText(String.valueOf(newAvailableQty));
-            txtPrice.setText(String.valueOf(productPrice));		 
-            //clear fields
-	        txtOrderId.setText(id);
-	        productNameCombox.setSelectedItem(productName);
-	        txtQuantity.setText(String.valueOf(qty));
-	        CustomerNameCombox.setSelectedItem(model.getValueAt(Myindex, 5).toString());		
+		    DefaultTableModel model = (DefaultTableModel) table.getModel();
+		    int rowIndex = table.getSelectedRow();
+
+		    // Check if a row is selected
+		    if (rowIndex != -1) {
+		        // for text field named txtId
+		        String id = model.getValueAt(rowIndex, 0) != null ? model.getValueAt(rowIndex, 0).toString() : "";
+		        txtOrderId.setText(id);
+
+		        // for text field named txtProductName
+		        String productName = model.getValueAt(rowIndex, 1) != null ? model.getValueAt(rowIndex, 1).toString() : "";
+		        productNameCombox.setSelectedItem(productName);
+
+		        // for text field named txtQuantity
+		        String qtyString = model.getValueAt(rowIndex, 3) != null ? model.getValueAt(rowIndex, 3).toString() : "0";
+		        int qty = Integer.parseInt(qtyString);
+		        txtQuantity.setText(String.valueOf(qty));
+
+		        // get the Availability And Price Based on ProductDescription selected
+		        Map<String, Object> result = purchasedOrderService.getAvailabilityAndPriceByProductDescription(productName);
+
+		        // check if result is not null before accessing values
+		        if (result != null) {
+		            // get the availability and price from product
+		            double newAvailableQty = (double) result.get("newAvailableQty");
+		            double productPrice = (double) result.get("productPrice");
+
+		            // set the value of availability and price fields based on product name selected
+		            txtAvailability.setText(String.valueOf(newAvailableQty));
+		            txtPrice.setText(String.valueOf(productPrice));
+		        } else {
+		            // Handle the case where the result is null (e.g., clear fields).
+		            txtAvailability.setText("");
+		            txtPrice.setText("");
+		        }
+
+		        // for combo box named CustomerNameCombox
+		        String customerName = model.getValueAt(rowIndex, 5) != null ? model.getValueAt(rowIndex, 5).toString() : "";
+		        CustomerNameCombox.setSelectedItem(customerName);
+		    } else {
+		        // Handle the case where no row is selected (e.g., clear fields).
+		        txtOrderId.setText("");
+		        productNameCombox.setSelectedItem(null);
+		        txtQuantity.setText("");
+		        txtAvailability.setText("");
+		        txtPrice.setText("");
+		        CustomerNameCombox.setSelectedItem(null);
+		    }
 		}
+
 		
 }

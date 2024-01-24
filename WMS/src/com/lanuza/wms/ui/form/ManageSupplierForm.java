@@ -66,47 +66,10 @@ public class ManageSupplierForm extends JPanel {
 	private void initialize() {
 		setLayout(null);
 		
-		JLabel lblCustomerSection = new JLabel("Supplier Section");
-		lblCustomerSection.setForeground(Color.BLACK);
-		lblCustomerSection.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblCustomerSection.setBounds(0, 0, 184, 29);
-		add(lblCustomerSection);
-		
-		JPanel panelButtons = new JPanel();
-		panelButtons.setLayout(null);
-		panelButtons.setBounds(new Rectangle(34, 54, 1129, 38));
-		panelButtons.setBackground(new Color(3, 65, 68));
-		panelButtons.setBounds(0, 45, 1097, 38);
-		add(panelButtons);
-		
-		CustomButton btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnPrint.setText("Print");
-		btnPrint.setForeground(Color.WHITE);
-		btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnPrint.setBackground(new Color(3, 65, 68));
-		btnPrint.setBounds(0, 0, 63, 38);
-		panelButtons.add(btnPrint);
-		
-		CustomButton btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSaveFile.setText("Save");
-		btnSaveFile.setForeground(Color.WHITE);
-		btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnSaveFile.setBackground(new Color(3, 65, 68));
-		btnSaveFile.setBounds(62, 0, 63, 38);
-		panelButtons.add(btnSaveFile);
-		
-		CustomButton btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnMode.setText("Mode");
-		btnMode.setForeground(Color.WHITE);
-		btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnMode.setBackground(new Color(3, 65, 68));
-		btnMode.setBounds(124, 0, 63, 38);
-		panelButtons.add(btnMode);
-		
 		JPanel sidePanel2 = new JPanel();
 		sidePanel2.setLayout(null);
 		sidePanel2.setBackground(new Color(3, 65, 68));
-		sidePanel2.setBounds(927, 82, 170, 581);
+		sidePanel2.setBounds(927, 0, 170, 560);
 		add(sidePanel2);
 		
 		JPanel panelShortcut1 = new JPanel();
@@ -197,19 +160,12 @@ public class ManageSupplierForm extends JPanel {
 		txtrP.setBounds(65, 206, 82, 38);
 		panelShortcut1.add(txtrP);
 		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(null);
-		bottomPanel.setBounds(new Rectangle(0, 641, 1370, 20));
-		bottomPanel.setBackground(new Color(3, 65, 68));
-		bottomPanel.setBounds(0, 643, 1097, 20);
-		add(bottomPanel);
-		
 		RoundPanel roundPanel = new RoundPanel();
 		roundPanel.setRound(10);
 		roundPanel.setPreferredSize(new Dimension(400, 400));
 		roundPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roundPanel.setBackground(Color.WHITE);
-		roundPanel.setBounds(20, 154, 864, 466);
+		roundPanel.setBounds(22, 71, 864, 466);
 		add(roundPanel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -326,26 +282,26 @@ public class ManageSupplierForm extends JPanel {
 		textField_1 = new JTextField();
 		textField_1.setToolTipText("Search by...");
 		textField_1.setColumns(10);
-		textField_1.setBounds(20, 110, 304, 33);
+		textField_1.setBounds(22, 27, 304, 33);
 		add(textField_1);
 		
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSearchBy.setIcon(new ImageIcon(ManageSupplierForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
-		btnSearchBy.setBounds(324, 110, 68, 33);
+		btnSearchBy.setBounds(326, 27, 68, 33);
 		add(btnSearchBy);
 		
 		JLabel lblDate = new JLabel("Date: ");
 		lblDate.setForeground(Color.BLACK);
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDate.setBounds(749, 94, 40, 33);
+		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
 		
 		lblCurrentDate = new JLabel("2023-12-11");
 		lblCurrentDate.setForeground(Color.BLACK);
 		lblCurrentDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		lblCurrentDate.setBackground(Color.WHITE);
-		lblCurrentDate.setBounds(791, 90, 93, 40);
+		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 	}
 	
@@ -378,14 +334,30 @@ public class ManageSupplierForm extends JPanel {
 		 	txtTotalItem.setText(String.valueOf(sumOfTotal));
 		} 
 	 private void tableSelectedRow() {
-		 DefaultTableModel model = (DefaultTableModel)table.getModel();
-			int Myindex = table.getSelectedRow();
-			String id = table.getModel().getValueAt(Myindex,0).toString();	
-			
-			txtSupplierId.setText(id);					
-			txtSupplierName.setText(model.getValueAt(Myindex, 1).toString());
-			txtPhoneNo.setText(model.getValueAt(Myindex, 2).toString());	
-	    }
+		    DefaultTableModel model = (DefaultTableModel) table.getModel();
+		    int rowIndex = table.getSelectedRow();
+
+		    // Check if a row is selected
+		    if (rowIndex != -1) {
+		        // for text field named txtSupplierId
+		        String id = model.getValueAt(rowIndex, 0) != null ? model.getValueAt(rowIndex, 0).toString() : "";
+		        txtSupplierId.setText(id);
+
+		        // for text field named txtSupplierName
+		        String supplierName = model.getValueAt(rowIndex, 1) != null ? model.getValueAt(rowIndex, 1).toString() : "";
+		        txtSupplierName.setText(supplierName);
+
+		        // for text field named txtPhoneNo
+		        String phoneNo = model.getValueAt(rowIndex, 2) != null ? model.getValueAt(rowIndex, 2).toString() : "";
+		        txtPhoneNo.setText(phoneNo);
+		    } else {
+		        // Handle the case where no row is selected (e.g., clear text fields).
+		        txtSupplierId.setText("");
+		        txtSupplierName.setText("");
+		        txtPhoneNo.setText("");
+		    }
+		}
+
 	 private void loadData() {
 	        // Call the tableLoad method from ProductService
 		 supplierService.tableLoad(table);
