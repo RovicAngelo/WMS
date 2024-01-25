@@ -29,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -148,15 +149,24 @@ public class ManageReceivingForm extends JPanel {
 		txtGrossTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtGrossTotal.setBackground(Color.WHITE);
+		
+		CustomButton cstmbtnProcess = new CustomButton(new Color(243, 243, 243), "Delete", (ActionListener) null, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		cstmbtnProcess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reflectReceivingToStock(e);
+			}
+		});
+		cstmbtnProcess.setToolTipText("Process all order");
+		cstmbtnProcess.setText("Process");
 		GroupLayout gl_roundPanel = new GroupLayout(roundPanel);
 		gl_roundPanel.setHorizontalGroup(
 			gl_roundPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_roundPanel.createSequentialGroup()
-					.addGroup(gl_roundPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+					.addGroup(gl_roundPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addGap(5)
 							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_roundPanel.createSequentialGroup()
+						.addGroup(gl_roundPanel.createSequentialGroup()
 							.addContainerGap(567, Short.MAX_VALUE)
 							.addComponent(lblGrossTotal, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 							.addGap(2)
@@ -166,7 +176,9 @@ public class ManageReceivingForm extends JPanel {
 							.addComponent(lblReceivingId)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtReceivingId, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 374, Short.MAX_VALUE)
+							.addComponent(cstmbtnProcess, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
@@ -185,7 +197,9 @@ public class ManageReceivingForm extends JPanel {
 						.addGroup(gl_roundPanel.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnNewReceivingEntry, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_roundPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+							.addComponent(cstmbtnProcess, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)))
 					.addGap(8)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)

@@ -164,6 +164,15 @@ public class ManageOrderForm extends JPanel{
 		CustomButton btnDelete = new CustomButton(new Color(243, 243, 243), "Update", this::deleteRow, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnDelete.setToolTipText("Delete");
 		btnDelete.setText("Delete");
+		
+		CustomButton cstmbtnProcess = new CustomButton(new Color(243, 243, 243), "Update", (ActionListener) null, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		cstmbtnProcess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reflectOrdersToStock(e);			
+			}
+		});
+		cstmbtnProcess.setToolTipText("Process all orders");
+		cstmbtnProcess.setText("Process");
 		GroupLayout gl_roundPanel = new GroupLayout(roundPanel);
 		gl_roundPanel.setHorizontalGroup(
 			gl_roundPanel.createParallelGroup(Alignment.TRAILING)
@@ -177,7 +186,9 @@ public class ManageOrderForm extends JPanel{
 							.addComponent(lblOrderId)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtOrderId, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 481, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
+							.addComponent(cstmbtnProcess, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
 							.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
@@ -201,7 +212,8 @@ public class ManageOrderForm extends JPanel{
 						.addGroup(gl_roundPanel.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnAddProduct, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 							.addComponent(btnEdit, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cstmbtnProcess, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
 					.addGap(8)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 342, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -864,6 +876,4 @@ public class ManageOrderForm extends JPanel{
 		        CustomerNameCombox.setSelectedItem(null);
 		    }
 		}
-
-		
 }

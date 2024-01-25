@@ -37,14 +37,10 @@ public class ManageAllForm extends JFrame {
 	private final AccountDAO accountDAO;
 	private final AccountService accountService;
 	
-	ManageReceivingForm receivingForm = new ManageReceivingForm();
-	ManageOrderForm orderForm = new ManageOrderForm();
-	
-
 	private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
 	private JPanel bodyPanel;
 	private JLabel lblFormSection;
-	private CustomButton btnProcess, btnPrint,btnSaveFile,btnMode;
+	private CustomButton btnPrint,btnSaveFile,btnMode;
 	private JButton btnDashboard,btnProduct,btnCustomer,btnSupplier,btnOrder,btnReceiving,btnStock,currentClickedButton;
 	private JLabel lblRole,currentClickedLabel,lblUsername,lblAvatarIcon;
 	String transactionType = "";
@@ -97,9 +93,6 @@ public class ManageAllForm extends JFrame {
 						showForm(new ManageProfileForm(id,true));
 						
 						lblFormSection.setText("Profile Section");
-						//disable process button
-						btnProcess.setEnabled(false);
-						btnProcess.setForeground(Color.GRAY);
 						//enable print button
 						btnPrint.setEnabled(true);
 						btnPrint.setForeground(Color.WHITE);
@@ -137,9 +130,6 @@ public class ManageAllForm extends JFrame {
 	        		if(role.equals("Admin")){
 	        			showForm(new ManageAllAccount());
 		        		lblFormSection.setText("Accounts Section");
-		        		//disable process button
-		        		btnProcess.setEnabled(false);
-		        		btnProcess.setForeground(Color.GRAY);
 		        		//enable print button
 		        		btnPrint.setEnabled(true);
 		        		btnPrint.setForeground(Color.WHITE);
@@ -170,9 +160,6 @@ public class ManageAllForm extends JFrame {
 		        		
 		        		showForm(new ManageDashboardForm());
 		        		lblFormSection.setText("Dashboard Section");
-		        		//disable process button
-		        		btnProcess.setEnabled(false);
-		        		btnProcess.setForeground(Color.GRAY);
 		        		//disable print button
 		        		btnPrint.setEnabled(false);
 		        		btnPrint.setForeground(Color.GRAY);
@@ -200,9 +187,6 @@ public class ManageAllForm extends JFrame {
 		        		if(role.equals("Admin")){
 		        			showForm(new ManageProductForm());
 			        		lblFormSection.setText("Product Section");
-			        		//disable process button
-			        		btnProcess.setEnabled(false);
-			        		btnProcess.setForeground(Color.GRAY);
 			        		//enable print button
 			        		btnPrint.setEnabled(true);
 			        		btnPrint.setForeground(Color.WHITE);
@@ -233,9 +217,6 @@ public class ManageAllForm extends JFrame {
 	        			if(role.equals("Admin")){
 	        				showForm(new ManageSupplierForm());
 		        			lblFormSection.setText("Supplier Section");
-		        			//disable process button
-		        			btnProcess.setEnabled(false);
-			        		btnProcess.setForeground(Color.GRAY);
 			        		//enable print button
 			        		btnPrint.setEnabled(true);
 			        		btnPrint.setForeground(Color.WHITE);
@@ -267,9 +248,6 @@ public class ManageAllForm extends JFrame {
 	        			if(role.equals("Admin")){
 	        				showForm(new ManageCustomerForm());
 		        			lblFormSection.setText("Customer Section");
-		        			//disable process button
-		        			btnProcess.setEnabled(false);
-			        		btnProcess.setForeground(Color.GRAY);
 			        		//enable print button
 			        		btnPrint.setEnabled(true);
 			        		btnPrint.setForeground(Color.WHITE);
@@ -302,9 +280,6 @@ public class ManageAllForm extends JFrame {
 		        			transactionType = "order";
 		        			showForm(new ManageOrderForm());
 			        		lblFormSection.setText("Order Section");
-			        		//enable process button
-			        		btnProcess.setEnabled(true);
-			        		btnProcess.setForeground(Color.white);
 			        		//enable print button
 			        		btnPrint.setEnabled(true);
 			        		btnPrint.setForeground(Color.WHITE);
@@ -334,12 +309,11 @@ public class ManageAllForm extends JFrame {
 		        btnReceiving.addActionListener(new ActionListener() {
 		        	public void actionPerformed(ActionEvent e) {
 		        		if(role.equals("Admin")){
-		        			transactionType = "receiving";		        			
+		        			transactionType = "receiving";	
+		        			
 		        			showForm(new ManageReceivingForm());
+		        			
 			        		lblFormSection.setText("Receiving Section");
-			        		//enable process button
-			        		btnProcess.setEnabled(true);
-			        		btnProcess.setForeground(Color.WHITE);
 			        		//enable print button
 			        		btnPrint.setEnabled(true);
 			        		btnPrint.setForeground(Color.WHITE);
@@ -371,9 +345,7 @@ public class ManageAllForm extends JFrame {
 		        		
 		        		showForm(new ManageStockForm());
 		        		lblFormSection.setText("Stock Section");
-		        		//disable process button
-		        		btnProcess.setEnabled(false);
-		        		btnProcess.setForeground(Color.GRAY);
+
 		        		//enable print button
 		        		btnPrint.setEnabled(true);
 		        		btnPrint.setForeground(Color.WHITE);
@@ -440,33 +412,13 @@ public class ManageAllForm extends JFrame {
 				toolbarPanel.setBackground(new Color(3, 65, 68));
 				toolbarPanel.setPreferredSize(new Dimension(1097,38));
 				headerPanel.add(toolbarPanel);
-				
-					btnProcess = new CustomButton(new Color(64, 128, 128), "Process Orders", this::reflectReceivingEntryToStock, new Rectangle(0, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-					btnProcess.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(transactionType.equals("order")) {
-								orderForm.reflectOrdersToStock(e);
-
-							}else if(transactionType.equals("receiving")) {
-								receivingForm.reflectReceivingToStock(e);
-							}else {
-								JOptionPane.showMessageDialog(null, "No selected transaction type");
-							}
-						}
-					});
-					btnProcess.setText("Process");
-					btnProcess.setForeground(Color.WHITE);
-					btnProcess.setBorder(new LineBorder(new Color(0, 0, 0)));
-					btnProcess.setBackground(new Color(3, 65, 68));
-					btnProcess.setBounds(0, 0, 63, 38);
-					toolbarPanel.add(btnProcess);
 					
 					btnPrint = new CustomButton(new Color(64, 128, 128), "Print", this::printTable, new Rectangle(63, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 					btnPrint.setText("Print");
 					btnPrint.setForeground(Color.WHITE);
 					btnPrint.setBorder(new LineBorder(new Color(0, 0, 0)));
 					btnPrint.setBackground(new Color(3, 65, 68));
-					btnPrint.setBounds(62, 0, 63, 38);
+					btnPrint.setBounds(0, 0, 63, 38);
 					toolbarPanel.add(btnPrint);
 					
 					btnSaveFile = new CustomButton(new Color(64, 128, 128), "Save as file", this::saveAsFile, new Rectangle(126, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -474,7 +426,7 @@ public class ManageAllForm extends JFrame {
 					btnSaveFile.setForeground(Color.WHITE);
 					btnSaveFile.setBorder(new LineBorder(new Color(0, 0, 0)));
 					btnSaveFile.setBackground(new Color(3, 65, 68));
-					btnSaveFile.setBounds(124, 0, 63, 38);
+					btnSaveFile.setBounds(62, 0, 63, 38);
 					toolbarPanel.add(btnSaveFile);
 					
 					btnMode = new CustomButton(new Color(64, 128, 128), "Change Mode", this::ChangeMode, new Rectangle(378, 0, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -482,7 +434,7 @@ public class ManageAllForm extends JFrame {
 					btnMode.setForeground(Color.WHITE);
 					btnMode.setBorder(new LineBorder(new Color(0, 0, 0)));
 					btnMode.setBackground(new Color(3, 65, 68));
-					btnMode.setBounds(186, 0, 63, 38);
+					btnMode.setBounds(124, 0, 63, 38);
 					toolbarPanel.add(btnMode);
 				
 			bodyPanel = new JPanel();
@@ -495,10 +447,6 @@ public class ManageAllForm extends JFrame {
 			footerPanel.setBackground(new Color(3, 65, 68));
 			footerPanel.setPreferredSize(new Dimension(1097, 20));
 			formPanel.add(footerPanel,BorderLayout.SOUTH);
-			
-			//disable process button
-    		btnProcess.setEnabled(false);
-    		btnProcess.setForeground(Color.GRAY);
     		//disable print button
     		btnPrint.setEnabled(false);
     		btnPrint.setForeground(Color.GRAY);
@@ -558,9 +506,6 @@ public class ManageAllForm extends JFrame {
 		 //print the order table
 	
 		}	
-	 private void reflectReceivingEntryToStock(ActionEvent e) {		
-		 
-		}
 	 private void saveAsFile(ActionEvent e) {
 			// Logic for saving as a file 
 		}

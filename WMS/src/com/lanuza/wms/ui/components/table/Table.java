@@ -53,4 +53,5 @@ public class Table extends JTable {
         p.setBackground(Color.WHITE);
         scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
     }
+    
 }
