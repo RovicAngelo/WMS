@@ -81,7 +81,7 @@ public class ManageProfileForm extends JPanel {
 			 */          
             initialize();    
             
-		}      
+		}    
 	}
 
 	private void initialize(){				
