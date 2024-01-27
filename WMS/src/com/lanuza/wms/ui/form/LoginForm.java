@@ -8,6 +8,7 @@ import com.lanuza.wms.dao.AccountDAO;
 import com.lanuza.wms.dao.impl.AccountDAOImpl;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
+import com.lanuza.wms.ui.components.PlaceholderHandler;
 
 import java.awt.event.*;
 import javax.swing.border.MatteBorder;
@@ -23,6 +24,8 @@ public class LoginForm extends JFrame{
 	    private JFrame frame;
 	    private JPanel signinPanel,signupPanel,bodyPanel;
 	    
+	    PlaceholderHandler placeholderHandler = new PlaceholderHandler(mainFont);
+	    
 	    private JLabel lblSignUp,lblHaveAccount,
 	    lblLoginTitle,lblSignIn,lblIHaveAccount,
 	    lblSignUpTitle;
@@ -37,13 +40,13 @@ public class LoginForm extends JFrame{
 			this.accountDAO = new AccountDAOImpl();
 			this.accountService = new AccountServiceImpl(accountDAO);
 			initialize();
-			//adding placeholder to the textFields
-			addPlaceholder(txtUsername, "Enter username here");
-			addPlaceholder(txtPassword, "Enter password here");
+			//adding placeholder to the textFields and password fields
+			placeholderHandler.addPlaceholder(txtUsername, "Enter username here");
+			placeholderHandler.addPlaceholder(txtPassword, "Enter password here");
 			
-			addPlaceholder(txtNewName, "Enter name here");
-			addPlaceholder(txtNewUsername, "Enter username here");
-			addPlaceholder(txtNewPassword, "Enter password here");
+			placeholderHandler.addPlaceholder(txtNewName, "Enter name here");
+			placeholderHandler.addPlaceholder(txtNewUsername, "Enter username here");
+			placeholderHandler.addPlaceholder(txtNewPassword, "Enter password here");
 		}	
 				
 	    public void initialize() {
@@ -317,74 +320,5 @@ public class LoginForm extends JFrame{
 	            }
 	        }
 	    }
-	    private void addPlaceholder(JTextField textField, String placeholder) {
-	        textField.setForeground(Color.GRAY);
-	        textField.setText(placeholder);
-
-	        textField.addFocusListener(new FocusAdapter() {
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                if (textField.getText().equals(placeholder)) {
-	                    textField.setText("");
-	                    textField.setForeground(Color.BLACK);
-	                }
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	                if (textField.getText().isEmpty()) {
-	                    textField.setForeground(Color.GRAY);
-	                    textField.setText(placeholder);
-	                }
-	            }
-	        });
-	    }
-
-	    private void addPlaceholder(JPasswordField passwordField, String placeholder) {
-	        passwordField.setForeground(Color.GRAY);
-	        passwordField.setText(placeholder);
-	        passwordField.setEchoChar((char) 0); // Show actual characters
-
-	        passwordField.addFocusListener(new FocusAdapter() {
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	                char[] password = passwordField.getPassword();
-	                String passwordText = new String(password);
-
-	                if (passwordText.equals(placeholder)) {
-	                    passwordField.setText("");
-	                    passwordField.setEchoChar('●'); // Set the password echo character
-	                    passwordField.setForeground(Color.BLACK);
-	                    passwordField.setFont(mainFont);
-	                }
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	                char[] password = passwordField.getPassword();
-	                String passwordText = new String(password);
-
-	                if (passwordText.isEmpty()) {
-	                    passwordField.setEchoChar((char) 0); // Show actual characters
-	                    passwordField.setForeground(Color.GRAY);
-	                    passwordField.setText(placeholder);
-	                }
-	            }
-	        });
-
-	        passwordField.addKeyListener(new KeyAdapter() {
-	            @Override
-	            public void keyPressed(KeyEvent e) {
-	                char[] password = passwordField.getPassword();
-	                String passwordText = new String(password);
-
-	                if (passwordText.equals(placeholder)) {
-	                    passwordField.setEchoChar('●'); // Set the password echo character
-	                    passwordField.setText("");
-	                    passwordField.setForeground(Color.BLACK);
-	                    passwordField.setFont(mainFont);
-	                }
-	            }
-	        });
-	    }
+	  
 	}

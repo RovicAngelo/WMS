@@ -27,11 +27,20 @@ import com.lanuza.wms.dao.impl.AccountDAOImpl;
 import com.lanuza.wms.model.Account;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
+import com.lanuza.wms.ui.components.PlaceholderHandler;
+
+import java.awt.Component;
+import javax.swing.border.EmptyBorder;
 
 public class ManageProfileForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final AccountDAO accountDAO;
 	private final AccountService accountService;
+	
+	private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
+	
+	PlaceholderHandler placeholderHandler = new PlaceholderHandler(mainFont);
+	 
 	private JPanel bodyPanel;
 	private JTextField txtNewName,txtNewUsername;
 	private JPasswordField txtNewPassword,txtVerifyPassword;
@@ -41,8 +50,8 @@ public class ManageProfileForm extends JPanel {
 
 	public ManageProfileForm(int id, boolean initializeUI) {
 		this.accountDAO = new AccountDAOImpl();
-		this.accountService = new AccountServiceImpl(accountDAO);
-
+		this.accountService = new AccountServiceImpl(accountDAO);			  
+    	
 		if (initializeUI) {				         
 			//to get the ID in loginForm
 	        Account account = accountService.getAccountById(id);
@@ -56,14 +65,21 @@ public class ManageProfileForm extends JPanel {
             lblDisplayRole = new JLabel();
             
             lbltextAccountId = new JLabel();
-	    	lbltextCurrentName = new JLabel();	    	
-	    	lbltextCurrentUsername = new JLabel();
-	    	lbltextCurrentRole = new JLabel();
+			lbltextCurrentName = new JLabel();
+			lbltextCurrentUsername = new JLabel();
+			lbltextCurrentRole = new JLabel();
+			 
 	    	
-	    	txtNewName = new JTextField();
-	    	txtNewUsername = new JTextField();
+	    	txtNewName = new JTextField();    	    	
+	    	txtNewUsername = new JTextField();	    		    	
 	    	newRoleCombox = new JComboBox<String>();
+	    	txtNewPassword = new JPasswordField();
+	    	txtVerifyPassword = new JPasswordField();
 	    	
+	    	placeholderHandler.addPlaceholder(txtNewUsername, "Enter new username here");
+	    	placeholderHandler.addPlaceholder(txtNewName, "Enter new name here");	    	
+	    	placeholderHandler.addPlaceholder(txtNewPassword, "Enter new password here");
+			placeholderHandler.addPlaceholder(txtVerifyPassword, "Re-enter new password here ");
 
 			lblDisplayName.setText(name != null ? name : "null field");
 			lblDisplayRole.setText(role != null ? role : "null field");
@@ -83,7 +99,9 @@ public class ManageProfileForm extends JPanel {
             
 		}    
 	}
-
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	private void initialize(){				
 		setLayout(null);
 		
@@ -142,7 +160,7 @@ public class ManageProfileForm extends JPanel {
 		lblCurrentName.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblCurrentName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurrentName.setForeground(Color.GRAY);
-		lblCurrentName.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCurrentName.setFont(mainFont);
 		lblCurrentName.setBounds(94, 131, 41, 19);
 		accountInfoPanel.add(lblCurrentName);
 		
@@ -150,7 +168,7 @@ public class ManageProfileForm extends JPanel {
 		lblCurrentUsername.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblCurrentUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurrentUsername.setForeground(Color.GRAY);
-		lblCurrentUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCurrentUsername.setFont(mainFont);
 		lblCurrentUsername.setBounds(94, 195, 59, 19);
 		accountInfoPanel.add(lblCurrentUsername);
 		
@@ -158,32 +176,50 @@ public class ManageProfileForm extends JPanel {
 		lblCurrentRole.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblCurrentRole.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCurrentRole.setForeground(Color.GRAY);
-		lblCurrentRole.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCurrentRole.setFont(mainFont);
 		lblCurrentRole.setBounds(94, 259, 33, 19);
 		accountInfoPanel.add(lblCurrentRole);
 		
-		lbltextCurrentName.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbltextCurrentName.setBounds(94, 150, 286, 34);
+		//lbltextCurrentName = new JLabel();
+		lbltextCurrentName.setBorder(new EmptyBorder(0, 10, 0, 0));
+		lbltextCurrentName.setOpaque(true);
+		lbltextCurrentName.setBackground(new Color(224, 224, 224));
+		lbltextCurrentName.setFont(mainFont);
+		lbltextCurrentName.setBounds(85, 150, 426, 34);
 		accountInfoPanel.add(lbltextCurrentName);
 		
-		lbltextCurrentUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbltextCurrentUsername.setBounds(94, 214, 286, 34);
+		//lbltextCurrentUsername = new JLabel();
+		lbltextCurrentUsername.setBorder(new EmptyBorder(0, 10, 0, 0));
+		lbltextCurrentUsername.setOpaque(true);
+		lbltextCurrentUsername.setBackground(new Color(224, 224, 224));
+		lbltextCurrentUsername.setFont(mainFont);
+		lbltextCurrentUsername.setBounds(85, 214, 426, 34);
 		accountInfoPanel.add(lbltextCurrentUsername);
 		
-		lbltextCurrentRole.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbltextCurrentRole.setBounds(94, 280, 286, 34);
+		//lbltextCurrentRole = new JLabel();
+		lbltextCurrentRole.setBorder(new EmptyBorder(0, 10, 0, 0));
+		lbltextCurrentRole.setOpaque(true);
+		lbltextCurrentRole.setBackground(new Color(224, 224, 224));
+		lbltextCurrentRole.setFont(mainFont);
+		lbltextCurrentRole.setBounds(85, 280, 426, 34);
 		accountInfoPanel.add(lbltextCurrentRole);
 		
 		JLabel lblAccountId = new JLabel("Account Id");
 		lblAccountId.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblAccountId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccountId.setForeground(Color.GRAY);
-		lblAccountId.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAccountId.setFont(mainFont);
 		lblAccountId.setBounds(94, 67, 69, 19);
 		accountInfoPanel.add(lblAccountId);
 		
-		lbltextAccountId.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbltextAccountId.setBounds(94, 86, 286, 34);
+		
+		//lbltextAccountId = new JLabel();
+		lbltextAccountId.setBorder(new EmptyBorder(0, 10, 0, 0));
+		lbltextAccountId.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		lbltextAccountId.setOpaque(true);
+		lbltextAccountId.setBackground(new Color(224, 224, 224));
+		lbltextAccountId.setFont(mainFont);
+		lbltextAccountId.setBounds(85, 86, 426, 34);
 		accountInfoPanel.add(lbltextAccountId);	
 		
 		JPanel modifyAccountPanel = new JPanel();
@@ -220,7 +256,7 @@ public class ManageProfileForm extends JPanel {
 		lblNewUsername.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewUsername.setForeground(Color.GRAY);
-		lblNewUsername.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewUsername.setFont(mainFont);
 		lblNewUsername.setBounds(380, 94, 59, 19);
 		modifyAccountPanel.add(lblNewUsername);
 		
@@ -228,7 +264,7 @@ public class ManageProfileForm extends JPanel {
 		lblNewRole.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewRole.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewRole.setForeground(Color.GRAY);
-		lblNewRole.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewRole.setFont(mainFont);
 		lblNewRole.setBounds(380, 139, 59, 19);
 		modifyAccountPanel.add(lblNewRole);
 		
@@ -240,7 +276,7 @@ public class ManageProfileForm extends JPanel {
 		lblNewName.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewName.setForeground(Color.GRAY);
-		lblNewName.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewName.setFont(mainFont);
 		lblNewName.setBounds(380, 53, 59, 19);
 		modifyAccountPanel.add(lblNewName);
 		
@@ -248,7 +284,7 @@ public class ManageProfileForm extends JPanel {
 		lblNewPassword.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewPassword.setForeground(Color.GRAY);
-		lblNewPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewPassword.setFont(mainFont);
 		lblNewPassword.setBounds(363, 217, 94, 19);
 		modifyAccountPanel.add(lblNewPassword);
 		
@@ -256,25 +292,23 @@ public class ManageProfileForm extends JPanel {
 		lblVerifyPassword.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblVerifyPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVerifyPassword.setForeground(Color.GRAY);
-		lblVerifyPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblVerifyPassword.setFont(mainFont);
 		lblVerifyPassword.setBounds(351, 262, 106, 19);
 		modifyAccountPanel.add(lblVerifyPassword);
 		
 		newRoleCombox.setBounds(472, 132, 286, 34);
 		newRoleCombox.setFont(new Font("Tahoma", Font.BOLD, 14));
-		newRoleCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Admin", "Guest"}));
+		newRoleCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Choose role type","Admin", "Guest"}));
 		modifyAccountPanel.add(newRoleCombox);
 		
 		txtNewUsername.setColumns(10);
 		txtNewUsername.setBounds(472, 87, 286, 34);
 		modifyAccountPanel.add(txtNewUsername);
-		
-		txtNewPassword = new JPasswordField();
+				
 		txtNewPassword.setColumns(10);
 		txtNewPassword.setBounds(472, 210, 286, 34);
 		modifyAccountPanel.add(txtNewPassword);
-		
-		txtVerifyPassword = new JPasswordField();
+				
 		txtVerifyPassword.setColumns(10);
 		txtVerifyPassword.setBounds(472, 255, 286, 34);
 		modifyAccountPanel.add(txtVerifyPassword);
@@ -401,37 +435,32 @@ public class ManageProfileForm extends JPanel {
 					
 		accountInfoMenu.addMouseListener(new MouseAdapter() {
 			String newPasswordString = new String(txtNewPassword.getPassword());		    	
-	    	String verifyPasswordString = new String(txtVerifyPassword.getPassword());
-	    	
-		    @Override
-		    public void mousePressed(MouseEvent e) {		    	
-	    	
-		        if (!txtNewName.getText().equals("") || !txtNewUsername.getText().equals("") || !newPasswordString.equals("") || !verifyPasswordString.equals("")) {
-		            JOptionPane.showMessageDialog(null, "Updating accounts are ongoing");
-		        } else {
-		            accountInfoMenu.setBorder(new MatteBorder(0, 0, 3, 0, new Color(3, 65, 68)));
-		            modifyAccountMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		        }
-		    }
+	    	String verifyPasswordString = new String(txtVerifyPassword.getPassword());	    
 
 		    @Override
 		    public void mouseClicked(MouseEvent e) {
 		        if (!txtNewName.getText().equals("") || !txtNewUsername.getText().equals("") || !newPasswordString.equals("") || !verifyPasswordString.equals("")) {
-		        } else {
-		            showForm(accountInfoPanel);
-		        }
+		            int result = JOptionPane.showConfirmDialog(
+		                 null,
+		                 "Updating accounts are ongoing. Do you want to proceed?",
+		                 "Confirmation",
+		                 JOptionPane.YES_NO_OPTION
+		            );
+
+		            if (result == JOptionPane.YES_OPTION) {
+		                accountInfoMenu.setBorder(new MatteBorder(0, 0, 3, 0, new Color(3, 65, 68)));
+		 		        modifyAccountMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+		 		        showForm(accountInfoPanel);
+		            }
+		        } 
 		    }
 		});
 		
-		modifyAccountMenu.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				modifyAccountMenu.setBorder(new MatteBorder(0, 0, 3, 0, (Color) new Color(3, 65, 68)));
-				accountInfoMenu.setBorder(new MatteBorder(0, 0, 2, 0, new Color(0, 0, 0)));
-			}
-			
+		modifyAccountMenu.addMouseListener(new MouseAdapter() {		
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				modifyAccountMenu.setBorder(new MatteBorder(0, 0, 3, 0, (Color) new Color(3, 65, 68)));
+				accountInfoMenu.setBorder(new MatteBorder(0, 0, 2, 0, new Color(0, 0, 0)));
 				showForm(modifyAccountPanel);
 			}
 		});
