@@ -27,6 +27,7 @@ import com.lanuza.wms.dao.impl.AccountDAOImpl;
 import com.lanuza.wms.model.Account;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
+import com.lanuza.wms.ui.components.HoverEffect;
 import com.lanuza.wms.ui.components.PlaceholderHandler;
 
 import java.awt.Component;
@@ -47,6 +48,9 @@ public class ManageProfileForm extends JPanel {
 	private JComboBox<String> newRoleCombox;
 	private JLabel lbltextCurrentRole,lbltextCurrentName,lbltextCurrentUsername,lbltextAccountId,lblDisplayName,lblDisplayRole;
 	private JLabel accountInfoMenu,modifyAccountMenu;
+	
+	private Color btnOriginalColor = new Color(243, 243, 243);
+	private Color btnHoverColor = new Color(220, 220, 220);
 
 	public ManageProfileForm(int id, boolean initializeUI) {
 		this.accountDAO = new AccountDAOImpl();
@@ -62,7 +66,7 @@ public class ManageProfileForm extends JPanel {
             String role = account.getRole();
             
             lblDisplayName = new JLabel();
-            lblDisplayRole = new JLabel();
+            lblDisplayRole = new JLabel();            
             
             lbltextAccountId = new JLabel();
 			lbltextCurrentName = new JLabel();
@@ -314,6 +318,7 @@ public class ManageProfileForm extends JPanel {
 		modifyAccountPanel.add(txtVerifyPassword);
 		
 		JButton btnClear = new JButton("Clear");
+		new HoverEffect(btnClear,btnHoverColor,btnOriginalColor);
 		btnClear.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {			
@@ -328,11 +333,12 @@ public class ManageProfileForm extends JPanel {
 		btnClear.setToolTipText("Add");
 		btnClear.setFocusPainted(false);
 		btnClear.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnClear.setBackground(new Color(243, 243, 243));
+		btnClear.setBackground(btnOriginalColor);
 		btnClear.setBounds(851, 298, 83, 29);
 		modifyAccountPanel.add(btnClear);
 		
 		JButton btnSave = new JButton("Save");
+		new HoverEffect(btnSave,btnHoverColor,btnOriginalColor);
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -414,7 +420,9 @@ public class ManageProfileForm extends JPanel {
 								JOptionPane.showMessageDialog(null, "New Password does not match with Verify Password");
 							}
 						     													
-						} 
+						}else {
+							JOptionPane.showMessageDialog(null, "Please select valid role type");
+						}
 				 }
 					
 			}
@@ -423,7 +431,7 @@ public class ManageProfileForm extends JPanel {
 		btnSave.setToolTipText("Add");
 		btnSave.setFocusPainted(false);
 		btnSave.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSave.setBackground(new Color(243, 243, 243));
+		btnSave.setBackground(btnOriginalColor);
 		btnSave.setBounds(944, 298, 83, 29);
 		modifyAccountPanel.add(btnSave);
 		

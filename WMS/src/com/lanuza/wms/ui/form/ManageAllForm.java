@@ -37,6 +37,8 @@ public class ManageAllForm extends JFrame {
 	private final AccountDAO accountDAO;
 	private final AccountService accountService;
 	
+	private final Color originalColor = new Color(3,65,68);
+	private final Color hoverColor = new Color(  4, 101, 106);
 	private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
 	private JPanel bodyPanel;
 	private JLabel lblFormSection;

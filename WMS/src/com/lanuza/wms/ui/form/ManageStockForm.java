@@ -32,6 +32,7 @@ import com.lanuza.wms.dao.impl.StockDAOImpl;
 import com.lanuza.wms.service.StockService;
 import com.lanuza.wms.service.impl.StockServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
+import com.lanuza.wms.ui.components.HoverEffect;
 import com.lanuza.wms.ui.components.RoundPanel;
 import com.lanuza.wms.ui.components.table.Table;
 
@@ -42,6 +43,9 @@ public class ManageStockForm extends JPanel {
 	private JTextField textField,txtStockId;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private Table table;
+	
+	private Color btnOriginalColor = new Color(243, 243, 243);
+	private Color btnHoverColor = new Color(220, 220, 220);
 
 
 	public ManageStockForm() {
@@ -61,7 +65,8 @@ public class ManageStockForm extends JPanel {
 		textField.setBounds(22, 27, 304, 33);
 		add(textField);
 		
-		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		CustomButton btnSearchBy = new CustomButton(btnOriginalColor, "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		new HoverEffect(btnSearchBy,btnHoverColor,btnOriginalColor);
 		btnSearchBy.setIcon(new ImageIcon(ManageStockForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
 		btnSearchBy.setBounds(326, 27, 68, 33);
@@ -202,6 +207,7 @@ public class ManageStockForm extends JPanel {
 		panelShortcut1.add(lblM);
 		
 		JTextArea txtrCtrlS = new JTextArea();
+		txtrCtrlS.setEditable(false);
 		txtrCtrlS.setText("Save as\r\n File");
 		txtrCtrlS.setOpaque(false);
 		txtrCtrlS.setForeground(Color.WHITE);
@@ -210,6 +216,7 @@ public class ManageStockForm extends JPanel {
 		panelShortcut1.add(txtrCtrlS);
 		
 		JTextArea txtrCtrlP = new JTextArea();
+		txtrCtrlP.setEditable(false);
 		txtrCtrlP.setText("Print");
 		txtrCtrlP.setOpaque(false);
 		txtrCtrlP.setForeground(Color.WHITE);
@@ -218,6 +225,7 @@ public class ManageStockForm extends JPanel {
 		panelShortcut1.add(txtrCtrlP);
 		
 		JTextArea txtrCtrlD = new JTextArea();
+		txtrCtrlD.setEditable(false);
 		txtrCtrlD.setText("Save to \r\nDatabase");
 		txtrCtrlD.setOpaque(false);
 		txtrCtrlD.setForeground(Color.WHITE);
@@ -226,6 +234,7 @@ public class ManageStockForm extends JPanel {
 		panelShortcut1.add(txtrCtrlD);
 		
 		JTextArea txtrS = new JTextArea();
+		txtrS.setEditable(false);
 		txtrS.setText("Change Mode\r\nLight/Dark");
 		txtrS.setOpaque(false);
 		txtrS.setForeground(Color.WHITE);
@@ -234,6 +243,7 @@ public class ManageStockForm extends JPanel {
 		panelShortcut1.add(txtrS);
 		
 		JTextArea txtrP = new JTextArea();
+		txtrP.setEditable(false);
 		txtrP.setText("Go to \r\nDashboard");
 		txtrP.setOpaque(false);
 		txtrP.setForeground(Color.WHITE);

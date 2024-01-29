@@ -44,6 +44,7 @@ import com.lanuza.wms.model.PurchasedOrder;
 import com.lanuza.wms.service.PurchasedOrderService;
 import com.lanuza.wms.service.impl.PurchasedOrderServiceImpl;
 import com.lanuza.wms.ui.components.CustomButton;
+import com.lanuza.wms.ui.components.HoverEffect;
 import com.lanuza.wms.ui.components.RoundPanel;
 import com.lanuza.wms.ui.components.table.Table;
 
@@ -58,6 +59,8 @@ public class ManageOrderForm extends JPanel{
 	private Table table;
 	private JComboBox<String> productNameCombox,CustomerNameCombox;
 	private JLabel lblCurrentDate,txtGrossTotal;
+	private Color btnOriginalColor = new Color(243, 243, 243);
+	private Color btnHoverColor = new Color(220, 220, 220);
 
 	public ManageOrderForm(){	
 		this.purchasedOrderDAO = new PurchasedOrderDAOImpl();
@@ -84,7 +87,8 @@ public class ManageOrderForm extends JPanel{
 		textField.setBounds(22, 27, 304, 33);
 		add(textField);
 		
-		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		CustomButton btnSearchBy = new CustomButton(btnOriginalColor, "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		new HoverEffect(btnSearchBy, btnHoverColor,btnOriginalColor);
 		btnSearchBy.setIcon(new ImageIcon(ManageOrderForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
 		btnSearchBy.setBounds(326, 27, 68, 33);
@@ -114,6 +118,7 @@ public class ManageOrderForm extends JPanel{
 		scrollPane.setViewportView(table);			
 		
 		JButton btnAddProduct = new JButton("New Order");
+		new HoverEffect(btnAddProduct, btnHoverColor,btnOriginalColor);
 		btnAddProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showCreateProductPopup();
@@ -122,7 +127,7 @@ public class ManageOrderForm extends JPanel{
 		btnAddProduct.setToolTipText("Add");
 		btnAddProduct.setFocusPainted(false);
 		btnAddProduct.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnAddProduct.setBackground(new Color(243, 243, 243));
+		btnAddProduct.setBackground(btnOriginalColor);
 		
 		JLabel lblOrderId = new JLabel("Order Id");
 		lblOrderId.setForeground(Color.BLACK);
@@ -136,6 +141,7 @@ public class ManageOrderForm extends JPanel{
 		txtOrderId.setBackground(SystemColor.menu);
 					
 		JButton btnEdit = new JButton("Edit");
+		new HoverEffect(btnEdit, btnHoverColor,btnOriginalColor);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(txtOrderId.getText().toString().equals("")) {
@@ -148,7 +154,7 @@ public class ManageOrderForm extends JPanel{
 		btnEdit.setToolTipText("Edit Row");
 		btnEdit.setFocusPainted(false);
 		btnEdit.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnEdit.setBackground(new Color(243, 243, 243));
+		btnEdit.setBackground(btnOriginalColor);
 		
 		JLabel lblGrossTotal = new JLabel("Gross Total");
 		lblGrossTotal.setForeground(Color.BLACK);
@@ -161,11 +167,13 @@ public class ManageOrderForm extends JPanel{
 		txtGrossTotal.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtGrossTotal.setBackground(Color.WHITE);
 		
-		CustomButton btnDelete = new CustomButton(new Color(243, 243, 243), "Update", this::deleteRow, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		CustomButton btnDelete = new CustomButton(btnOriginalColor, "Update", this::deleteRow, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		new HoverEffect(btnDelete, btnHoverColor,btnOriginalColor);
 		btnDelete.setToolTipText("Delete");
 		btnDelete.setText("Delete");
 		
-		CustomButton cstmbtnProcess = new CustomButton(new Color(243, 243, 243), "Update", (ActionListener) null, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		CustomButton cstmbtnProcess = new CustomButton(btnOriginalColor, "Update", (ActionListener) null, new Rectangle(515, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		new HoverEffect(cstmbtnProcess, btnHoverColor,btnOriginalColor);
 		cstmbtnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reflectOrdersToStock(e);			
@@ -281,6 +289,7 @@ public class ManageOrderForm extends JPanel{
 		panelShortcut1.add(lblM);
 		
 		JTextArea txtrCtrlS = new JTextArea();
+		txtrCtrlS.setEditable(false);
 		txtrCtrlS.setText("Save as\r\n File");
 		txtrCtrlS.setOpaque(false);
 		txtrCtrlS.setForeground(Color.WHITE);
@@ -289,6 +298,7 @@ public class ManageOrderForm extends JPanel{
 		panelShortcut1.add(txtrCtrlS);
 		
 		JTextArea txtrCtrlP = new JTextArea();
+		txtrCtrlP.setEditable(false);
 		txtrCtrlP.setText("Print");
 		txtrCtrlP.setOpaque(false);
 		txtrCtrlP.setForeground(Color.WHITE);
@@ -297,6 +307,7 @@ public class ManageOrderForm extends JPanel{
 		panelShortcut1.add(txtrCtrlP);
 		
 		JTextArea txtrCtrlD = new JTextArea();
+		txtrCtrlD.setEditable(false);
 		txtrCtrlD.setText("Save to \r\nDatabase");
 		txtrCtrlD.setOpaque(false);
 		txtrCtrlD.setForeground(Color.WHITE);
@@ -305,6 +316,7 @@ public class ManageOrderForm extends JPanel{
 		panelShortcut1.add(txtrCtrlD);
 		
 		JTextArea txtrS = new JTextArea();
+		txtrS.setEditable(false);
 		txtrS.setText("Change Mode\r\nLight/Dark");
 		txtrS.setOpaque(false);
 		txtrS.setForeground(Color.WHITE);
@@ -313,6 +325,7 @@ public class ManageOrderForm extends JPanel{
 		panelShortcut1.add(txtrS);
 		
 		JTextArea txtrP = new JTextArea();
+		txtrP.setEditable(false);
 		txtrP.setText("Go to \r\nDashboard");
 		txtrP.setOpaque(false);
 		txtrP.setForeground(Color.WHITE);
@@ -439,17 +452,20 @@ public class ManageOrderForm extends JPanel{
 			txtQuantity.setBounds(123, 167, 126, 31);
 			orderManagerPanel.add(txtQuantity);
 			
-			CustomButton btnAdd = new CustomButton(new Color(243, 243, 243), "Add", this::addToStock, new Rectangle(296, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnAdd = new CustomButton(btnOriginalColor, "Add", this::addToStock, new Rectangle(296, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnAdd, btnHoverColor,btnOriginalColor);
 			btnAdd.setText("Add");
 			btnAdd.setBounds(157, 227, 63, 38);
 			orderManagerPanel.add(btnAdd);
 			
-			CustomButton btnCancel = new CustomButton(new Color(243, 243, 243), "Delete", (ActionListener) null, new Rectangle(369, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnCancel = new CustomButton(btnOriginalColor, "Delete", (ActionListener) null, new Rectangle(369, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnAdd, btnHoverColor,btnOriginalColor);
 			btnCancel.setText("Cancel");
 			btnCancel.setBounds(303, 227, 63, 38);
 			orderManagerPanel.add(btnCancel);
 			
-			CustomButton btnClear = new CustomButton(new Color(243, 243, 243), "Clear", this::clearFields, new Rectangle(442, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnClear = new CustomButton(btnOriginalColor, "Clear", this::clearFields, new Rectangle(442, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnAdd, btnHoverColor,btnOriginalColor);
 			btnClear.setText("Clear");
 			btnClear.setBounds(230, 227, 63, 38);
 			orderManagerPanel.add(btnClear);     
@@ -586,17 +602,20 @@ public class ManageOrderForm extends JPanel{
 			txtQuantity.setBounds(123, 167, 126, 31);
 			orderManagerPanel.add(txtQuantity);
 			
-			CustomButton btnUpdate = new CustomButton(new Color(243, 243, 243), "Add", this::updateRow, new Rectangle(296, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnUpdate = new CustomButton(btnOriginalColor, "Add", this::updateRow, new Rectangle(296, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnUpdate, btnHoverColor,btnOriginalColor);
 			btnUpdate.setText("Update");
 			btnUpdate.setBounds(157, 227, 63, 38);
 			orderManagerPanel.add(btnUpdate);
 			
-			CustomButton btnCancel = new CustomButton(new Color(243, 243, 243), "Delete", (ActionListener) null, new Rectangle(369, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnCancel = new CustomButton(btnOriginalColor, "Delete", (ActionListener) null, new Rectangle(369, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnCancel, btnHoverColor,btnOriginalColor);
 			btnCancel.setText("Cancel");
 			btnCancel.setBounds(303, 227, 63, 38);
 			orderManagerPanel.add(btnCancel);
 			
-			CustomButton btnClear = new CustomButton(new Color(243, 243, 243), "Clear", this::clearFields, new Rectangle(442, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			CustomButton btnClear = new CustomButton(btnOriginalColor, "Clear", this::clearFields, new Rectangle(442, 132, 63, 38), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			new HoverEffect(btnClear, btnHoverColor,btnOriginalColor);
 			btnClear.setText("Clear");
 			btnClear.setBounds(230, 227, 63, 38);
 			orderManagerPanel.add(btnClear);     

@@ -1,26 +1,49 @@
 package com.lanuza.wms.ui.form;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import com.lanuza.wms.model.Account;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
+
 import com.lanuza.wms.dao.AccountDAO;
 import com.lanuza.wms.dao.impl.AccountDAOImpl;
+import com.lanuza.wms.model.Account;
 import com.lanuza.wms.service.AccountService;
 import com.lanuza.wms.service.impl.AccountServiceImpl;
+import com.lanuza.wms.ui.components.HoverEffect;
 import com.lanuza.wms.ui.components.PlaceholderHandler;
-
-import java.awt.event.*;
-import javax.swing.border.MatteBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class LoginForm extends JFrame{
 
 		private static final long serialVersionUID = 1L;
 		private final AccountDAO accountDAO;
-		private final AccountService accountService;	  
+		private final AccountService accountService;	
+		
 	    private final Font mainFont = new Font("Tahoma", Font.BOLD, 12);
+	    
+	    private final Color btnOriginalColor = new Color(3,65,68);
+	    private final Color btnHoverColor = new Color(  4, 101, 106);
+	    
+	    private final Color lblHoverColor = new Color(250,250,250);
+	    private final Color lblOriginalColor = new Color(240,240,240);
+	  
 	    private JFrame frame;
 	    private JPanel signinPanel,signupPanel,bodyPanel;
 	    
@@ -76,6 +99,7 @@ public class LoginForm extends JFrame{
 	        frame.getContentPane().add(infoPanel);
 	        
 	        JTextArea txtrWarehouse = new JTextArea();
+	        txtrWarehouse.setEditable(false);
 	        txtrWarehouse.setForeground(new Color(255, 255, 255));
 	        txtrWarehouse.setBackground(new Color(3, 65, 68));
 	        txtrWarehouse.setFont(new Font("Arial", Font.BOLD, 23));
@@ -94,6 +118,10 @@ public class LoginForm extends JFrame{
 	        signinPanel.setLayout(null);
 	        
 	        lblSignUp = new JLabel("Sign Up");
+	        new HoverEffect(lblSignUp, lblHoverColor, lblOriginalColor);
+	        new HoverEffect(lblSignUp,new MatteBorder(0, 0, 2, 0, (Color) new Color(200, 200, 200)),new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+	        lblSignUp.setOpaque(true);
+	        lblSignUp.setBackground(lblOriginalColor);
 	        lblSignUp.addMouseListener(new MouseAdapter() {
 	        	@Override
 	        	public void mouseClicked(MouseEvent e) {
@@ -104,7 +132,7 @@ public class LoginForm extends JFrame{
 	        lblSignUp.setHorizontalAlignment(SwingConstants.CENTER);
 	        lblSignUp.setForeground(Color.BLUE);
 	        lblSignUp.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-	        lblSignUp.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+	        lblSignUp.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(200, 200, 200)));
 	        lblSignUp.setBounds(121, 345, 54, 24);
 	        signinPanel.add(lblSignUp);
 	        
@@ -114,6 +142,14 @@ public class LoginForm extends JFrame{
 	        signinPanel.add(lblHaveAccount);
 	        
 	        btnClear = new JButton();
+	        btnClear.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		txtUsername.setText("");
+	        		txtPassword.setText("");
+	        		txtUsername.requestFocus();
+	        	}
+	        });
+	        new HoverEffect(btnClear,btnHoverColor,btnOriginalColor);
 	        btnClear.setText("Clear");
 	        btnClear.setForeground(Color.WHITE);
 	        btnClear.setFont(mainFont);
@@ -130,6 +166,7 @@ public class LoginForm extends JFrame{
 	        	}
 	        });
 	        btnLogin.setText("Login");
+	        new HoverEffect(btnLogin,btnHoverColor,btnOriginalColor);
 	        btnLogin.setForeground(Color.WHITE);
 	        btnLogin.setFont(mainFont);
 	        btnLogin.setFocusPainted(false);
@@ -159,6 +196,9 @@ public class LoginForm extends JFrame{
 	        signupPanel.setLayout(null);
 	        
 	        lblSignIn = new JLabel("Sign In");
+	        lblSignIn.setOpaque(true);
+	        new HoverEffect(lblSignIn,new MatteBorder(0, 0, 2, 0, (Color) new Color(200, 200, 200)),new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+	        new HoverEffect(lblSignIn, lblHoverColor, lblOriginalColor);
 	        lblSignIn.addMouseListener(new MouseAdapter() {
 	        	@Override
 	        	public void mouseClicked(MouseEvent e) {
@@ -169,7 +209,7 @@ public class LoginForm extends JFrame{
 	        lblSignIn.setHorizontalAlignment(SwingConstants.CENTER);
 	        lblSignIn.setForeground(Color.BLUE);
 	        lblSignIn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-	        lblSignIn.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+	        lblSignIn.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(200, 200, 200)));
 	        lblSignIn.setBounds(102, 345, 54, 24);
 	        signupPanel.add(lblSignIn);
 	        
@@ -179,6 +219,15 @@ public class LoginForm extends JFrame{
 	        signupPanel.add(lblIHaveAccount);
 	        
 	        btnClear1 = new JButton();
+	        btnClear1.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent e) {
+	        		txtNewName.setText("");
+	        		txtNewUsername.setText("");
+	        		txtNewPassword.setText("");
+	        		txtNewName.requestFocus();
+	        	}
+	        });
+	        new HoverEffect(btnClear1,btnHoverColor,btnOriginalColor);
 	        btnClear1.setText("Clear");
 	        btnClear1.setForeground(Color.WHITE);
 	        btnClear1.setFont(mainFont);
@@ -189,6 +238,7 @@ public class LoginForm extends JFrame{
 	        signupPanel.add(btnClear1);
 	        
 	        btnSave = new JButton();
+	        new HoverEffect(btnSave,btnHoverColor,btnOriginalColor);
 	        btnSave.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
 	    				String name,username,password,role;
@@ -237,7 +287,9 @@ public class LoginForm extends JFrame{
 	    										
 	    										frame.dispose();
 	    										new LoginForm();
-	    							}					
+	    							}else {
+	    								JOptionPane.showMessageDialog(null, "Please select valid role type");
+	    							}				
 	    					}
 	    	            }																			
 	    			}
