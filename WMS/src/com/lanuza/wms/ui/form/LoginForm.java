@@ -251,7 +251,7 @@ public class LoginForm extends JFrame{
 	    				// Use AccountService to validate credentials and get account details
 	    	            Account account = accountService.getAccountByName(name);	            
 	    	          //To validate if account already exist
-	    	            if (account != null) {
+	    	            if (account != null && account.getUsername().equals(username) && account.getPassword().equals(password)){
 	    	            	//To validate if account name already exist
 	    	            	JOptionPane.showMessageDialog(null, "Name already used by other account");            	              	
 	    	            //if not continue account creation    
@@ -354,7 +354,7 @@ public class LoginForm extends JFrame{
 	            Account account = accountService.getAccountByUsernameAndPassword(username, password);
 	            
 
-	            if (account != null) {
+	            if (account != null && password.equals(account.getPassword()) && username.equals(account.getUsername())) {
 	                // Successfully logged in
 	                // Close the login form
 	                frame.dispose();
