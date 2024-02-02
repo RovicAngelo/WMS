@@ -448,18 +448,19 @@ public class ManageProfileForm extends JPanel {
 		    @Override
 		    public void mouseClicked(MouseEvent e) {
 		        if (!txtNewName.getText().equals("") || !txtNewUsername.getText().equals("") || !newPasswordString.equals("") || !verifyPasswordString.equals("")) {
-		            int result = JOptionPane.showConfirmDialog(
-		                 null,
-		                 "Updating accounts are ongoing. Do you want to proceed?",
-		                 "Confirmation",
-		                 JOptionPane.YES_NO_OPTION
-		            );
+//		            int result = JOptionPane.showConfirmDialog(
+//		                 null,
+//		                 "Updating accounts are ongoing. Do you want to proceed?",
+//		                 "Confirmation",
+//		                 JOptionPane.YES_NO_OPTION
+//		            );
 
-		            if (result == JOptionPane.YES_OPTION) {
-		                accountInfoMenu.setBorder(new MatteBorder(0, 0, 3, 0, new Color(3, 65, 68)));
-		 		        modifyAccountMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		 		        showForm(accountInfoPanel);
-		            }
+//		            if (result == JOptionPane.YES_OPTION) {
+//		                
+//		            }
+		            accountInfoMenu.setBorder(new MatteBorder(0, 0, 3, 0, new Color(3, 65, 68)));
+	 		        modifyAccountMenu.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+	 		        showForm(accountInfoPanel);
 		        } 
 		    }
 		});
