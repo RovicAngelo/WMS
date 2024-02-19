@@ -68,5 +68,11 @@ public class AccountServiceImpl implements AccountService{
 			// TODO Auto-generated method stub
 			return accountDAO.getAllAccountNameExcept(currentName);
 		}
+		
+		@Override
+		public List<Object[]> getSearchBy(String text) {
+			// TODO Auto-generated method stub
+			return accountDAO.getSearchBy(text);
+		}
 
 }

@@ -66,5 +66,10 @@ public class ReceivingEntryServiceImpl implements ReceivingEntryService{
 		return receivingEntryDAO.getAllProductDescriptions();
 	}
 
+	@Override
+	public List<Object[]> getSearchBy(String text) {
+		// TODO Auto-generated method stub
+		return receivingEntryDAO.getSearchBy(text);
+	}
 
 }

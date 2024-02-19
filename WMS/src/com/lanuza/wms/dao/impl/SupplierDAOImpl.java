@@ -3,6 +3,7 @@ package com.lanuza.wms.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,6 +206,40 @@ public class SupplierDAOImpl implements SupplierDAO {
             DBConnection.close(connection, preparedStatement, resultSet);
         }
         return sum;
+	}
+	
+	@Override
+	public List<Object[]> getSearchBy(String text) {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    List<Object[]> searchResults = new ArrayList<>();
+
+	    try {
+	        connection = DBConnection.getConnection();
+	        preparedStatement = connection.prepareStatement("SELECT * FROM tblsupplier WHERE LOWER(Name) LIKE LOWER(?)");
+	        preparedStatement.setString(1, "%" + text + "%");
+	        resultSet = preparedStatement.executeQuery();
+
+	        ResultSetMetaData metaData = resultSet.getMetaData();
+	        int columnCount = metaData.getColumnCount();
+
+	        while (resultSet.next()) {
+	            Object[] row = new Object[columnCount];
+	            for (int i = 1; i <= columnCount; i++) {
+	                // Populate the row with column values
+	                row[i - 1] = resultSet.getObject(i);
+	            }
+	            // Add the row to the list of search results
+	            searchResults.add(row);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBConnection.close(connection, preparedStatement, resultSet);
+	    }
+
+	    return searchResults;
 	}
 }
 

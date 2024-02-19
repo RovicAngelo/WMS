@@ -66,5 +66,7 @@ public interface ReceivingEntryDAO {
 	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
 	
 	List<String> getAllProductDescriptions();
+	
+	List<Object[]> getSearchBy (String text);
 }
 

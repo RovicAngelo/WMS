@@ -57,7 +57,7 @@ public class ManageReceivingForm extends JPanel {
 	private Color btnOriginalColor = new Color(243, 243, 243);
 	private Color btnHoverColor = new Color(220, 220, 220);
 	
-	private JTextField textField,txtReceivingId,txtQuantity;
+	private JTextField txtSearchBy,txtReceivingId,txtQuantity;
 	JLabel lblCurrentDate,txtGrossTotal;
 	private Table table;
 	JComboBox<String> productNameCombox;
@@ -85,11 +85,11 @@ public class ManageReceivingForm extends JPanel {
 	private void initialize() {
 		setLayout(null);
 		
-		textField = new JTextField();
-		textField.setToolTipText("Search by...");
-		textField.setColumns(10);
-		textField.setBounds(22, 27, 304, 33);
-		add(textField);
+		txtSearchBy = new JTextField();
+		txtSearchBy.setToolTipText("Search by...");
+		txtSearchBy.setColumns(10);
+		txtSearchBy.setBounds(22, 27, 304, 33);
+		add(txtSearchBy);
 		
 		RoundPanel roundPanel = new RoundPanel();
 		roundPanel.setRound(10);
@@ -230,6 +230,31 @@ public class ManageReceivingForm extends JPanel {
 		roundPanel.setLayout(gl_roundPanel);
 		
 		CustomButton btnSearchBy = new CustomButton(btnOriginalColor, "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSearchBy.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String search = txtSearchBy.getText();
+		        
+		        // Call the getSearchBy method to perform the search
+		        List<Object[]> searchResults = receivingEntryService.getSearchBy(search);
+		        
+		        // Display the search results in the table
+		        if (!searchResults.isEmpty()) {
+		            // Clear the existing table data
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0);
+		            
+		            // Populate the table with search results
+		            for (Object[] row : searchResults) {
+		                // Add each row to the table
+		                model.addRow(row);
+		            }
+		        } else {
+		            // No matching rows found
+		            JOptionPane.showMessageDialog(null, "No matching rows found.");
+		        }
+		    }
+		});
+
 		new HoverEffect(btnSearchBy, btnHoverColor,btnOriginalColor);
 		btnSearchBy.setIcon(new ImageIcon(ManageReceivingForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");

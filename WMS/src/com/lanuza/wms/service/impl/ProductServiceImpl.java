@@ -65,4 +65,9 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getTotalItems();
 	}
 
+	@Override
+	public List<Object[]> getSearchBy(String text) {
+		// TODO Auto-generated method stub
+		return productDAO.getSearchBy(text);
+	}
 }

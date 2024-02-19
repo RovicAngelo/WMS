@@ -26,5 +26,7 @@ public interface ProductDAO {
 	void transferDataAndSetDefaults(Product product);
 	
 	int getTotalItems();
+	
+	List<Object[]> getSearchBy (String text);
 
 }

@@ -27,4 +27,6 @@ public interface AccountDAO {
 	
 	List<Account>getAllAccountNameExcept(String currentName);	
 	
+	List<Object[]> getSearchBy (String text);
+	
 }

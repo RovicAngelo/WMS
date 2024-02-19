@@ -12,4 +12,6 @@ public interface StockService {
 	void tableLoad(JTable table);
 	
 	double getSumOfTotal();
+	
+	List<Object[]> getSearchBy (String text);
 }

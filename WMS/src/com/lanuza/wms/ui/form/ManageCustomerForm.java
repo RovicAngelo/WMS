@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -46,7 +47,7 @@ public class ManageCustomerForm extends JPanel {
 	private CustomerDAO customerDAO;
 	private CustomerService customerService;
 	private JTextField txtCustomerId;
-	private JTextField textField_1,txtCustomer,txtPhoneNo;
+	private JTextField txtSearchBy,txtCustomer,txtPhoneNo;
 	JLabel lblCurrentDate, txtTotalItem;
 	private Table table;
 	private Color btnOriginalColor = new Color(243, 243, 243);
@@ -300,13 +301,39 @@ public class ManageCustomerForm extends JPanel {
 		lblCurrentDate.setBounds(791, 0, 93, 40);
 		add(lblCurrentDate);
 		
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("Search by...");
-		textField_1.setColumns(10);
-		textField_1.setBounds(22, 27, 304, 33);
-		add(textField_1);
+		txtSearchBy = new JTextField();
+		txtSearchBy.setToolTipText("Search by...");
+		txtSearchBy.setColumns(10);
+		txtSearchBy.setBounds(22, 27, 304, 33);
+		add(txtSearchBy);
 		
 		CustomButton btnSearchBy = new CustomButton(btnOriginalColor, "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSearchBy.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String search = txtSearchBy.getText();
+		        
+		        // Call the getSearchBy method to perform the search
+		        List<Object[]> searchResults = customerService.getSearchBy(search);
+		        
+		        // Display the search results in the table
+		        if (!searchResults.isEmpty()) {
+		            // Clear the existing table data
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0);
+		            
+		            // Populate the table with search results
+		            for (Object[] row : searchResults) {
+		                // Add each row to the table
+		                model.addRow(row);
+		            }
+		        } else {
+		            // No matching rows found
+		            JOptionPane.showMessageDialog(null, "No matching rows found.");
+		        }
+		    }
+		});
+
+
 		new HoverEffect(btnSearchBy, btnHoverColor,btnOriginalColor);
 		btnSearchBy.setIcon(new ImageIcon(ManageCustomerForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");

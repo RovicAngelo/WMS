@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -142,6 +144,31 @@ public class ManageAllAccount extends JPanel {
 		add(txtSearchBy);
 		
 		CustomButton btnSearchBy = new CustomButton(new Color(243, 243, 243), "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSearchBy.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String search = txtSearchBy.getText();
+		        
+		        // Call the getSearchBy method to perform the search
+		        List<Object[]> searchResults = accountService.getSearchBy(search);
+		        
+		        // Display the search results in the table
+		        if (!searchResults.isEmpty()) {
+		            // Clear the existing table data
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0);
+		            
+		            // Populate the table with search results
+		            for (Object[] row : searchResults) {
+		                // Add each row to the table
+		                model.addRow(row);
+		            }
+		        } else {
+		            // No matching rows found
+		            JOptionPane.showMessageDialog(null, "No matching rows found.");
+		        }
+		    }
+		});
+
 		btnSearchBy.setIcon(new ImageIcon(ManageProductForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
 		btnSearchBy.setBounds(326, 27, 68, 33);

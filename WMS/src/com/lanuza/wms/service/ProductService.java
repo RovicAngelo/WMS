@@ -26,4 +26,6 @@ public interface ProductService {
 	void transferDataAndSetDefaults(Product product);
 	
 	int getTotalItems();
+	
+	List<Object[]> getSearchBy (String text);
 }

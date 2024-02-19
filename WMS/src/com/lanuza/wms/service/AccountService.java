@@ -26,4 +26,6 @@ public interface AccountService {
 	Account getAccountByName(String name);	
 	
 	List<Account>getAllAccountNameExcept(String currentName);	
+	
+	List<Object[]> getSearchBy (String text);
 }

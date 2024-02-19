@@ -22,5 +22,7 @@ public interface CustomerDAO {
 	void tableLoad(JTable table);
 	
 	int getTotalItems();
+	
+	List<Object[]> getSearchBy (String text);
 
 }

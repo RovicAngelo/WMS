@@ -52,4 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.getTotalItems();
 	}
 
+	@Override
+	public List<Object[]> getSearchBy(String text) {
+		// TODO Auto-generated method stub
+		return customerDAO.getSearchBy(text);
+	}
+
 }

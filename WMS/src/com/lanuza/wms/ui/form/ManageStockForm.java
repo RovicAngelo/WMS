@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -40,7 +42,7 @@ public class ManageStockForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private StockDAO stockDAO;
 	private StockService stockService;
-	private JTextField textField,txtStockId;
+	private JTextField txtSearchBy,txtStockId;
 	private JLabel lblCurrentDate,txtGrossTotal;
 	private Table table;
 	
@@ -59,13 +61,38 @@ public class ManageStockForm extends JPanel {
 	private void initialize() {
 		setLayout(null);
 		
-		textField = new JTextField();
-		textField.setToolTipText("Search by...");
-		textField.setColumns(10);
-		textField.setBounds(22, 27, 304, 33);
-		add(textField);
+		txtSearchBy = new JTextField();
+		txtSearchBy.setToolTipText("Search by...");
+		txtSearchBy.setColumns(10);
+		txtSearchBy.setBounds(22, 27, 304, 33);
+		add(txtSearchBy);
 		
 		CustomButton btnSearchBy = new CustomButton(btnOriginalColor, "Search", (ActionListener) null, new Rectangle(301, 52, 63, 33), false, new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSearchBy.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String search = txtSearchBy.getText();
+		        
+		        // Call the getSearchBy method to perform the search
+		        List<Object[]> searchResults = stockService.getSearchBy(search);
+		        
+		        // Display the search results in the table
+		        if (!searchResults.isEmpty()) {
+		            // Clear the existing table data
+		            DefaultTableModel model = (DefaultTableModel) table.getModel();
+		            model.setRowCount(0);
+		            
+		            // Populate the table with search results
+		            for (Object[] row : searchResults) {
+		                // Add each row to the table
+		                model.addRow(row);
+		            }
+		        } else {
+		            // No matching rows found
+		            JOptionPane.showMessageDialog(null, "No matching rows found.");
+		        }
+		    }
+		});
+
 		new HoverEffect(btnSearchBy,btnHoverColor,btnOriginalColor);
 		btnSearchBy.setIcon(new ImageIcon(ManageStockForm.class.getResource("/com/lanuza/wms/ui/resources/icons/search.png")));
 		btnSearchBy.setText("");
@@ -263,6 +290,7 @@ public class ManageStockForm extends JPanel {
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblDate.setBounds(749, 4, 40, 33);
 		add(lblDate);
+		
 
 	}
 	

@@ -30,4 +30,10 @@ public class StockServiceImpl implements StockService{
 		public double getSumOfTotal() {		
 			return stockDAO.getSumOfTotal();
 		}
+		
+		@Override
+		public List<Object[]> getSearchBy(String text) {
+			// TODO Auto-generated method stub
+			return stockDAO.getSearchBy(text);
+		}
 }

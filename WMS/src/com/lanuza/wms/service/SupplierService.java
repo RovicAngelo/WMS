@@ -23,4 +23,6 @@ public interface SupplierService {
 	void tableLoad(JTable table);
 	
 	int getTotalItems();
+	
+	List<Object[]> getSearchBy (String text);
 }

@@ -30,4 +30,6 @@ public interface PurchasedOrderService {
 	List<String> getAllProductDescription();
 	
 	List<String> getAllCustomerName();
+	
+	List<Object[]> getSearchBy (String text);
 }

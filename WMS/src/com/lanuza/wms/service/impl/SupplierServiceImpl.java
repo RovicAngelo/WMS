@@ -51,4 +51,10 @@ public class SupplierServiceImpl implements SupplierService {
 		// TODO Auto-generated method stub
 		return supplierDAO.getTotalItems();
 	}
+	
+	@Override
+	public List<Object[]> getSearchBy(String text) {
+		// TODO Auto-generated method stub
+		return supplierDAO.getSearchBy(text);
+	}
 }

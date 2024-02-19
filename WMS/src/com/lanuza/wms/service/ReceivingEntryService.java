@@ -27,4 +27,6 @@ public interface ReceivingEntryService {
 	Map<String, Object> getAvailabilityAndPriceByProductDescription(String selectedProduct);
 	
 	List<String> getAllProductDescriptions();
+	
+	List<Object[]> getSearchBy (String text);
 }

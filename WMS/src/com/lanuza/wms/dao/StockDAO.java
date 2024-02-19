@@ -15,5 +15,7 @@ public interface StockDAO {
 	void tableLoad(JTable table);
 	
 	double getSumOfTotal();
+	
+	List<Object[]> getSearchBy (String text);
 
 }

@@ -72,4 +72,9 @@ public class PurchasedOrderServiceImpl implements PurchasedOrderService{
 			return purchaseOrderDAO.getAllCustomerName();
 		}
 
+		@Override
+		public List<Object[]> getSearchBy(String text) {
+			// TODO Auto-generated method stub
+			return purchaseOrderDAO.getSearchBy(text);
+		}
 }
