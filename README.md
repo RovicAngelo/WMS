@@ -28,7 +28,7 @@ This application is created using java and swing library. It has basic function 
 - Light-Dark Mode ❗
 - Save as File ❗
 - Real time Statistics ❗
-- search function ❗
+- search function
 
 
 > ❗ not yet implemented
